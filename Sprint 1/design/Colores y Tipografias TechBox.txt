@@ -1,0 +1,15 @@
+Colores sitio web TechBox:
+
+Primario: Violeta Rayo #8F00FF
+Secundario: Cian suave #00E5FF
+Fondo Oscuro: Negro grafito #0D0D0D
+Fondo Medio: Gris Carbón #1F1F1F
+Fondo Claro: Gris Plata #E2E2E2
+Texto / contraste: #FFFFFF
+
+Tipografía TechBox:
+
+Precios: Sora SemiBold - Orbitron Regular
+Menú y botones: Inter Medium - Inter SemiBold
+Títulos de secciones: Sora Bold
+Descripciones: Inter Regular

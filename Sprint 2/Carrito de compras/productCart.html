@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de compras</title>
+    <link rel="stylesheet" href="productCart.css">
+
+    <!-- Fuentes de texto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Comienzo del sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+        <!-- Icono user del "Ingresar" -->
+        <symbol id="icon-user" viewBox="0 0 24 24">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icono carrito de compras -->
+        <symbol id="icon-cart" viewBox="0 0 24 24">
+            <circle cx="8" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="19" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono lupa de busqueda -->
+        <symbol id="icon-search" viewBox="0 0 24 24">
+            <path d="m21 21-4.34-4.34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icono flecha -->
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+            <path d="m12 19-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M19 12H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono menu -->
+        <symbol id="icon-menu" viewBox="0 0 24 24">
+            <path d="M4 5h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M4 12h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono basura -->
+        <symbol id="icon-trash" viewBox="0 0 24 24">
+            <path d="M10 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono coins -->
+        <symbol id="icon-hand-coins" viewBox="0 0 24 24">
+            <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="m2 16 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <circle cx="16" cy="9" r="2.9" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="6" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+
+
+    </svg>
+    <!-- Fin del sprite -->
+
+    <header>
+        <img src="assets/techBoxLogo.png" alt="Logo" class="logo">
+        <div class="header-container">
+            <form>
+                <div class="search-wrapper">
+                    <label for="search" class="sr-only">Buscar productos</label>
+                    <input placeholder="Buscar..." type="text" class="inputSearch">
+                    <svg class="icon-search">
+                        <use href="#icon-search"></use>
+                    </svg>
+                </div>
+            </form>
+            <div class="container-navegation">
+                <button class="button-menu">
+                    <svg class="icon">
+                        <use href="#icon-menu"></use>
+                    </svg>
+                </button>
+                <nav class="header-navegation">
+                    <a href="#" class="ingresar">
+                        <strong>Ingresar</strong>
+                        <svg class="icon">
+                            <use href="#icon-user"></use>
+                        </svg>
+                    </a>
+                    <a href="#" class="shopping-cart">
+                        <svg class="icon">
+                            <use href="#icon-cart"></use>
+                        </svg>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="title">
+            <button class="arrowButtons">
+                <svg class="icon">
+                    <use href="#icon-arrow-left"></use>
+                </svg>
+            </button>
+            <h1>Mi carrito</h1>
+        </div>
+        <section class="container-cart">
+            <button class="buttons-delete">
+                <svg class="icon">
+                    <use href="#icon-trash"></use>
+                </svg>
+                <p>Vaciar</p>
+            </button>
+            <ul class="list-products">
+                <li class="item first-item">
+                    <div class="background-img">
+                        <img src="assets/Productos/Imagen mouse.jpg" alt="Imagen Producto" class="product-img">
+                    </div>
+                    <div class="body-item">
+                        <p class="description">Mouse Logitech G203 Gaming Lightsync Black 90-005793</p>
+                        <div class="product-buttons">
+                            <button class="buttons-delete" aria-label="Eliminar producto">
+                                <svg class="icon">
+                                    <use href="#icon-trash"></use>
+                                </svg>
+                            </button>
+                            <div style="flex-direction: row; display: flex; margin-left: 25px;">
+                                <button class="buttons button-minus">-</button>
+                                <span class="buttons product-number">1</span>
+                                <button class="buttons button-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prices">
+                        <p class="original-price">$ 35.000</p>
+                        <p class="discount">$ 29.150</p>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="background-img">
+                        <img src="assets/Productos/Imagen microfono.jpg" alt="Imagen Producto" class="product-img">
+                    </div>
+                    <div class="body-item">
+                        <p class="description">Microfono SteelSeries Alias Condensador RGB Niveles de Led ANC USB-C
+                        </p>
+                        <div class="product-buttons">
+                            <button class="buttons-delete">
+                                <svg class="icon">
+                                    <use href="#icon-trash"></use>
+                                </svg>
+                            </button>
+                            <div style="flex-direction: row; display: flex; margin-left: 25px;">
+                                <button class="buttons button-minus">-</button>
+                                <span class="buttons product-number">1</span>
+                                <button class="buttons button-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prices">
+                        <p class="original-price">$ 311.526</p>
+                        <p class="discount">$ 295.950</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="container-summary">
+            <h4>RESUMEN</h4>
+            <ul class="list-summary">
+                <li>
+                    <div class="item-summary">
+                        <p>1 mouse</p>
+                        <p class="item-price">$ 29.150</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-summary">
+                        <p>1 microfono</p>
+                        <p class="item-price">$ 295.950</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="total-summary">
+                <strong class="total">Total</strong>
+                <p class="total-price">
+                    <svg class="icon-coins">
+                        <use href="#icon-hand-coins"></use>
+                    </svg>
+                    $ 325.100
+                </p>
+            </div>
+            <p class="description-purchase">
+                <svg class="icon-coins">
+                    <use href="#icon-hand-coins"></use>
+                </svg>
+                *Precio abonado con depósito o transferencia
+            </p>
+            <button class="buttons-summary button-purchase">Iniciar compra</button>
+            <button class="buttons-summary button-products">Ver más productos</button>
+        </section>
+    </main>
+
+</body>
+
+</html>
