@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="indexStyle.css">
+    <title>Home</title>
+
+    <!-- Fuentes de texto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Comienzo del sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+        <!-- Icono user del "Ingresar" -->
+        <symbol id="icon-user" viewBox="0 0 24 24">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icono carrito de compras -->
+        <symbol id="icon-cart" viewBox="0 0 24 24">
+            <circle cx="8" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="19" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono lupa de busqueda -->
+        <symbol id="icon-search" viewBox="0 0 24 24">
+            <path d="m21 21-4.34-4.34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icono flecha -->
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+            <path d="m12 19-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M19 12H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+
+    </svg>
+    <!-- Fin del sprite -->
+
+
+    <header>
+        <div class="header-top">
+            <img src="./assets/techBoxLogo.png" alt="Logo" class="logo">
+            <form>
+                <div class="search-wrapper">
+                    <input placeholder="Buscar..." type="text" class="inputSearch">
+                    <svg class="icon-search">
+                        <use href="#icon-search"></use>
+                    </svg>
+                </div>
+            </form>
+            <a href="#">
+                <div class="ingresar">
+                    <strong>Ingresar</strong>
+                    <svg class="icon">
+                        <use href="#icon-user"></use>
+                    </svg>
+                </div>
+            </a>
+            <a href="#" class="shopping-cart">
+                <svg class="icon">
+                    <use href="#icon-cart"></use>
+                </svg>
+            </a>
+        </div>
+        <nav class="navbar">
+            <a href="#" class="navbar-a">Arma tu PC</a>
+            <a href="#" class="navbar-a">Productos</a>
+            <a href="#" class="navbar-a">Accesorios</a>
+        </nav>
+    </header>
+    <main>
+        <section class="carrusel">
+            <button class="arrowButtons">
+                <svg class="icon">
+                    <use href="#icon-arrow-left"></use>
+                </svg>
+            </button>
+            <div class="container-carrusel">
+                <img src="assets/Imagen carrusel.jpg" alt="Imagen Promocion" class="carrusel-img">
+                <div class="carrusel-indicator" role="tablist">
+                    <button class="slide" role="tab" aria-selected="false" aria-label="Slide 1"></button>
+                    <button class="slide active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
+                    <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+                    <button class="slide" role="tab" aria-selected="false" aria-label="Slide 4"></button>
+                    <button class="slide" role="tab" aria-selected="false" aria-label="Slide 5"></button>
+                </div>
+            </div>
+            <button class="arrowButtons">
+                <svg class="icon" style="transform: rotate(180deg)">
+                    <use href="#icon-arrow-left"></use>
+                </svg>
+            </button>
+        </section>
+        <section class="productosDestacados">
+            <div class="titulosSections">
+                <h2 class="titulos-h2">Conoce nuestros <strong class="strong-h2">productos destacados</strong></h2>
+                <div class="div-buttons">
+                    <button class="arrowButtons">
+                        <svg class="icon">
+                            <use href="#icon-arrow-left"></use>
+                        </svg>
+                    </button>
+                    <button class="arrowButtons">
+                        <svg class="icon" style="transform: rotate(180deg)">
+                            <use href="#icon-arrow-left"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="navigationProductosDestacados">
+                <button class="arrowButtons">
+                    <svg class="icon">
+                        <use href="#icon-arrow-left"></use>
+                    </svg>
+                </button>
+                <nav>
+                    <ul class="ul-productos">
+                        <button class="buttonNavbar">
+                            <li>Periféricos</li>
+                        </button>
+                        <button class="buttonNavbar">
+                            <li>Monitores</li>
+                        </button>
+                        <button class="buttonNavbar">
+                            <li>Placas de video</li>
+                        </button>
+                        <button class="buttonNavbar">
+                            <li>Motherboards</li>
+                        </button>
+                        <button class="buttonNavbar">
+                            <li>Gabinetes</li>
+                        </button>
+                        <button class="buttonNavbar">
+                            <li>Memorias RAM</li>
+                        </button>
+                        <button class="buttonNavbar">
+                            <li>Almacenamiento</li>
+                        </button>
+                    </ul>
+                </nav>
+                <button class="arrowButtons">
+                    <svg class="icon" style="transform: rotate(180deg)">
+                        <use href="#icon-arrow-left"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="itemsProductosDestacados">
+                <div class="items">
+                    <div class="imgContainer">
+                        <img src="assets/Productos/Imagen mouse.jpg" alt="Imagen Producto" class="imagenProducto">
+                    </div>
+                    <div class="descripcionProducto">
+                        <h4>Mouse Logitech G203 Gaming Lightsync Black</h4>
+                        <div>
+                            <p class="descuentoProducto">$ 35.000</p>
+                            <p class="precioProducto">$ 29.150</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="items">
+                    <div class="imgContainer">
+                        <img src="assets/Productos/Imagen microfono.jpg" alt="Imagen Producto" class="imagenProducto">
+                    </div>
+                    <div class="descripcionProducto">
+                        <h4>Microfono SteelSeries Alias Condensador RGB Niveles de Led ANC USB-C</h4>
+                        <div>
+                            <p class="descuentoProducto">$ 311.526</p>
+                            <p class="precioProducto">$ 295.950</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="items">
+                    <div class="imgContainer">
+                        <img src="assets/Productos/Imagen teclado.jpg" alt="Imagen Producto" class="imagenProducto"
+                            id="imgTeclado">
+                    </div>
+                    <div class="descripcionProducto">
+                        <h4>Teclado Redragon Mitra K551 Mechanical Retroiluminado RGB</h4>
+                        <div>
+                            <p class="descuentoProducto">$ 63.147</p>
+                            <p class="precioProducto">$ 59.990</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="items">
+                    <div class="imgContainer">
+                        <img src="assets/Productos/Imagen auriculares.jpg" alt="Imagen Producto" class="imagenProducto">
+                    </div>
+                    <div class="descripcionProducto">
+                        <h4>Auriculares Redragon Lamia H320 RGB 7.1 Black</h4>
+                        <div>
+                            <p class="descuentoProducto">$ 71.158</p>
+                            <p class="precioProducto">$ 67.600</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="items">
+                    <div class="imgContainer">
+                        <img src="assets/Productos/Imagen mouse pad.jpg" alt="Imagen Producto" class="imagenProducto"
+                            id="imgMousePad">
+                    </div>
+                    <div class="descripcionProducto">
+                        <h4>Mouse Pad Redragon Kunlun Large P006 XL 880X420mm</h4>
+                        <div>
+                            <p class="descuentoProducto">$ 24.368</p>
+                            <p class="precioProducto">$ 23.150</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="items">
+                    <div class="imgContainer">
+                        <img src="assets/Productos/Imagen mouse2.jpg" alt="Imagen Producto" class="imagenProducto">
+                    </div>
+                    <div class="descripcionProducto">
+                        <h4>Mouse Redragon Griffin RGB Black</h4>
+                        <div>
+                            <p class="descuentoProducto">$ 21.158</p>
+                            <p class="precioProducto">$ 20.100</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carrusel-indicator" role="tablist">
+                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 1"></button>
+                <button class="slide active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
+                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 4"></button>
+                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 5"></button>
+            </div>
+        </section>
+        <section class="armaTuPC">
+            <div class="containerATP">
+                <article>
+                    <h2>Arma tu PC</h2>
+                    <p>Configurá tu nueva PC sin limites y sin errores de compatibilidad, con acceso a todo el catologo
+                        de componentes</p>
+                    <button class="articleButton">Ver más</button>
+                </article>
+            </div>
+        </section>
+        <section class="categorias">
+            <div class="titulosSections">
+                <h2 class="titulos-h2">Explora nuestras <strong class="strong-h2">categorías</strong></h2>
+                <div class="div-buttons">
+                    <button class="arrowButtons">
+                        <svg class="icon">
+                            <use href="#icon-arrow-left"></use>
+                        </svg>
+                    </button>
+                    <button class="arrowButtons">
+                        <svg class="icon" style="transform: rotate(180deg)">
+                            <use href="#icon-arrow-left"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <nav class="categories__grid">
+                <a class="category category--large" href="#">
+                    <img src="assets/Categorias/Procesador.jpg" alt="Procesadores">
+                    <span>PROCESADORES</span>
+                </a>
+
+                <a class="category" href="#">
+                    <img src="assets/Categorias/Placas de video.jpg" alt="Notebooks">
+                    <span>PLACAS DE VIDEO</span>
+                </a>
+
+                <a class="category" href="#">
+                    <img src="assets/Categorias/Perifericos.jpg" alt="Periféricos">
+                    <span>PERIFÉRICOS</span>
+                </a>
+
+                <a class="category" href="#">
+                    <img src="assets/Categorias/Almacenamiento.jpg" alt="Almacenamiento">
+                    <span>ALMACENAMIENTO</span>
+                </a>
+
+                <a class="category" href="#">
+                    <img src="assets/Categorias/Motherboards.jpg" alt="Monitores">
+                    <span>MOTHERBOARDS</span>
+                </a>
+
+                <a class="category" href="#">
+                    <img src="assets/Categorias/Gabinetes.jpg" alt="Gabinetes">
+                    <span>GABINETES</span>
+                </a>
+
+                <a class="category" href="#">
+                    <img src="assets/Categorias/Memorias RAM.jpg" alt="Memorias RAM">
+                    <span>MEMORIAS RAM</span>
+                </a>
+            </nav>
+            <div class="carrusel-indicator" role="tablist">
+                <button class="slide active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
+                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
