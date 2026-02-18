@@ -25,28 +25,10 @@ body {
 
 /* Estilos de los textos */
 
-a,
-li {
+a {
     font-family: "Inter", sans-serif;
     color: white;
-}
-
-a {
     text-decoration: none;
-}
-
-h2 {
-    color: black;
-    font-family: "Sora", sans-serif;
-    margin: 0;
-}
-
-p {
-    margin: 0;
-    font-family: "Sora", sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: #8F00FF;
 }
 
 /* Estilos de CSS */
@@ -147,94 +129,25 @@ p {
     transform: scale(1.05, 1.05);
 }
 
-/* Fin del header */
-
-/* Main content */
-
-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    padding: 1em;
-}
-
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: #E2E2E2;
-    width: 700px;
-    height: auto;
-    border-radius: 15px;
-    gap: 0.5em;
-    padding: 15px;
-}
-
-#tituloForm {
-    font-size: 30px;
-}
-
-.registration {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3em;
-    margin-top: 1em;
+.header__navbar {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
 }
 
-.registration__input {
-    font-family: "Inter", sans-serif;
-    font-size: 16px;
-    padding: 0.5em;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    width: 90%;
-}
-
-.registration__input::placeholder {
-    font-style: italic;
-    font-weight: 300;
-}
-
-.registration__input:focus {
-    outline: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
-}
-
-.registration__buttonSubmit {
-    font-family: "Inter", sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: white;
-    background-color: #8F00FF;
-    border: none;
-    border-radius: 5px;
-    padding-block: 13px;
-    transition: 0.5s all ease;
-    margin-bottom: 5px;
-    width: 90%;
-}
-
-.registration__buttonSubmit:hover {
-    transform: scale(1.02, 1.02);
-}
-
-#link-p {
-    color: #3870FE;
+.navbar-a {
+    margin-inline: 0.8em;
     border-bottom: 1px solid transparent;
-    transition: 0.3s all ease;
+    transition: all 0.3s ease;
 }
 
-#link-p:hover {
-    border-bottom: 1px solid #3870FE;
+.navbar-a:hover {
+    color: #8F00FF;
 }
 
-/* Fin main content */
+/* Fin del header */
 
 @media (min-width: 1024px) {
 
@@ -278,44 +191,5 @@ main {
         gap: 1em;
     }
 
-    /* Fin del Header */
-
-    /* Main content */
-    main {
-        padding: 0;
-    }
-
-    .container {
-        height: 460px;
-        padding-inline: 2em;
-    }
-
-    .registration {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(4, auto);
-        gap: 1em;
-        column-gap: 3em;
-        row-gap: 3em;
-    }
-
-    .registration__input {
-        width: 100%;
-    }
-
-    .registration__buttonSubmit {
-        grid-column: span 2;
-        width: 100%;
-    }
-
-    /* Fin main content */
-
-}
-
-@media (min-width: 1440px) {
-
-    main {
-        height: 80vh;
-    }
-
+    /* Fin del header */
 }

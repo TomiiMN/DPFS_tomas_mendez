@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de compras</title>
-    <link rel="stylesheet" href="productCart.css">
+    <link rel="stylesheet" href="productCartStyle.css">
 
     <!-- Fuentes de texto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,38 +92,47 @@
     <!-- Fin del sprite -->
 
     <header>
-        <img src="assets/techBoxLogo.png" alt="Logo" class="logo">
-        <div class="header-container">
-            <form>
-                <div class="search-wrapper">
-                    <label for="search" class="sr-only">Buscar productos</label>
-                    <input placeholder="Buscar..." type="text" class="inputSearch">
-                    <svg class="icon-search">
-                        <use href="#icon-search"></use>
-                    </svg>
+        <div class="header__top">
+            <img src="assets/techBoxLogo.png" alt="Logo" class="logo">
+            <div class="header__container">
+                <form class="header__search-form">
+                    <div class="header__search-box">
+                        <label for="search" class="header__sr-only">Buscar productos</label>
+                        <input id="search" placeholder="Buscar..." type="text" class="header__inputSearch">
+                        <button type="submit" class="header__search-btn">
+                            <svg class="icon-search">
+                                <use href="#icon-search"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="header__container-navegation">
+                    <button class="container-navegation__button-menu">
+                        <svg class="icon">
+                            <use href="#icon-menu"></use>
+                        </svg>
+                    </button>
+                    <nav class="container-navegation__header-navegation">
+                        <a href="#" class="ingresar">
+                            <strong>Ingresar</strong>
+                            <svg class="icon">
+                                <use href="#icon-user"></use>
+                            </svg>
+                        </a>
+                        <a href="#" class="shopping-cart">
+                            <svg class="icon">
+                                <use href="#icon-cart"></use>
+                            </svg>
+                        </a>
+                    </nav>
                 </div>
-            </form>
-            <div class="container-navegation">
-                <button class="button-menu">
-                    <svg class="icon">
-                        <use href="#icon-menu"></use>
-                    </svg>
-                </button>
-                <nav class="header-navegation">
-                    <a href="#" class="ingresar">
-                        <strong>Ingresar</strong>
-                        <svg class="icon">
-                            <use href="#icon-user"></use>
-                        </svg>
-                    </a>
-                    <a href="#" class="shopping-cart">
-                        <svg class="icon">
-                            <use href="#icon-cart"></use>
-                        </svg>
-                    </a>
-                </nav>
             </div>
         </div>
+        <nav class="header__navbar">
+            <a href="#" class="navbar-a">Arma tu PC</a>
+            <a href="#" class="navbar-a">Productos</a>
+            <a href="#" class="navbar-a">Accesorios</a>
+        </nav>
     </header>
 
     <main>

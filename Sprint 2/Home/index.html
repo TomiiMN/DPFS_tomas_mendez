@@ -42,6 +42,16 @@
             <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2" />
         </symbol>
 
+        <!-- Icono menu -->
+        <symbol id="icon-menu" viewBox="0 0 24 24">
+            <path d="M4 5h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M4 12h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+
         <!-- Icono flecha -->
         <symbol id="icon-arrow-left" viewBox="0 0 24 24">
             <path d="m12 19-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -55,36 +65,49 @@
 
 
     <header>
-        <div class="header-top">
-            <img src="./assets/techBoxLogo.png" alt="Logo" class="logo">
-            <form>
-                <div class="search-wrapper">
-                    <input placeholder="Buscar..." type="text" class="inputSearch">
-                    <svg class="icon-search">
-                        <use href="#icon-search"></use>
-                    </svg>
+        <div class="header__top">
+            <img src="assets/techBoxLogo.png" alt="Logo" class="logo">
+            <div class="header__container">
+                <form class="header__search-form">
+                    <div class="header__search-box">
+                        <label for="search" class="header__sr-only">Buscar productos</label>
+                        <input id="search" placeholder="Buscar..." type="text" class="header__inputSearch">
+                        <button type="submit" class="header__search-btn">
+                            <svg class="icon-search">
+                                <use href="#icon-search"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="header__container-navegation">
+                    <button class="container-navegation__button-menu">
+                        <svg class="icon">
+                            <use href="#icon-menu"></use>
+                        </svg>
+                    </button>
+                    <nav class="container-navegation__header-navegation">
+                        <a href="#" class="ingresar">
+                            <strong>Ingresar</strong>
+                            <svg class="icon">
+                                <use href="#icon-user"></use>
+                            </svg>
+                        </a>
+                        <a href="#" class="shopping-cart">
+                            <svg class="icon">
+                                <use href="#icon-cart"></use>
+                            </svg>
+                        </a>
+                    </nav>
                 </div>
-            </form>
-            <a href="#">
-                <div class="ingresar">
-                    <strong>Ingresar</strong>
-                    <svg class="icon">
-                        <use href="#icon-user"></use>
-                    </svg>
-                </div>
-            </a>
-            <a href="#" class="shopping-cart">
-                <svg class="icon">
-                    <use href="#icon-cart"></use>
-                </svg>
-            </a>
+            </div>
         </div>
-        <nav class="navbar">
+        <nav class="header__navbar">
             <a href="#" class="navbar-a">Arma tu PC</a>
             <a href="#" class="navbar-a">Productos</a>
             <a href="#" class="navbar-a">Accesorios</a>
         </nav>
     </header>
+
     <main>
         <section class="carrusel">
             <button class="arrowButtons">
