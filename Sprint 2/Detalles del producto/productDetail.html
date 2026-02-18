@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="productDetailStyle.css">
+    <title>Detalles del producto</title>
+
+    <!-- Fuentes de texto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Comienzo del sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+        <!-- Icono user del "Ingresar" -->
+        <symbol id="icon-user" viewBox="0 0 24 24">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icono carrito de compras -->
+        <symbol id="icon-cart" viewBox="0 0 24 24">
+            <circle cx="8" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="19" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono carrito de compras button -->
+        <symbol id="icon-cart-button" viewBox="0 0 24 24">
+            <circle cx="8" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="19" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icono lupa de busqueda -->
+        <symbol id="icon-search" viewBox="0 0 24 24">
+            <path d="m21 21-4.34-4.34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icono menu -->
+        <symbol id="icon-menu" viewBox="0 0 24 24">
+            <path d="M4 5h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M4 12h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icon copy -->
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icon shield -->
+        <symbol id="icon-shield" viewBox="0 0 24 24">
+            <path
+                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icon truck -->
+        <symbol id="icon-truck" viewBox="0 0 24 24">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M15 18H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="17" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="7" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+        <!-- Icon check -->
+        <symbol id="icon-check" viewBox="0 0 24 24">
+            <path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+
+        <!-- Icon user circle -->
+        <symbol id="icon-user-circle" viewBox="0 0 24 24">
+            <path d="M18 20a6 6 0 0 0-12 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <circle cx="12" cy="10" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+        </symbol>
+
+
+    </svg>
+    <!-- Fin del sprite -->
+
+    <header>
+        <div class="header__top">
+            <img src="assets/techBoxLogo.png" alt="Logo" class="logo">
+            <div class="header__container">
+                <form class="header__search-form">
+                    <div class="header__search-box">
+                        <label for="search" class="header__sr-only">Buscar productos</label>
+                        <input id="search" placeholder="Buscar..." type="text" class="header__inputSearch">
+                        <button type="submit" class="header__search-btn">
+                            <svg class="icon-search">
+                                <use href="#icon-search"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="header__container-navegation">
+                    <button class="container-navegation__button-menu">
+                        <svg class="icon">
+                            <use href="#icon-menu"></use>
+                        </svg>
+                    </button>
+                    <nav class="container-navegation__header-navegation">
+                        <a href="#" class="ingresar">
+                            <strong>Ingresar</strong>
+                            <svg class="icon">
+                                <use href="#icon-user"></use>
+                            </svg>
+                        </a>
+                        <a href="#" class="shopping-cart">
+                            <svg class="icon">
+                                <use href="#icon-cart"></use>
+                            </svg>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <nav class="header__navbar">
+            <a href="#" class="navbar-a">Arma tu PC</a>
+            <a href="#" class="navbar-a">Productos</a>
+            <a href="#" class="navbar-a">Accesorios</a>
+        </nav>
+    </header>
+
+    <main>
+        <article class="product">
+            <section class="product__gallery">
+                <div class="product__main-image">
+                    <div class="imgContainer">
+                        <img src="assets/Producto/Imagen-principal-teclado.jpg" alt="Imagen Producto"
+                            class="imagenProducto">
+                    </div>
+                </div>
+                <div class="product__images">
+                    <p class="quantity-fotos">3 Fotos</p>
+                    <ul class="thumbnails">
+                        <li class="thumb active">
+                            <img src="assets/Producto/Imagen-principal-teclado.jpg" alt="Vista frontal">
+                        </li>
+                        <li class="thumb">
+                            <img src="assets/Producto/Imagen-teclado-2.jpg" alt="Vista lateral">
+                        </li>
+                        <li class="thumb">
+                            <img src="assets/Producto/Imagen-teclado-3.jpg" alt="Vista lateral">
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <section class="product__summary">
+                <h1 class="product__title">Teclado Redragon Mitra K551 Mechanical Retroiluminado RGB</h1>
+                <button class="button-copy" type="button" aria-label="Copiar nombre del producto">
+                    <svg class="icon">
+                        <use href="#icon-copy"></use>
+                    </svg>
+                </button>
+                <div class="product__prices">
+                    <p class="best-price">Mejor precio</p>
+                    <div class="discount">
+                        <p class="original-price">$ 63.147,00</p>
+                        <p class="diference"> - $3.157,00</p>
+                    </div>
+                    <p class="final-price">$ 59.990,00</p>
+                    <p class="info-discount"><strong>Incluye 5% de descuento</strong> por pago con depósito o
+                        transferencia</p>
+                </div>
+                <div class="product__features">
+                    <p class="feature stock"><svg class="icon">
+                            <use href="#icon-check"></use>
+                        </svg> Stock disponible</p>
+                    <p class="feature"><svg class="icon">
+                            <use href="#icon-shield"></use>
+                        </svg> Garantia - 24 meses</p>
+                    <p class="feature"><svg class="icon">
+                            <use href="#icon-truck"></use>
+                        </svg> Envios a todo el pais</p>
+                </div>
+                <button class="product__button-cart">
+                    <svg class="icon">
+                        <use href="#icon-cart-button"></use>
+                    </svg> Sumar al carrito
+                </button>
+            </section>
+        </article>
+
+        <section class="details">
+            <div class="details__navigation">
+                <button type="button" class="tab">ESPECIFICACIONES</button>
+                <button type="button" class="tab tab-active">PREGUNTAS</button>
+            </div>
+            <h4>¿Tenes preguntas sobre el producto?</h4>
+            <p class="p-info">Inicia sesión en tu cuenta para poder hacer una pregunta</p>
+            <button type="button" class="info-button"><svg class="icon">
+                    <use href="#icon-user-circle"></use>
+                </svg> Iniciar sesión</button>
+        </section>
+
+    </main>
+
+</body>
+
+</html>
