@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -53,7 +53,7 @@
         </symbol>
 
         <!-- Icono flecha -->
-        <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+        <symbol id="icon-arrow" viewBox="0 0 24 24">
             <path d="m12 19-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             <path d="M19 12H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -102,240 +102,394 @@
             </div>
         </div>
         <nav class="header__navbar">
-            <a href="#" class="navbar-a">Arma tu PC</a>
-            <a href="#" class="navbar-a">Productos</a>
-            <a href="#" class="navbar-a">Accesorios</a>
+            <a href="#" class="header__navbar-a">Productos</a>
+            <a href="#" class="header__navbar-a">Accesorios</a>
         </nav>
     </header>
 
     <main>
-        <section class="carrusel">
-            <button class="arrowButtons">
+
+        <section class="carrusel" aria-label="Carrusel principal">
+            <button type="button" class="buttonArrow" aria-label="Anterior" id="carrusel_LeftArrow">
                 <svg class="icon">
-                    <use href="#icon-arrow-left"></use>
+                    <use href="#icon-arrow"></use>
                 </svg>
             </button>
-            <div class="container-carrusel">
-                <img src="assets/Imagen carrusel.jpg" alt="Imagen Promocion" class="carrusel-img">
-                <div class="carrusel-indicator" role="tablist">
+            <div class="carrusel_container-carrusel">
+                <img src="assets/Imagen carrusel.jpg" alt="Publicidad carrusel" class="carrusel_carrusel-img">
+                <div class="slide-tab" role="tablist">
                     <button class="slide" role="tab" aria-selected="false" aria-label="Slide 1"></button>
-                    <button class="slide active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
+                    <button class="slide slide-active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
                     <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
                     <button class="slide" role="tab" aria-selected="false" aria-label="Slide 4"></button>
                     <button class="slide" role="tab" aria-selected="false" aria-label="Slide 5"></button>
                 </div>
             </div>
-            <button class="arrowButtons">
-                <svg class="icon" style="transform: rotate(180deg)">
-                    <use href="#icon-arrow-left"></use>
+            <button type="button" class="buttonArrow arrowRight" aria-label="Siguiente" id="carrusel_RightArrow">
+                <svg class="icon">
+                    <use href="#icon-arrow"></use>
                 </svg>
             </button>
         </section>
+
         <section class="productosDestacados">
-            <div class="titulosSections">
-                <h2 class="titulos-h2">Conoce nuestros <strong class="strong-h2">productos destacados</strong></h2>
-                <div class="div-buttons">
-                    <button class="arrowButtons">
+            <div class="PD_title">
+                <h2 class="title-h2">Conocé nuestros <strong class="title-strong-h2">productos destacados</strong></h2>
+                <div class="PD_title-buttons">
+                    <button type="button" class="buttonArrow" aria-label="Anterior">
                         <svg class="icon">
-                            <use href="#icon-arrow-left"></use>
+                            <use href="#icon-arrow"></use>
                         </svg>
                     </button>
-                    <button class="arrowButtons">
-                        <svg class="icon" style="transform: rotate(180deg)">
-                            <use href="#icon-arrow-left"></use>
+                    <button type="button" class="buttonArrow arrowRight" aria-label="Siguiente">
+                        <svg class="icon">
+                            <use href="#icon-arrow"></use>
                         </svg>
                     </button>
                 </div>
             </div>
-            <div class="navigationProductosDestacados">
-                <button class="arrowButtons">
+            <nav class="PD_navigation">
+                <button type="button" class="buttonArrow" aria-label="Anterior">
                     <svg class="icon">
-                        <use href="#icon-arrow-left"></use>
+                        <use href="#icon-arrow"></use>
+                    </svg>
+                </button>
+                <ul class="PD_ul-navigation">
+                    <li>
+                        <button type="button"
+                            class="PD_navigation-button PD_navigation-button-active">Perifericos</button>
+                    </li>
+                    <li>
+                        <button type="button" class="PD_navigation-button">Monitores</button>
+                    </li>
+                    <li>
+                        <button type="button" class="PD_navigation-button">Placas de video</button>
+                    </li>
+                    <li>
+                        <button type="button" class="PD_navigation-button">Motherboards</button>
+                    </li>
+                    <li>
+                        <button type="button" class="PD_navigation-button">Gabinetes</button>
+                    </li>
+                    <li>
+                        <button type="button" class="PD_navigation-button">Memorias RAM</button>
+                    </li>
+                    <li>
+                        <button type="button" class="PD_navigation-button">Almacenamiento</button>
+                    </li>
+                </ul>
+                <button type="button" class="buttonArrow arrowRight" aria-label="Siguiente">
+                    <svg class="icon">
+                        <use href="#icon-arrow"></use>
+                    </svg>
+                </button>
+            </nav>
+            <ul class="PD_products-list">
+                <li class="PD_product">
+                    <div class="PD_img-container">
+                        <img src="assets/Productos/Imagen mouse.jpg" alt="Logitech G703 Wireless HERO 2.4GHz RGB"
+                            class="PD_img-product">
+                    </div>
+                    <div class="PD_product-description">
+                        <h4 class="PD_product-name">Logitech G703 Wireless HERO 2.4GHz RGB</h4>
+                        <div class="PD_prices">
+                            <p class="PD_product-discount">$ 94.999,99</p>
+                            <p class="PD_product-price">$ 89.999,99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="PD_product">
+                    <div class="PD_img-container">
+                        <img src="assets/Productos/Imagen microfono.jpg" alt="Microfono SteelSeries RGB ANC USB-C"
+                            class="PD_img-product">
+                    </div>
+                    <div class="PD_product-description">
+                        <h4 class="PD_product-name">Microfono SteelSeries RGB ANC USB-C</h4>
+                        <div class="PD_prices">
+                            <p class="PD_product-discount">$ 311.524,99</p>
+                            <p class="PD_product-price">$ 295.949,99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="PD_product">
+                    <div class="PD_img-container">
+                        <img src="assets/Productos/Imagen teclado.jpg" alt="Teclado Redragon Mitra K551 Mechanical RGB"
+                            class="PD_img-product" id="PD_img-keyboard">
+                    </div>
+                    <div class="PD_product-description">
+                        <h4 class="PD_product-name">Teclado Redragon Mitra K551 Mechanical RGB</h4>
+                        <div class="PD_prices">
+                            <p class="PD_product-discount">$ 63.149,99</p>
+                            <p class="PD_product-price">$ 59.999,99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="PD_product">
+                    <div class="PD_img-container">
+                        <img src="assets/Productos/Imagen auriculares.jpg"
+                            alt="Auriculares Redragon Lamia H320 RGB 7.1 Black" class="PD_img-product">
+                    </div>
+                    <div class="PD_product-description">
+                        <h4 class="PD_product-name">Auriculares Redragon Lamia H320 RGB 7.1 Black</h4>
+                        <div class="PD_prices">
+                            <p class="PD_product-discount">$ 71.159,99</p>
+                            <p class="PD_product-price">$ 67.599,99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="PD_product">
+                    <div class="PD_img-container">
+                        <img src="assets/Productos/Imagen mouse pad.jpg"
+                            alt="Mouse Pad Redragon Kunlun Large P006 XL 880X420mm" class="PD_img-product"
+                            id="PD_img-mousepad">
+                    </div>
+                    <div class="PD_product-description">
+                        <h4 class="PD_product-name">Mouse Pad Redragon Kunlun Large P006 XL 880X420mm</h4>
+                        <div class="PD_prices">
+                            <p class="PD_product-discount">$ 24.369,99</p>
+                            <p class="PD_product-price">$ 23.149,99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="PD_product">
+                    <div class="PD_img-container">
+                        <img src="assets/Productos/Imagen mouse2.jpg" alt=">Mouse Redragon Griffin RGB Black"
+                            class="PD_img-product">
+                    </div>
+                    <div class="PD_product-description">
+                        <h4 class="PD_product-name">Mouse Redragon Griffin RGB Black</h4>
+                        <div class="PD_prices">
+                            <p class="PD_product-discount">$ 21.159,99</p>
+                            <p class="PD_product-price">$ 20.099,99</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="slide-tab" role="tablist" id="PD_slide-tab">
+                <button class="slide slide-active" role="tab" aria-selected="true" aria-label="Slide 1"></button>
+                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+            </div>
+        </section>
+
+        <section class="lastNews">
+            <h2 class="title-h2 LN_title">Conocé nuestras <strong class="title-strong-h2">ultimas novedades</strong>
+            </h2>
+            <ul class="LN_news-list">
+                <li class="LN_news-item">
+                    <div class="LN_img-container">
+                        <img src="assets/Novedades/Imagen Placa de video.jpg" alt="RX 9070 XT 16GB Ultra Power"
+                            class="LN_img-news">
+                    </div>
+                    <div class="LN_news-description">
+                        <div class="LN_product-tags">
+                            <h4 class="LN_product-type">Placa de video</h4>
+                            <h3 class="LN_product-name">RX 9070 XT 16GB Ultra Power</h3>
+                        </div>
+                        <p class="LN_product-price">$ 1.199.750</p>
+                    </div>
+                </li>
+                <li class="LN_news-item">
+                    <div class="LN_img-container">
+                        <img src="assets/Novedades/Imagen Notebook.jpg" alt="Vivobook Go 15 R5 512GB SSD"
+                            class="LN_img-news" id="LN_img-notebook">
+                    </div>
+                    <div class="LN_news-description">
+                        <div class="LN_product-tags">
+                            <h4 class="LN_product-type">Notebook</h4>
+                            <h3 class="LN_product-name">Vivobook Go 15 R5 512GB SSD</h3>
+                        </div>
+                        <p class="LN_product-price">$ 706.900</p>
+                    </div>
+                </li>
+                <li class="LN_news-item">
+                    <div class="LN_img-container">
+                        <img src="assets/Novedades/Imagen silla gamer.jpg" alt="Razer Iskur Tela 2D"
+                            class="LN_img-news">
+                    </div>
+                    <div class="LN_news-description">
+                        <div class="LN_product-tags">
+                            <h4 class="LN_product-type">Silla gamer</h4>
+                            <h3 class="LN_product-name">Razer Iskur Tela 2D</h3>
+                        </div>
+                        <p class="LN_product-price">$ 484.650</p>
+                    </div>
+                </li>
+                <li class="LN_news-item">
+                    <div class="LN_img-container">
+                        <img src="assets/Novedades/Imagen monitor.jpg" alt="Samsung G9 Potencia Total"
+                            class="LN_img-news" id="LN_img-monitor">
+                    </div>
+                    <div class="LN_news-description">
+                        <div class="LN_product-tags">
+                            <h4 class="LN_product-type">Monitores</h4>
+                            <h3 class="LN_product-name">Samsung G9 49" Potencia Total</h3>
+                        </div>
+                        <p class="LN_product-price">$ 1.764.900</p>
+                    </div>
+                </li>
+                <li class="LN_news-item">
+                    <div class="LN_img-container">
+                        <img src="assets/Novedades/Imagen Notebook.jpg" alt="Vivobook 15R7 Potencia PRO"
+                            class="LN_img-news" id="LN_img-notebook">
+                    </div>
+                    <div class="LN_news-description">
+                        <div class="LN_product-tags">
+                            <h4 class="LN_product-type">Notebook</h4>
+                            <h3 class="LN_product-name">Vivobook 15R7 Potencia PRO</h3>
+                        </div>
+                        <p class="LN_product-price">$ 962.400</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="brands">
+            <div class="BR_title">
+                <h2 class="title-h2">Descubrí las <strong class="title-strong-h2">mejores marcas</strong></h2>
+                <div class="BR_title-buttons">
+                    <button type="button" class="buttonArrow" aria-label="Anterior">
+                        <svg class="icon">
+                            <use href="#icon-arrow"></use>
+                        </svg>
+                    </button>
+                    <button type="button" class="buttonArrow arrowRight" aria-label="Siguiente">
+                        <svg class="icon">
+                            <use href="#icon-arrow"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="BR_navigation">
+                <button type="button" class="buttonArrow" id="BR_arrow--left" aria-label="Anterior">
+                    <svg class="icon">
+                        <use href="#icon-arrow"></use>
                     </svg>
                 </button>
                 <nav>
-                    <ul class="ul-productos">
-                        <button class="buttonNavbar">
-                            <li>Periféricos</li>
-                        </button>
-                        <button class="buttonNavbar">
-                            <li>Monitores</li>
-                        </button>
-                        <button class="buttonNavbar">
-                            <li>Placas de video</li>
-                        </button>
-                        <button class="buttonNavbar">
-                            <li>Motherboards</li>
-                        </button>
-                        <button class="buttonNavbar">
-                            <li>Gabinetes</li>
-                        </button>
-                        <button class="buttonNavbar">
-                            <li>Memorias RAM</li>
-                        </button>
-                        <button class="buttonNavbar">
-                            <li>Almacenamiento</li>
-                        </button>
+                    <ul class="BR_ul-navigation">
+                        <li>
+                            <button type="button" class="BR_navigation-button BR_navigation-button-active">ASUS</button>
+                        </li>
+                        <li>
+                            <button type="button" class="BR_navigation-button">AMD</button>
+                        </li>
+                        <li>
+                            <button type="button" class="BR_navigation-button">Logitech</button>
+                        </li>
+                        <li>
+                            <button type="button" class="BR_navigation-button">Intel</button>
+                        </li>
+                        <li>
+                            <button type="button" class="BR_navigation-button">Corsair</button>
+                        </li>
+                        <li>
+                            <button type="button" class="BR_navigation-button">Hyte</button>
+                        </li>
                     </ul>
                 </nav>
-                <button class="arrowButtons">
-                    <svg class="icon" style="transform: rotate(180deg)">
-                        <use href="#icon-arrow-left"></use>
+                <button type="button" class="buttonArrow arrowRight" id="BR_arrow--right" aria-label="Siguiente">
+                    <svg class="icon">
+                        <use href="#icon-arrow"></use>
                     </svg>
                 </button>
             </div>
-            <div class="itemsProductosDestacados">
-                <div class="items">
-                    <div class="imgContainer">
-                        <img src="assets/Productos/Imagen mouse.jpg" alt="Imagen Producto" class="imagenProducto">
-                    </div>
-                    <div class="descripcionProducto">
-                        <h4>Mouse Logitech G203 Gaming Lightsync Black</h4>
-                        <div>
-                            <p class="descuentoProducto">$ 35.000</p>
-                            <p class="precioProducto">$ 29.150</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="imgContainer">
-                        <img src="assets/Productos/Imagen microfono.jpg" alt="Imagen Producto" class="imagenProducto">
-                    </div>
-                    <div class="descripcionProducto">
-                        <h4>Microfono SteelSeries Alias Condensador RGB Niveles de Led ANC USB-C</h4>
-                        <div>
-                            <p class="descuentoProducto">$ 311.526</p>
-                            <p class="precioProducto">$ 295.950</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="imgContainer">
-                        <img src="assets/Productos/Imagen teclado.jpg" alt="Imagen Producto" class="imagenProducto"
-                            id="imgTeclado">
-                    </div>
-                    <div class="descripcionProducto">
-                        <h4>Teclado Redragon Mitra K551 Mechanical Retroiluminado RGB</h4>
-                        <div>
-                            <p class="descuentoProducto">$ 63.147</p>
-                            <p class="precioProducto">$ 59.990</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="imgContainer">
-                        <img src="assets/Productos/Imagen auriculares.jpg" alt="Imagen Producto" class="imagenProducto">
-                    </div>
-                    <div class="descripcionProducto">
-                        <h4>Auriculares Redragon Lamia H320 RGB 7.1 Black</h4>
-                        <div>
-                            <p class="descuentoProducto">$ 71.158</p>
-                            <p class="precioProducto">$ 67.600</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="imgContainer">
-                        <img src="assets/Productos/Imagen mouse pad.jpg" alt="Imagen Producto" class="imagenProducto"
-                            id="imgMousePad">
-                    </div>
-                    <div class="descripcionProducto">
-                        <h4>Mouse Pad Redragon Kunlun Large P006 XL 880X420mm</h4>
-                        <div>
-                            <p class="descuentoProducto">$ 24.368</p>
-                            <p class="precioProducto">$ 23.150</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="imgContainer">
-                        <img src="assets/Productos/Imagen mouse2.jpg" alt="Imagen Producto" class="imagenProducto">
-                    </div>
-                    <div class="descripcionProducto">
-                        <h4>Mouse Redragon Griffin RGB Black</h4>
-                        <div>
-                            <p class="descuentoProducto">$ 21.158</p>
-                            <p class="precioProducto">$ 20.100</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carrusel-indicator" role="tablist">
-                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 1"></button>
-                <button class="slide active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
-                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
-                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 4"></button>
-                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 5"></button>
+            <div class="BR_brand-products">
+                <a class="BR_brand-img" href="#">
+                    <picture>
+                        <source srcset="assets/Marcas/Imagen-ASUS.jpg" media="(max-width: 768px)">
+                        <img src="assets/Marcas/Imagen-ASUS-2.jpg" alt="Asus">
+                    </picture>
+                    <span>ASUS</span>
+                </a>
+                <ul class="BR_brand-list-items">
+                    <li>
+                        <a href="#" class="BR_brand-item">
+                            <div class="BR_img-container">
+                                <img src="assets/Marcas/Imagen-Motherboard.jpg"
+                                    alt="Mother ASUS PRIME A520-M K DDR4 AM4">
+                            </div>
+                            <div class="BR_brand-item-description">
+                                <h3 class="BR_product-name">
+                                    Mother ASUS PRIME A520-M K DDR4 AM4
+                                </h3>
+                                <p class="BR_product-price">$ 86.750</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="BR_brand-item">
+                            <div class="BR_img-container">
+                                <img src="assets/Marcas/Imagen-Notebook.jpg"
+                                    alt="Vivobook GO 15 AMD Ryzen 5 7520U 8GB DDR5 SSD 512GB Win11">
+                            </div>
+                            <div class="BR_brand-item-description">
+                                <h3 class="BR_product-name">
+                                    Vivobook GO 15 AMD Ryzen 5 7520U 8GB DDR5 SSD 512GB Win11
+                                </h3>
+                                <p class="BR_product-price">$ 719.450</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="BR_brand-item">
+                            <div class="BR_img-container">
+                                <img src="assets/Marcas/Imagen-Monitor.jpg" alt="Imagen producto">
+                            </div>
+                            <div class="BR_brand-item-description">
+                                <h3 class="BR_product-name">
+                                    Monitor Gamer ASUS VY229HF-J FHD IPS 100Hz
+                                </h3>
+                                <p class="BR_product-price">$ 149.450</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="BR_brand-item">
+                            <div class="BR_img-container">
+                                <img src="assets/Marcas/Imagen-Monitor-2.jpg" alt="Imagen producto">
+                            </div>
+                            <div class="BR_brand-item-description">
+                                <h3 class="BR_product-name">
+                                    Monitor Gamer ASUS VA24EHF-J FHD IPS 100Hz
+                                </h3>
+                                <p class="BR_product-price">$ 168.550</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="BR_brand-item">
+                            <div class="BR_img-container">
+                                <img src="assets/Marcas/Imagen-Placa-de-video.jpg" alt="Imagen producto" id="img-GPU">
+                            </div>
+                            <div class="BR_brand-item-description">
+                                <h3 class="BR_product-name">
+                                    ASUS DUAL GeForce RTX 5060 8GB GDDR7 OC
+                                </h3>
+                                <p class="BR_product-price">$ 687.950</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </section>
-        <section class="armaTuPC">
-            <div class="containerATP">
-                <article>
-                    <h2>Arma tu PC</h2>
-                    <p>Configurá tu nueva PC sin limites y sin errores de compatibilidad, con acceso a todo el catologo
-                        de componentes</p>
-                    <button class="articleButton">Ver más</button>
-                </article>
-            </div>
-        </section>
-        <section class="categorias">
-            <div class="titulosSections">
-                <h2 class="titulos-h2">Explora nuestras <strong class="strong-h2">categorías</strong></h2>
-                <div class="div-buttons">
-                    <button class="arrowButtons">
-                        <svg class="icon">
-                            <use href="#icon-arrow-left"></use>
-                        </svg>
-                    </button>
-                    <button class="arrowButtons">
-                        <svg class="icon" style="transform: rotate(180deg)">
-                            <use href="#icon-arrow-left"></use>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <nav class="categories__grid">
-                <a class="category category--large" href="#">
-                    <img src="assets/Categorias/Procesador.jpg" alt="Procesadores">
-                    <span>PROCESADORES</span>
-                </a>
 
-                <a class="category" href="#">
-                    <img src="assets/Categorias/Placas de video.jpg" alt="Notebooks">
-                    <span>PLACAS DE VIDEO</span>
-                </a>
-
-                <a class="category" href="#">
-                    <img src="assets/Categorias/Perifericos.jpg" alt="Periféricos">
-                    <span>PERIFÉRICOS</span>
-                </a>
-
-                <a class="category" href="#">
-                    <img src="assets/Categorias/Almacenamiento.jpg" alt="Almacenamiento">
-                    <span>ALMACENAMIENTO</span>
-                </a>
-
-                <a class="category" href="#">
-                    <img src="assets/Categorias/Motherboards.jpg" alt="Monitores">
-                    <span>MOTHERBOARDS</span>
-                </a>
-
-                <a class="category" href="#">
-                    <img src="assets/Categorias/Gabinetes.jpg" alt="Gabinetes">
-                    <span>GABINETES</span>
-                </a>
-
-                <a class="category" href="#">
-                    <img src="assets/Categorias/Memorias RAM.jpg" alt="Memorias RAM">
-                    <span>MEMORIAS RAM</span>
-                </a>
-            </nav>
-            <div class="carrusel-indicator" role="tablist">
-                <button class="slide active" role="tab" aria-selected="true" aria-label="Slide 2"></button>
-                <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
-            </div>
-        </section>
     </main>
+
+    <footer class="footer">
+        <div class="FT_footer-top">
+            <img src="assets/techBoxLogo.png" alt="Logo" class="FT_logo">
+            <nav class="FT_footer-links">
+                <a href="#">Términos</a>
+                <a href="#">Privacidad</a>
+                <a href="#">Envíos</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </div>
+        <div class="FT_footer-bottom">
+            <p>© 2026 TechMarket. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
 </body>
 
 </html>
