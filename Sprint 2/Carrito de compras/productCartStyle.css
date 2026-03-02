@@ -67,7 +67,7 @@ button {
 
 /* Estilos de CSS */
 /* Header */
-header{
+header {
     width: 100%;
 }
 
@@ -184,10 +184,12 @@ header{
 .navbar-a:hover {
     color: #8F00FF;
 }
+
 /* Fin header */
 
 /* Main */
 main {
+    margin-bottom: 4em;
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -437,11 +439,85 @@ main {
 .button-products:hover {
     transform: scale(1.02, 1.02);
 }
+
 /* Fin main */
+
+/* Footer */
+
+.footer {
+    background-color: #0D0D0D;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.5em;
+    font-size: 0.9rem;
+    gap: 2em;
+}
+
+.FT_footer-top {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-block: 20px;
+}
+
+.FT_logo {
+    width: 125px;
+    height: auto;
+}
+
+.FT_footer-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.FT_footer-links a {
+    padding: 0.6em;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-family: "Inter", sans-serif;
+    background-color: transparent;
+    transition: transform .4s ease, background-color .4s ease;
+}
+
+.FT_footer-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05, 1.05);
+}
+
+.FT_footer-bottom p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: "Inter", sans-serif;
+    max-width: 300px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+@media (min-width: 1024px) {
+    .FT_footer-top {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .FT_footer-links {
+        margin-top: 10px;
+        flex-direction: row;
+        gap: 1em;
+    }
+}
+
+/* Fin footer */
 
 @media (min-width: 1024px) {
 
-    body{
+    body {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -486,6 +562,7 @@ main {
         align-items: center;
         gap: 1em;
     }
+
     /* Fin del header */
 
     /* Main */
@@ -518,7 +595,7 @@ main {
         gap: 1.5em;
     }
 
-    .product-img{
+    .product-img {
         width: 200px;
     }
 
@@ -544,13 +621,14 @@ main {
         padding-bottom: 1em;
         margin-bottom: 1em;
     }
+
     /* Fin main */
 }
 
 @media (min-width: 1440px) {
 
-    main{
-        margin-top: 30px;
+    main {
+        margin-top: 20px;
         max-width: 1500px;
     }
 
@@ -558,7 +636,7 @@ main {
 
 @media (min-width: 1540px) {
 
-    main{
+    main {
         padding: 0;
     }
 

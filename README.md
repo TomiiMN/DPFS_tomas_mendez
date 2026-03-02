@@ -52,3 +52,7 @@ Sitio: https://www.shopgamer.com.ar/
 Tiene un catálogo amplio de hardware: placas de video, monitores, procesadores, memorias RAM, fuentes, periféricos, etc. Ofrece garantía, envíos a todo Argentina, y también servicios de soporte técnico para problemas de hardware o software.
 
 Sitio: https://hardloots.com.ar/
+
+# Tablero de trabajo:
+
+https://trello.com/b/cglKS2mt/desafio-profesional-full-stack

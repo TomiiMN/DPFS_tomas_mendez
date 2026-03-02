@@ -2,7 +2,7 @@
  - Un seguimiento de las cosas que tengo que cumplir para poder terminar el proyecto y que quede en las condiciones deseadas
 
 # Hacer más
-Prueba y error, es la manera más ágil de desarrollar el marketplace
+ - Prueba y error, es la manera más ágil de desarrollar el marketplace
 
 # Continuar haciendo
  - Dedicarle todo el tiempo a seguir desarrollando el marketplace y esmerarme en que las cosas queden bien
