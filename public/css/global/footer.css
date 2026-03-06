@@ -1,0 +1,74 @@
+.footer {
+    background-color: #0D0D0D;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.5em;
+    font-size: 0.9rem;
+    gap: 2em;
+}
+
+.FT_footer-top {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-block: 20px;
+}
+
+.FT_logo {
+    width: 125px;
+    height: auto;
+    cursor: pointer;
+    transition: transform .5s ease;
+}
+
+.FT_logo:hover {
+    transform: scale(1.05);
+}
+
+.FT_footer-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.FT_footer-links a {
+    padding: 0.6em;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-family: "Inter", sans-serif;
+    background-color: transparent;
+    transition: transform .4s ease, background-color .4s ease;
+}
+
+.FT_footer-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05, 1.05);
+}
+
+.FT_footer-bottom p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: "Inter", sans-serif;
+    max-width: 300px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+@media (min-width: 1024px) {
+    .FT_footer-top {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .FT_footer-links {
+        margin-top: 10px;
+        flex-direction: row;
+        gap: 1em;
+    }
+}

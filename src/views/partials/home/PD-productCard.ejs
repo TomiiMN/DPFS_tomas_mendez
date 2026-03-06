@@ -1,0 +1,19 @@
+<li>
+    <a href="/products/<%= product.id %>" class="PD_product">
+        <div class="PD_img-container">
+            <img 
+                src="<%= product.image %>" 
+                alt="<%= product.name %>" 
+                class="PD_img-product">
+        </div>
+        <div class="PD_product-description">
+            <h4 class="PD_product-name"><%= product.name %></h4>
+            <div class="PD_prices">
+                <% if (product.discount) { %>
+                    <p class="PD_product-discount"><%= product.discount %></p>
+                <% } %>
+                <p class="PD_product-price"><%= product.price %></p>
+            </div>
+        </div>
+    </a>
+</li>

@@ -1,0 +1,34 @@
+<%- include("../partials/global/head", { title: "Register" , css: "registerStyle" }) %>
+    <%- include("../partials/global/header", { showNav: false }) %>
+
+        <main>
+            <section class="container">
+                <h2 id="tituloForm">Registro de Usuario</h2>
+                <p>Ingresa tus datos para crear una cuenta</p>
+                <form class="registration">
+                    <%- include("../partials/forms/input", { inputClass: "registration__input" , type: "email" ,
+                        placeholder: "Email*" , name: "email" , id: "email" }) %>
+                        <%- include("../partials/forms/input", { inputClass: "registration__input" , type: "text" ,
+                            placeholder: "Nombre de Usuario*" , name: "username" , id: "username" }) %>
+                            <%- include("../partials/forms/input", { inputClass: "registration__input" , type: "text" ,
+                                placeholder: "Nombre*" , name: "firstname" , id: "firstname" }) %>
+                                <%- include("../partials/forms/input", { inputClass: "registration__input" ,
+                                    type: "text" , placeholder: "Apellido*" , name: "lastname" , id: "lastname" }) %>
+                                    <%- include("../partials/forms/passwordInput", { inputClass: "registration__input" ,
+                                        type: "text" , placeholder: "Contraseña*" , name: "password" , id: "password",
+                                        icon: "icon-eye-off" }) %>
+                                        <%- include("../partials/forms/passwordInput", {
+                                            inputClass: "registration__input" , type: "password" ,
+                                            placeholder: "Confirmar contraseña*" , name: "confirmPassword" ,
+                                            id: "confirmPassword", icon: "icon-eye" }) %>
+                                            <button type="submit"
+                                                class="registration__buttonSubmit">Registrarme</button>
+                </form>
+                <p>¿Ya tienes una cuenta? Inicia sesión <a href="/users/login" id="link-p">aquí</a></p>
+            </section>
+        </main>
+
+        <%- include("../partials/global/footer") %>
+            </body>
+
+            </html>
