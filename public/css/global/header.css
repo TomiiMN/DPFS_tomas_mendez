@@ -4,7 +4,7 @@ a {
 
 a strong {
     font-family: "Inter", sans-serif;
-    color: white;
+    color: var(--text-white);
 }
 
 .header__top {
@@ -15,6 +15,12 @@ a strong {
     align-items: center;
     justify-content: space-between;
     padding-inline: 2em;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    z-index: 80; 
+    background-color:rgba(13, 13, 13, 0.85); 
+    backdrop-filter: blur(4px);
 }
 
 .logo-a {
@@ -30,7 +36,7 @@ a strong {
     height: auto;
 }
 
-.header__search-box {
+.header__search-form {
     position: relative;
     width: 100%;
 }
@@ -116,7 +122,8 @@ a strong {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-block: 1em;
+    margin-top: 115px;
+    margin-bottom: 15px;
 }
 
 .header__navbar-a {
@@ -124,11 +131,11 @@ a strong {
     border-bottom: 1px solid transparent;
     transition: all 0.3s ease;
     font-family: "Inter", sans-serif;
-    color: white;
+    color: var(--text-white);
 }
 
 .header__navbar-a:hover {
-    color: #8F00FF;
+    color: var(--color-primary);
 }
 
 @media (min-width: 1024px) {

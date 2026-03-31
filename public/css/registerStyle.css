@@ -3,7 +3,7 @@
 a,
 li {
     font-family: "Inter", sans-serif;
-    color: white;
+    color: var(--text-white);
 }
 
 a {
@@ -21,108 +21,10 @@ p {
     font-family: "Sora", sans-serif;
     font-size: 14px;
     font-weight: 300;
-    color: #8F00FF;
+    color: var(--color-primary);
 }
 
 /* Estilos de CSS */
-/* Header */
-.header__top {
-    width: 100%;
-    height: 100px;
-    background-color: #0D0D0D;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-inline: 2em;
-}
-
-.logo {
-    width: 125px;
-    height: auto;
-}
-
-.header__search-box {
-    position: relative;
-    width: 100%;
-}
-
-.header__sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.header__inputSearch {
-    padding: 12px 45px 12px 15px;
-    border-radius: 10px;
-    border: none;
-    width: 100%;
-    font-size: 14px;
-    margin-right: 1em;
-    display: none;
-}
-
-.header__search-btn {
-    position: absolute;
-    right: 0px;
-    top: 20%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.header__container {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-}
-
-.container-navegation__button-menu {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.container-navegation__header-navegation {
-    display: none;
-}
-
-.ingresar {
-    display: flex;
-    align-items: center;
-    gap: 0.8em;
-    padding: 0.5em;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
-
-.ingresar:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05, 1.05);
-}
-
-.shopping-cart {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3em;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
-
-.shopping-cart:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05, 1.05);
-}
-
-/* Fin del header */
 
 /* Main content */
 
@@ -133,6 +35,7 @@ main {
     height: 100vh;
     width: 100vw;
     padding: 1em;
+    margin-top: 100px;
 }
 
 .container {
@@ -140,7 +43,7 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: #E2E2E2;
+    background-color: var(--bg-cards);
     width: 700px;
     height: auto;
     border-radius: 15px;
@@ -205,8 +108,8 @@ main {
     font-family: "Inter", sans-serif;
     font-weight: 600;
     font-size: 16px;
-    color: white;
-    background-color: #8F00FF;
+    color: var(--text-white);
+    background-color: var(--color-primary);
     border: none;
     border-radius: 5px;
     padding-block: 13px;

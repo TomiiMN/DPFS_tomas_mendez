@@ -2,17 +2,17 @@
     <a href="/products/<%= product.id %>" class="PD_product">
         <div class="PD_img-container">
             <img 
-                src="<%= product.image %>" 
+                src="<%= product.images[0] %>" 
                 alt="<%= product.name %>" 
                 class="PD_img-product">
         </div>
         <div class="PD_product-description">
             <h4 class="PD_product-name"><%= product.name %></h4>
             <div class="PD_prices">
-                <% if (product.discount) { %>
-                    <p class="PD_product-discount"><%= product.discount %></p>
+                <% if (product.oldPrice) { %>
+                    <p class="PD_product-discount">$ <%= product.oldPrice.toLocaleString() %></p>
                 <% } %>
-                <p class="PD_product-price"><%= product.price %></p>
+                <p class="PD_product-price">$ <%= product.price.toLocaleString('es-AR') %></p>
             </div>
         </div>
     </a>

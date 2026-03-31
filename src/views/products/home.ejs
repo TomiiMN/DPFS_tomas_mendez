@@ -8,7 +8,7 @@
                     </svg>
                 </button>
                 <div class="carrusel_container-carrusel">
-                    <img src="/images/home/Carrusel/Imagen-carrusel.jpg" alt="Publicidad carrusel"
+                    <img src="/images/home/Imagen-carrusel.jpg" alt="Publicidad carrusel"
                         class="carrusel_carrusel-img">
                     <div class="slide-tab" role="tablist">
                         <button class="slide" role="tab" aria-selected="false" aria-label="Slide 1"></button>
@@ -52,7 +52,10 @@
                     <ul class="PD_ul-navigation">
                         <li>
                             <button type="button"
-                                class="PD_navigation-button PD_navigation-button-active">Perifericos</button>
+                                class="PD_navigation-button PD_navigation-button-active">Periféricos</button>
+                        </li>
+                        <li>
+                            <button type="button" class="PD_navigation-button">Procesadores</button>
                         </li>
                         <li>
                             <button type="button" class="PD_navigation-button">Monitores</button>
@@ -80,30 +83,9 @@
                     </button>
                 </nav>
                 <ul class="PD_products-list">
-                    <%- include("../partials/home/PD-productCard", { link: "#" ,
-                        image: "/images/home/Productos/Imagen-mouse.jpg" ,
-                        name: "Logitech G703 Wireless HERO 2.4GHz RGB" , discount: "$ 94.999,99" , price: "$ 89.999,99"
-                        })%>
-                        <%- include("../partials/home/PD-productCard", { link: "#" ,
-                            image: "/images/home/Productos/Imagen-microfono.jpg" ,
-                            name: "Microfono SteelSeries RGB ANC USB-C" , discount: "$ 311.524,99" ,
-                            price: "$ 295.949,99" })%>
-                            <%- include("../partials/home/PD-productCard", { link: "#" ,
-                                image: "/images/home/Productos/Imagen-teclado.jpg" ,
-                                name: "Teclado Redragon Mitra K551 Mechanical RGB" , discount: "$ 63.149,99" ,
-                                price: "$ 59.999,99" , hasPadding: true })%>
-                                <%- include("../partials/home/PD-productCard", { link: "#" ,
-                                    image: "/images/home/Productos/Imagen-auriculares.jpg" ,
-                                    name: "Auriculares Redragon Lamia H320 RGB 7.1 Black" , discount: "$ 71.159,99" ,
-                                    price: "$ 67.599,99" })%>
-                                    <%- include("../partials/home/PD-productCard", { link: "#" ,
-                                        image: "/images/home/Productos/Imagen-mouse-pad.jpg" ,
-                                        name: "Mouse Pad Redragon Kunlun Large P006 XL 880X420mm" ,
-                                        discount: "$ 24.369,99" , price: "$ 23.149,99" , hasPadding: true })%>
-                                        <%- include("../partials/home/PD-productCard", { link: "#" ,
-                                            image: "/images/home/Productos/Imagen-mouse2.jpg" ,
-                                            name: "Mouse Redragon Griffin RGB Black" , discount: "$ 21.159,99" ,
-                                            price: "$ 20.099,99" })%>
+                    <% featuredProducts.forEach(product=> { %>
+                        <%- include("../partials/home/pd-productCard", { product }) %>
+                            <% }) %>
                 </ul>
                 <div class="slide-tab" role="tablist" id="PD_slide-tab">
                     <button class="slide slide-active" role="tab" aria-selected="true" aria-label="Slide 1"></button>
@@ -111,26 +93,12 @@
                 </div>
             </section>
             <section class="lastNews">
-                <h2 class="title-h2 LN_title">Conocé nuestras <strong class="title-strong-h2">ultimas novedades</strong>
+                <h2 class="title-h2 LN_title">Conocé los <strong class="title-strong-h2">últimos lanzamientos</strong>
                 </h2>
                 <ul class="LN_news-list">
-                    <%- include("../partials/home/LN-newsCard", { link: "#" ,
-                        image: "/images/home/Novedades/Imagen-Placa-de-video.jpg" , name: "RX 9070 XT 16GB Ultra Power"
-                        , type: "Placa de video" , price: "$ 1.199.750" , hasPadding: true }) %>
-                        <%- include("../partials/home/LN-newsCard", { link: "#" ,
-                            image: "/images/home/Novedades/Imagen-notebook.jpg" , name: "Vivobook Go 15 R5 512GB SSD" ,
-                            type: "Notebook" , price: "$ 706.900" , hasPadding: true }) %>
-                            <%- include("../partials/home/LN-newsCard", { link: "#" ,
-                                image: "/images/home/Novedades/Imagen-silla-gamer.jpg" , name: "Razer Iskur Tela 2D" ,
-                                type: "Silla gamer" , price: "$ 484.650" , }) %>
-                                <%- include("../partials/home/LN-newsCard", { link: "#" ,
-                                    image: "/images/home/Novedades/Imagen-monitor.jpg" ,
-                                    name: "Samsung G9 Potencia Total" , type: "Monitores" , price: "$ 1.764.900" ,
-                                    hasPadding: true }) %>
-                                    <%- include("../partials/home/LN-newsCard", { link: "#" ,
-                                        image: "/images/home/Novedades/Imagen-notebook.jpg" ,
-                                        name: "Vivobook 15R7 Potencia PRO" , type: "Notebook" , price: "$ 962.400" ,
-                                        hasPadding: true }) %>
+                    <% latestProducts.forEach(product=> { %>
+                        <%- include("../partials/home/ln-newsCard", { product }) %>
+                            <% }) %>
                 </ul>
             </section>
             <section class="brands">
@@ -185,28 +153,13 @@
                     </button>
                 </div>
                 <div class="BR_brand-products">
-                    <%- include("../partials/home/BR_brand-imageCard", { link: "#" , name: "ASUS" ,
+                    <%- include("../partials/home/br-brand-imageCard", { link: "#" , name: "ASUS" ,
                         imageMobile: "/images/home/Marcas/Imagen-ASUS.jpg" ,
                         imageDesktop: "/images/home/Marcas/Imagen-ASUS-2.jpg" }) %>
                         <ul class="BR_brand-list-items">
-                            <%- include("../partials/home/BR_brand-itemCard", { link: "#" ,
-                                image: "/images/home/Marcas/Imagen-Motherboard.jpg" ,
-                                name: "Mother ASUS PRIME A520-M K DDR4 AM4" , price: "$ 86.750" , }) %>
-                                <%- include("../partials/home/BR_brand-itemCard", { link: "#" ,
-                                    image: "/images/home/Marcas/Imagen-Notebook.jpg" ,
-                                    name: "Vivobook GO 15 AMD Ryzen 5 7520U 8GB DDR5 SSD 512GB Win11" ,
-                                    price: "$ 719.450" , }) %>
-                                    <%- include("../partials/home/BR_brand-itemCard", { link: "#" ,
-                                        image: "/images/home/Marcas/Imagen-Monitor.jpg" ,
-                                        name: "Monitor Gamer ASUS VY229HF-J FHD IPS 100Hz" , price: "$ 149.450" , }) %>
-                                        <%- include("../partials/home/BR_brand-itemCard", { link: "#" ,
-                                            image: "/images/home/Marcas/Imagen-Monitor-2.jpg" ,
-                                            name: "Monitor Gamer ASUS VA24EHF-J FHD IPS 100Hz" , price: "$ 168.550" , })
-                                            %>
-                                            <%- include("../partials/home/BR_brand-itemCard", { link: "#" ,
-                                                image: "/images/home/Marcas/Imagen-Placa-de-video.jpg" ,
-                                                name: "ASUS DUAL GeForce RTX 5060 8GB GDDR7 OC" , price: "$ 687.950" ,
-                                                hasPadding: true }) %>
+                            <% brandProducts.forEach(product=> { %>
+                                <%- include("../partials/home/br-brand-itemCard", { product }) %>
+                            <% }) %>
                         </ul>
                 </div>
             </section>

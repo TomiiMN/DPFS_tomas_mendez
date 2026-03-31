@@ -1,0 +1,301 @@
+<%- include("../partials/global/head", { title: "Admin - Editor" , css: "editProductStyle" }) %>
+    <script>
+        window.productsData = <%- JSON.stringify(products) %>;
+        window.categoriesData = <%- JSON.stringify(categories) %>;
+    </script>
+    <div class="page-header">
+        <div>
+            <div class="breadcrumb">
+                <a href="#">Admin</a> / <a href="#">Productos</a> / <span id="breadcrumbName">Cargando...</span>
+            </div>
+            <div class="page-title">Editor de producto</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span class="edit-badge">Modo edición</span>
+            <button class="btn-search-product" onclick="openSearchModal()">⌕ Cambiar producto</button>
+            <div class="mode-toggle">
+                <button class="mode-btn" onclick="window.location.href='/admin/productos/nuevo'">✦ Crear</button>
+                <button class="mode-btn active">Editar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="searchModal" onclick="handleOverlayClick(event)">
+        <div class="modal">
+            <div class="modal-search-row">
+                <span class="modal-search-icon">⌕</span>
+                <input class="modal-search-input" id="modalSearchInput"
+                    placeholder="Buscar producto por nombre, ID o marca..." oninput="filterModalResults()"
+                    onkeydown="handleModalKey(event)">
+                <button class="modal-close" onclick="closeSearchModal()">✕</button>
+            </div>
+            <div class="modal-filters" id="modalFilters">
+                <button class="modal-filter-btn active" data-cat="" onclick="setModalCat(this, \'\')">Todos</button>
+            </div>
+            <div class="modal-results" id="modalResults"></div>
+            <div class="modal-footer">
+                <span class="modal-hint">↑↓ navegar · Enter seleccionar · Esc cerrar</span>
+                <span class="modal-count" id="modalCount">—</span>
+            </div>
+        </div>
+    </div>
+    <div class="layout">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">◈</div>
+                    <div class="card-title">Información básica</div>
+                </div>
+                <div class="card-body">
+                    <div class="field">
+                        <label>Nombre del producto <span class="req">*</span></label>
+                        <input id="inputName" type="text" placeholder="Ej. Procesador AMD Ryzen 5 5600GT">
+                        <div class="field-meta">
+                            <span class="field-hint">Sé descriptivo y específico</span>
+                            <span class="char-count" id="countName">0 / 120</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Descripción <span class="req">*</span></label>
+                        <textarea id="inputDesc"
+                            placeholder="Describe las características principales, sus especificaciones, usos y beneficios del producto..."></textarea>
+                        <div class="field-meta">
+                            <span class="field-hint">Mínimo 60 caracteres recomendado</span>
+                            <span class="char-count" id="countDesc">0 / 2000</span>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="field" style="margin:0">
+                            <label>Categoría <span class="req">*</span></label>
+                            <select id="categorySelect">
+                                <option value="" disabled selected>Seleccionar...</option>
+                            </select>
+                        </div>
+                        <div class="field" style="margin:0">
+                            <label>Subcategoría</label>
+                            <select id="subcategorySelect">
+                                <option value="" disabled selected>Seleccionar...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">◻</div>
+                    <div class="card-title">Imágenes del producto</div>
+                </div>
+                <div class="card-body">
+                    <div class="upload-zone" id="uploadZone">
+                        <span class="upload-icon">⊕</span>
+                        <div class="upload-text">
+                            <strong>Hacé clic para subir</strong> o arrastrá y soltá acá
+                        </div>
+                        <div class="upload-meta">PNG, JPG, WEBP · Máx. 5 MB · Mín. 800×800 px</div>
+                    </div>
+                    <div class="thumb-row" id="thumbRow">
+                        <!-- poblado por JS con las imágenes existentes del producto -->
+                    </div>
+                    <div class="field-hint" style="margin-top:8px">La primera imagen es la portada. Hover para eliminar.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">◇</div>
+                    <div class="card-title">Precio y stock</div>
+                </div>
+                <div class="card-body">
+                    <div class="input-row">
+                        <div class="field" style="margin:0">
+                            <label>Precio <span class="req">*</span></label>
+                            <div class="input-wrap has-prefix">
+                                <div class="input-prefix">$</div>
+                                <input id="inputPrice" type="number" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="field" style="margin:0">
+                            <label>Precio original <span class="hint">— tachado</span></label>
+                            <div class="input-wrap has-prefix">
+                                <div class="input-prefix">$</div>
+                                <input id="inputOriginalPrice" type="number" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">▽</div>
+                    <div class="card-title">Atributos y variantes</div>
+                </div>
+                <div class="card-body">
+                    <div class="input-row">
+                        <div class="field" style="margin:0">
+                            <label>Socket</label>
+                            <div class="tags-wrap" id="tagsSocket">
+                                <input class="tag-input" placeholder="Agregar...">
+                            </div>
+                        </div>
+                        <div class="field" style="margin:0">
+                            <label>Núcleos</label>
+                            <div class="tags-wrap" id="tagsNucleos">
+                                <input class="tag-input" placeholder="Agregar...">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:14px"></div>
+                    <div class="input-row">
+                        <div class="field" style="margin:0">
+                            <label>Marca</label>
+                            <input id="inputMarca" type="text" placeholder="Ej. Nike, Samsung, Sin marca">
+                        </div>
+                        <div class="field" style="margin:0">
+                            <label>Frecuencia Turbo</label>
+                            <div class="input-wrap has-suffix">
+                                <input id="inputFreq" type="number" placeholder="0.0">
+                                <div class="input-suffix">GHz</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">△</div>
+                    <div class="card-title">SEO y visibilidad</div>
+                </div>
+                <div class="card-body">
+                    <div class="field">
+                        <label>Título SEO</label>
+                        <input id="inputSeoTitle" type="text" placeholder="Título para buscadores (Google, Bing...)">
+                        <div class="field-meta">
+                            <span class="field-hint">Recomendado: 50–60 caracteres</span>
+                            <span class="char-count" id="countSeoTitle">0 / 60</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Meta descripción</label>
+                        <textarea id="inputSeoDesc" style="min-height:70px"
+                            placeholder="Breve descripción que aparece en los resultados de búsqueda..."></textarea>
+                        <div class="field-meta">
+                            <span class="field-hint">Recomendado: 150–160 caracteres</span>
+                            <span class="char-count" id="countSeoDesc">0 / 160</span>
+                        </div>
+                    </div>
+                    <div class="field" style="margin:0">
+                        <label>Vista previa en buscadores</label>
+                        <div class="seo-preview">
+                            <div class="seo-url" id="seoUrl">techbox.com › productos › ...</div>
+                            <div class="seo-title" id="seoTitle">—</div>
+                            <div class="seo-desc" id="seoDesc">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="overflow:visible;border:none;background:none;padding:0">
+                <div class="actions">
+                    <button class="btn btn-primary" id="btnSave" disabled>✦ Guardar cambios</button>
+                    <span class="changes-pill" id="changesPill">
+                        <span class="dot"></span>
+                        <span id="changesCount">0</span> cambio(s) sin guardar
+                    </span>
+                    <button class="btn btn-danger" id="btnDelete">⊘ Eliminar producto</button>
+                    <button class="btn btn-ghost" id="btnDiscard">Descartar</button>
+                </div>
+            </div>
+        </div>
+        <div class="right-col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">◈</div>
+                    <div class="card-title">Detalles del producto</div>
+                </div>
+                <div class="card-body" style="padding:14px 18px">
+                    <div class="meta-row">
+                        <span class="meta-label">ID</span>
+                        <span class="meta-value id" id="metaId">#—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Creado</span>
+                        <span class="meta-value" id="metaCreated">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Última edición</span>
+                        <span class="meta-value" id="metaUpdated">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Estado</span>
+                        <span class="meta-value ok" id="metaStatus">Publicado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">◌</div>
+                    <div class="card-title">Opciones</div>
+                </div>
+                <div class="card-body" style="padding:14px 18px">
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Destacado</div>
+                            <div class="toggle-desc">Aparece en la página de inicio</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="togFeatured">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">En oferta</div>
+                            <div class="toggle-desc">Muestra badge de descuento</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="togSale">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Envío gratis</div>
+                            <div class="toggle-desc">Icono especial en el listado</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="togFreeShip">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Permitir reseñas</div>
+                            <div class="toggle-desc">Compradores pueden opinar</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="togReviews">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-card">
+                <div class="preview-header">
+                    <div class="preview-title">▸ Vista previa en tienda</div>
+                </div>
+                <div class="preview-body">
+                    <div class="preview-img" id="prevImg">🖼</div>
+                    <div class="preview-category" id="prevCategory">—</div>
+                    <div class="preview-name" id="prevName">—</div>
+                    <div class="preview-desc" id="prevDesc">—</div>
+                    <div class="preview-price-row">
+                        <div class="preview-price" id="prevPrice">—</div>
+                        <div class="preview-original" id="prevOriginal"></div>
+                        <div class="preview-badge" id="prevBadge" style="display:none">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/global/scripts", { js: "editProducts" }) %>
+        </body>
+
+        </html>

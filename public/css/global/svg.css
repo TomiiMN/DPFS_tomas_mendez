@@ -1,13 +1,23 @@
 .icon {
     width: 24px;
     height: 24px;
-    color: #8F00FF;
+    color: var(--color-primary);
 }
 
 .icon-search {
     width: 30px;
     height: 30px;
-    color: #8F00FF;
+    color: var(--color-primary);
+}
+
+.icon-search-filter {
+    width: 24px;
+    height: 24px;
+    color: var(--color-primary);
+}
+
+.arrowRight {
+    transform: rotate(180deg)
 }
 
 .icon-coins {
@@ -16,18 +26,25 @@
     color: #0D0D0D;
 }
 
-#icon-truck,
-#icon-shield {
+.icon-truck,
+.icon-shield {
     color: #646464;
 }
 
-#icon-check {
+.icon-check {
     color: #46D25B;
 }
 
-#icon-cart-button,
-#icon-user-circle {
-    color: white;
+.icon-cart-button,
+.icon-user-circle {
+    width: 24px;
+    height: 24px;
+    color: var(--text-white);
+}
+
+.button-list {
+    width: 18px;
+    height: 18px;
 }
 
 .password-toggle .icon {

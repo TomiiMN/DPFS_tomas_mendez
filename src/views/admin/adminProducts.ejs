@@ -1,0 +1,100 @@
+<%- include("../partials/global/head", { title: "Admin" , css: "adminProductsStyle" }) %>
+    <script>
+        window.productsData = <%- JSON.stringify(products) %>;
+    </script>
+    <div class="page-header">
+        <div>
+            <div class="breadcrumb"><a href="#">Admin</a> / Products</div>
+            <div class="page-title">Productos</div>
+        </div>
+        <div class="header-actions">
+            <a href="/admin/products/new-product" class="btn btn-primary">✦ Nuevo producto</a>
+        </div>
+    </div>
+    <div class="stats-row" id="statsRow">
+        <div class="stat-card">
+            <div class="stat-icon">◈</div>
+            <div>
+                <div class="stat-label">Total productos</div>
+                <div class="stat-value purple" id="statTotal"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">◉</div>
+            <div>
+                <div class="stat-label">Publicados</div>
+                <div class="stat-value green" id="statPublished"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">◇</div>
+            <div>
+                <div class="stat-label">En oferta</div>
+                <div class="stat-value" id="statSale"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">△</div>
+            <div>
+                <div class="stat-label">Destacados</div>
+                <div class="stat-value" id="statFeatured"></div>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar">
+        <div class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="searchInput" type="text" placeholder="Buscar por nombre, ID o marca...">
+        </div>
+        <select class="filter-select" id="filterCategory">
+            <option value="">Todas las categorías</option>
+            <% categories.forEach(cat=> { %>
+                <option value="<%= cat.id %>">
+                    <%= cat.name %>
+                </option>
+                <% }); %>
+        </select>
+        <select class="filter-select" id="filterStatus">
+            <option value="">Todos los estados</option>
+            <option value="published">Publicados</option>
+            <option value="not_published">No publicados</option>
+        </select>
+        <div class="toolbar-right">
+            <span id="selectionInfo" style="font-size:12px;color:var(--muted);display:none;align-items:center;gap:8px;">
+                <span id="selCount">0</span> seleccionados
+                <button class="btn btn-secondary" style="padding:5px 12px;font-size:12px;" onclick="deleteSelected()">⊘
+                    Eliminar</button>
+            </span>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table id="productsTable">
+            <thead>
+                <tr>
+                    <th class="col-id"></th>
+                    <th class="col-product" onclick="sortBy('name')">Producto <span class="sort-arrow">↕</span></th>
+                    <th class="col-price" onclick="sortBy('price')">Precio <span class="sort-arrow">↕</span></th>
+                    <th class="col-brand">Marca</th>
+                    <th class="col-cat">Categoría</th>
+                    <th class="col-status">Estado</th>
+                    <th class="col-actions">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- poblado por JS -->
+            </tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none">
+            <div class="empty-icon">◈</div>
+            <div class="empty-title">Sin resultados</div>
+            <div class="empty-desc">Probá cambiando los filtros o el texto de búsqueda.</div>
+        </div>
+    </div>
+    <div class="pagination">
+        <div class="page-info" id="pageInfo">—</div>
+        <div class="page-btns" id="pageBtns"></div>
+    </div>
+    <%- include("../partials/global/scripts", { js: "adminProducts" }) %>
+    </body>
+
+    </html>

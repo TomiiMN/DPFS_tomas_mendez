@@ -1,0 +1,97 @@
+<%- include("../partials/global/head", { title: "TechBox" , css: "productsStyle" }) %>
+    <%- include("../partials/global/header", { showNav: false }) %>
+        <main class="products-page">
+
+            <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Abrir filtros">
+                <svg class="icon toggle-arrow">
+                    <use href="/images/sprite.svg#icon-arrow"></use>
+                </svg>
+            </button>
+
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <aside class="products-sidebar" id="productsSidebar">
+                <h3 class="PS_products-filter-title">Categorías</h3>
+                <ul class="PS_products-filter-list">
+                    <% parentCategories.forEach(category=> { %>
+                        <li class="PS_filter-item">
+                            <button class="PS_filter-btn" data-cat="<%= category.slug %>">
+                                <svg class="icon PS_filter-arrow">
+                                    <use href="/images/sprite.svg#icon-chevron-down"></use>
+                                </svg>
+                                <%= category.name %>
+                            </button>
+                            <ul class="PS_subcategory-list">
+                                <% categories .filter(sub=> sub.parent_id === category.id)
+                                    .forEach(sub => { %>
+
+                                    <li class="PS_subcategory-item">
+                                        <a class="PS_subcategory-a" href="#">
+                                            <%= sub.name %>
+                                        </a>
+                                    </li>
+
+                                    <% }) %>
+                            </ul>
+                        </li>
+                        <% }) %>
+                </ul>
+            </aside>
+
+            <section class="main-products">
+                <div class="MP_products-toolbar">
+                    <form class="MP_products-search-box">
+                        <label for="searchInput" class="MP_sr-only">Buscar productos</label>
+                        <input type="search" class="MP_products-search-input" placeholder="Buscar productos..."
+                            id="searchInput">
+                        <button type="submit" class="MP_search-btn">
+                            <svg class="icon-search-filter">
+                                <use href="/images/sprite.svg#icon-search"></use>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="MP_sort-wrapper">
+                        <select class="MP_products-sort-select" name="sortSelect" id="sortSelect">
+                            <option value="default">Ordenar por</option>
+                            <option value="price-asc">Precio: menor a mayor</option>
+                            <option value="price-desc">Precio: mayor a menor</option>
+                            <option value="name-asc">Nombre: A → Z</option>
+                            <option value="name-desc">Nombre: Z → A</option>
+                        </select>
+
+                        <svg class="icon MP_sort-arrow">
+                            <use href="/images/sprite.svg#icon-chevron-down"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <p class="MP_products-count">Mostrando <span id="resultsCount">8</span> productos</p>
+
+                <ul class="MP_products-grid" id="productsGrid">
+                    <% productsList.forEach(product=> { %>
+                        <%- include("../partials/productList/productCard", { product }) %>
+                            <% }) %>
+                </ul>
+
+                <nav aria-label="Paginación de productos" class="pagination">
+                    <button class="pagination-btn pagination-arrow-btn pagination-disabled" disabled>
+                        <svg class="icon">
+                            <use href="/images/sprite.svg#icon-chevron-left"></use>
+                        </svg>
+                    </button>
+                    <button class="pagination-btn pagination-active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn pagination-arrow-btn">
+                        <svg class="icon arrowRight">
+                            <use href="/images/sprite.svg#icon-chevron-left"></use>
+                        </svg>
+                    </button>
+                </nav>
+
+            </section>
+        </main>
+        <%- include("../partials/global/footer") %>
+        <%- include("../partials/global/scripts", { js: "products" }) %>
+            </body>
+
+            </html>

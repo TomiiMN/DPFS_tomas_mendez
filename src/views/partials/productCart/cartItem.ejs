@@ -1,0 +1,24 @@
+<li class="item">
+    <div class="background-img">
+        <img src="<%= product.images[0] %>" alt="<%= product.name %>" class="product-img">
+    </div>
+    <div class="body-item">
+        <p class="description"><%= product.name %></p>
+        <div class="product-buttons">
+            <button class="buttons-delete" aria-label="Eliminar producto">
+                <svg class="icon">
+                    <use href="/images/sprite.svg#icon-trash"></use>
+                </svg>
+            </button>
+            <div class="quantityButtons">
+                <button class="buttons button-minus">-</button>
+                <span class="buttons product-number">1</span>
+                <button class="buttons button-plus">+</button>
+            </div>
+        </div>
+    </div>
+    <div class="prices">
+        <p class="original-price">$ <%= product.oldPrice.toLocaleString() %></p>
+        <p class="discount">$ <%= product.price.toLocaleString('es-AR') %></p>
+    </div>
+</li>

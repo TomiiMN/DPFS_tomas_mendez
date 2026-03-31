@@ -1,6 +1,93 @@
-<%- include("../partials/global/head", { title: "Logitech G703 Wireless HERO 2.4GHz RGB" , css: "productDetailStyle" })
-    %>
+<%- include("../partials/global/head", { title: product.name , css: "productDetailStyle" }) %>
     <%- include("../partials/global/header", { showNav: true })%>
-    </body>
 
-    </html>
+        <main>
+            <article class="product">
+                <section class="product__gallery">
+                    <div class="product__main-image">
+                        <div class="imgContainer">
+                            <img src="<%= product.images[0] %>" alt="<%= product.name %>" class="imagenProducto">
+                        </div>
+                    </div>
+                    <div class="product__images">
+                        <p class="quantity-fotos">
+                            <%= product.images.length %> fotos
+                        </p>
+                        <ul class="thumbnails">
+                            <% product.images.forEach((image, index)=> { %>
+
+                                <li class="thumb <%= index === 0 ? 'active' : '' %>">
+                                    <img src="<%= image %>" alt="<%= product.name %>">
+                                </li>
+
+                                <% }) %>
+                        </ul>
+                    </div>
+                </section>
+                <section class="product__summary">
+                    <h1 class="product__title">
+                        <%= product.name %>
+                    </h1>
+                    <button class="button-copy" type="button" aria-label="Copiar nombre del producto">
+                        <svg class="icon">
+                            <use href="/images/sprite.svg#icon-copy"></use>
+                        </svg>
+                    </button>
+                    <div class="product__prices">
+                        <p class="best-price">Mejor precio</p>
+                        <div class="discount">
+                            <p class="original-price">$ <%= product.oldPrice.toLocaleString() %>
+                            </p>
+                            <p class="diference"> - $ <%= product.discount.toLocaleString() %>
+                            </p>
+                        </div>
+                        <p class="final-price">$ <%= product.price.toLocaleString('es-AR') %>
+                        </p>
+                        <p class="info-discount"><strong>Incluye 5% de descuento</strong> por pago con depósito o
+                            transferencia</p>
+                    </div>
+                    <div class="product__features">
+                        <p class="feature stock">
+                            <svg class="icon icon-check">
+                                <use href="/images/sprite.svg#icon-check"></use>
+                            </svg> Stock disponible
+                        </p>
+                        <p class="feature">
+                            <svg class="icon icon-shield">
+                                <use href="/images/sprite.svg#icon-shield"></use>
+                            </svg> Garantia - 24 meses
+                        </p>
+                        <p class="feature">
+                            <svg class="icon icon-truck">
+                                <use href="/images/sprite.svg#icon-truck"></use>
+                            </svg> Envios a todo el pais
+                        </p>
+                    </div>
+                    <button class="product__button-cart">
+                        <svg class="icon icon-cart-button">
+                            <use xlink:href="/images/sprite.svg#icon-cart-button"></use>
+                        </svg> Sumar al carrito
+                    </button>
+                </section>
+            </article>
+
+            <section class="details">
+                <div class="details__navigation">
+                    <button type="button" class="tab">ESPECIFICACIONES</button>
+                    <button type="button" class="tab tab-active">PREGUNTAS</button>
+                </div>
+                <h4>¿Tenes preguntas sobre el producto?</h4>
+                <p class="p-info">Inicia sesión en tu cuenta para poder hacer una pregunta</p>
+                <a href="/users/login">
+                    <button type="button" class="info-button">
+                        <svg class="icon icon-user-circle">
+                            <use href="/images/sprite.svg#icon-user-circle"></use>
+                        </svg> Iniciar sesión
+                    </button>
+                </a>
+            </section>
+
+        </main>
+        </body>
+
+        </html>
