@@ -1,16 +1,16 @@
 <li>
-    <a href="<%= link %>" class="BR_brand-item">
+    <a href="/products/<%= product.id %>" class="BR_brand-item">
         <div class="BR_img-container">
             <img 
-            src="<%= image %>" 
-            alt="<%= name %>" 
+            src="<%= product.images[0] %>" 
+            alt="<%= product.name %>">
         </div>
         <div class="BR_brand-item-description">
             <h3 class="BR_product-name">
-                <%= name %>
+                <%= product.name %>
             </h3>
             <p class="BR_product-price">
-                <%= price %>
+                $ <%= product.price.toLocaleString('es-AR') %>
             </p>
         </div>
     </a>

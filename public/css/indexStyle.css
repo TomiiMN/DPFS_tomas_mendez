@@ -9,7 +9,7 @@ p {
 
 .title-h2 {
     font-family: "Sora", sans-serif;
-    color: white;
+    color: var(--text-white);
     font-weight: 300;
 }
 
@@ -35,7 +35,7 @@ p {
 }
 
 .PD_product-price {
-    color: #8F00FF;
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 25px;
 }
@@ -57,7 +57,7 @@ p {
 .LN_product-price {
     margin: 0;
     font-family: "Sora", sans-serif;
-    color: #8F00FF;
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 25px;
 }
@@ -100,6 +100,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .PD_title-buttons {
@@ -140,9 +141,9 @@ p {
 
 .PD_navigation-button {
     background-color: transparent;
-    border: 2px solid #8F00FF;
+    border: 2px solid var(--color-primary);
     border-radius: 25px;
-    color: white;
+    color: var(--text-white);
     font-family: "Inter", sans-serif;
     padding: 0.3em 1em;
     font-size: 16px;
@@ -152,12 +153,12 @@ p {
 }
 
 .PD_navigation-button:hover {
-    border: 2px solid #ac40ff;
-    background-color: #ac40ff;
+    border: 2px solid var(--hover-primary);
+    background-color: var(--hover-primary);
 }
 
 .PD_navigation-button-active {
-    background-color: #8F00FF;
+    background-color: var(--color-primary);
 }
 
 .PD_products-list {
@@ -183,7 +184,7 @@ p {
     align-items: center;
     justify-content: center;
     border-radius: 15px;
-    background-color: #E2E2E2;
+    background-color: var(--bg-cards);
     width: 300px;
     height: 150px;
     transition: all .2s ease;
@@ -260,9 +261,8 @@ p {
 .LN_news-item {
     display: flex;
     align-items: center;
-    justify-content: center;
     border-radius: 15px;
-    background-color: #E2E2E2;
+    background-color: var(--bg-cards);
     width: 300px;
     height: 150px;
     transition: transform .2s ease, box-shadow .2s ease;
@@ -366,9 +366,9 @@ p {
 
 .BR_navigation-button {
     background-color: transparent;
-    border: 2px solid #8F00FF;
+    border: 2px solid var(--color-primary);
     border-radius: 25px;
-    color: white;
+    color: var(--text-white);
     font-family: "Inter", sans-serif;
     padding: 0.3em 1em;
     font-size: 16px;
@@ -378,12 +378,12 @@ p {
 }
 
 .BR_navigation-button:hover {
-    border: 2px solid #ac40ff;
-    background-color: #ac40ff;
+    border: 2px solid var(--hover-primary);
+    background-color: var(--hover-primary);
 }
 
 .BR_navigation-button-active {
-    background-color: #8F00FF;
+    background-color: var(--color-primary);
 }
 
 .BR_brand-products {
@@ -430,7 +430,7 @@ p {
     bottom: 12px;
     left: 12px;
     right: 12px;
-    color: white;
+    color: var(--text-white);
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 0.05em;
@@ -456,10 +456,9 @@ p {
 .BR_brand-item {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     border-radius: 15px;
-    background-color: #E2E2E2;
+    background-color: var(--bg-cards);
     width: 250px;
     height: 375px;
     transition: transform .2s ease, box-shadow .2s ease;
@@ -494,12 +493,13 @@ p {
 }
 
 .BR_brand-item-description {
-    padding-inline: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    width: 100%;
+    text-align: start;
 }
 
 .BR_product-name {
@@ -509,7 +509,7 @@ p {
 }
 
 .BR_product-price {
-    color: #8F00FF;
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 25px;
     font-family: "Sora", sans-serif;
@@ -528,12 +528,12 @@ p {
     cursor: pointer;
     transition: .2s all ease;
     background-color: transparent;
-    border: 2px solid #8F00FF;
+    border: 2px solid var(--color-primary);
     border-radius: 5px;
 }
 
 .buttonArrow:hover {
-    background-color: #E2E2E2;
+    background-color: var(--bg-cards);
     border: 2px solid transparent;
 }
 
@@ -550,7 +550,7 @@ p {
 
 #carrusel_LeftArrow:hover,
 #carrusel_RightArrow:hover {
-    background-color: #E2E2E2;
+    background-color: var(--bg-cards);
     border: transparent;
 }
 
@@ -560,10 +560,6 @@ p {
 
 #carrusel_RightArrow {
     right: 10px;
-}
-
-.arrowRight {
-    transform: rotate(180deg)
 }
 
 .slide-tab {
@@ -579,18 +575,18 @@ p {
     height: 12px;
     width: 12px;
     border-radius: 50px;
-    background-color: #8F00FF;
+    background-color: var(--color-primary);
     border: none;
     cursor: pointer;
     transition: .2s all ease;
 }
 
 .slide:hover {
-    background-color: #ac40ff;
+    background-color: var(--hover-primary);
 }
 
 .slide-active {
-    background-color: #b85bff;
+    background-color: var(--active-primary);
 }
 /* Fin UI Components */
 
@@ -698,7 +694,7 @@ p {
     #carrusel_RightArrow {
         position: static;
         background-color: transparent;
-        border: 2px solid #8F00FF;
+        border: 2px solid var(--color-primary);
     }
 
     #BR_arrow--right,

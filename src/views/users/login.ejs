@@ -1,0 +1,29 @@
+<%- include("../partials/global/head", { title: "Login" , css: "loginStyle" }) %>
+    <%- include("../partials/global/header", { showNav: false }) %>
+        <main>
+            <section class="container">
+                <h2 id="tituloForm">Inicio de sesión</h2>
+                <p class="descriptions">Ingresa tus datos para iniciar sesión</p>
+                <form class="login">
+                    <input class="login__input" type="email" placeholder="Email*">
+                    <div class="login__password">
+                        <input class="login__input" type="password" placeholder="Contraseña*">
+                        <p>Olvidaste tu contraseña? Entra <a href="#" class="link-p">aquí</a></p>
+                    </div>
+                    <div class="login__input-remember">
+                        <label class="login__checkbox">
+                            <input type="checkbox" id="remember">
+                            <span class="remember">Recordarme</span>
+                        </label>
+                        <button type="submit" class="buttonSubmit">Iniciar sesión</button>
+                    </div>
+                </form>
+                <p class="descriptions">¿No tienes una cuenta? Registrate <a href="/users/register" class="link-p">aquí</a></p>
+            </section>
+        </main>
+
+
+        <%- include("../partials/global/footer") %>
+            </body>
+
+            </html>

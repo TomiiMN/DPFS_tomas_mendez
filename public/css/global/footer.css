@@ -40,7 +40,7 @@
     padding: 0.6em;
     border-radius: 5px;
     text-decoration: none;
-    color: white;
+    color: var(--text-white);
     font-family: "Inter", sans-serif;
     background-color: transparent;
     transition: transform .4s ease, background-color .4s ease;
@@ -49,6 +49,21 @@
 .FT_footer-links a:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transform: scale(1.05, 1.05);
+}
+
+.FT_footer-bottom {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.FT_extra-data {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.2);
+    font-family: "Inter", sans-serif;
+    max-width: 300px;
+    text-align: center;
+    font-size: 0.9em;
 }
 
 .FT_footer-bottom p {

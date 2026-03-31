@@ -1,0 +1,52 @@
+<%- include("../partials/global/head", { title: "Carrito de compras" , css: "productCartStyle" }) %>
+    <%- include("../partials/global/header", { showNav: true }) %>
+        <main>
+            <div class="title">
+                <button class="arrowButtons" onclick="history.back();">
+                    <svg class="icon">
+                        <use href="/images/sprite.svg#icon-arrow"></use>
+                    </svg>
+                </button>
+                <h1>Mi carrito</h1>
+            </div>
+            <section class="container-cart">
+                <button class="buttons-delete">
+                    <svg class="icon">
+                        <use href="/images/sprite.svg#icon-trash"></use>
+                    </svg>
+                    <p>Vaciar</p>
+                </button>
+                <ul class="list-products">
+                    <% cartProducts.forEach(product=> { %>
+                        <%- include("../partials/productCart/cartItem", { product }) %>
+                            <% }) %>
+                </ul>
+            </section>
+            <section class="container-summary">
+                <h4>RESUMEN</h4>
+                <ul class="list-summary">
+                    <% cartProducts.forEach(product=> { %>
+                        <%- include("../partials/productCart/summaryItem", { product }) %>
+                            <% }) %>
+                </ul>
+                <div class="total-summary">
+                    <strong class="total">Total</strong>
+                    <p class="total-price">
+                        <svg class="icon-coins">
+                            <use href="/images/sprite.svg#icon-hand-coins"></use>
+                        </svg>
+                        $ <%= total.toLocaleString() %>
+                    </p>
+                </div>
+                <p class="description-purchase">
+                    <svg class="icon-coins">
+                        <use href="/images/sprite.svg#icon-hand-coins"></use>
+                    </svg>
+                    *Precio abonado con depósito o transferencia
+                </p>
+                <button class="buttons-summary button-purchase">Iniciar compra</button>
+                <a href="/products" class="a-buttons">
+                    <button class="buttons-summary button-products">Ver más productos</button>
+                </a>
+            </section>
+        </main>
