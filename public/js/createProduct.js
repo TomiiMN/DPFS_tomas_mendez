@@ -44,10 +44,10 @@ function initBrands(brands) {
     });
 }
 
-const btnCreate = document.getElementById("btnCreate")
-if (btnCreate) {
-    btnCreate.addEventListener("click", () => {
-        window.location.href = "/admin/products/new-product";
+const btnEdit = document.getElementById("btnEdit")
+if (btnEdit) {
+    btnEdit.addEventListener("click", () => {
+        window.location.href = "/admin/products/edit-product";
     });
 }
 // subcategorySelect.addEventListener("change", () => markChanged(subcategorySelect));

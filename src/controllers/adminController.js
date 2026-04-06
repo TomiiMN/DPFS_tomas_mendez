@@ -1,5 +1,6 @@
 const productsData = require('../../data/products')
 const categoriesData = require('../../data/categories')
+const brandsData = require('../../data/brands')
 const adminController = {
     admin: (req, res) => {
         const mainCategories = categoriesData.filter(cat => cat.parent_id === null);
@@ -10,9 +11,15 @@ const adminController = {
     },
     edit: (req, res) => {
         res.render("admin/editProduct", {
-            products: productsData,
-            categories: categoriesData
+            categories: categoriesData,
+            brands: brandsData
+        });
+    },
+    create: (req, res) => {
+        res.render("admin/createProduct", {
+            categories: categoriesData,
+            brands: brandsData
         });
     }
-}
+};
 module.exports = adminController;

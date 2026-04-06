@@ -1,4 +1,4 @@
-<%- include("../partials/global/head", { title: "Admin - Editor" , css: "create-editProductStyle" }) %>
+<%- include("../partials/global/head", { title: "Admin - Crear Producto" , css: "create-editProductStyle" }) %>
     <script>
         window.categoriesData = <%- JSON.stringify(categories) %>;
         window.brandsData = <%- JSON.stringify(brands) %>;
@@ -6,17 +6,13 @@
     <div class="page-header">
         <div>
             <div class="breadcrumb">
-                <a href="#">Admin</a> / <a href="/admin/products">Products</a> / <span
-                    id="breadcrumbName">Cargando...</span>
+                <a href="#">Admin</a> / <a href="/admin/products">Products</a> / Nuevo producto
             </div>
-            <div class="page-title">Editor de producto</div>
+            <div class="page-title">Nuevo producto</div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-            <span class="edit-badge">Modo edición</span>
-            <div class="mode-toggle">
-                <button class="mode-btn" id="btnCreate">✦ Crear</button>
-                <button class="mode-btn active">Editar</button>
-            </div>
+        <div class="mode-toggle">
+            <button class="mode-btn active">✦ Crear</button>
+            <button class="mode-btn" id="btnEdit">Editar</button>
         </div>
     </div>
     <div class="layout">
@@ -69,14 +65,14 @@
                     <div class="card-title">Imágenes del producto</div>
                 </div>
                 <div class="card-body">
-                    <div class="upload-zone" id="uploadZone">
+                    <div class="upload-zone">
                         <span class="upload-icon">⊕</span>
                         <div class="upload-text">
                             <strong>Hacé clic para subir</strong> o arrastrá y soltá acá
                         </div>
                         <div class="upload-meta">PNG, JPG, WEBP · Máx. 5 MB · Mín. 800×800 px</div>
                     </div>
-                    <div class="thumb-row" id="thumbRow">
+                    <div class="thumb-row">
                         <div class="thumb main-thumb">
                             🖼
                             <span class="thumb-badge">MAIN</span>
@@ -157,9 +153,7 @@
                     <div class="field">
                         <label>Tags</label>
                         <div class="tags-wrap">
-                            <span class="tag">gaming <span class="tag-remove">×</span></span>
-                            <span class="tag">rgb <span class="tag-remove">×</span></span>
-                            <span class="tag">wireless <span class="tag-remove">×</span></span>
+                            <!-- <span class="tag"><span class="tag-remove">×</span></span> -->
                             <input class="tag-input" placeholder="Agregar...">
                         </div>
                     </div>
@@ -180,39 +174,15 @@
                     </div>
                 </div>
             </div>
-            <div class=" card" style="overflow:visible;border:none;background:none;padding:0">
-                <div class="actions">
-                    <button class="btn btn-primary" id="btnSave" disabled>✦ Guardar cambios</button>
-                    <span class="changes-pill" id="changesPill">
-                        <span class="dot"></span>
-                        <span id="changesCount">0</span> cambio(s) sin guardar
-                    </span>
-                    <button class="btn btn-danger" id="btnDelete">⊘ Eliminar producto</button>
-                    <button class="btn btn-ghost" id="btnDiscard">Descartar</button>
+            <div class="card" style="overflow:visible;border:none;background:none;padding:0">
+                <div class="actions"
+                    style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px">
+                    <button class="btn btn-primary">✦ Publicar producto</button>
+                    <button class="btn btn-ghost">Descartar</button>
                 </div>
             </div>
         </div>
         <div class="right-col">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◈</div>
-                    <div class="card-title">Detalles del producto</div>
-                </div>
-                <div class="card-body compact-padding">
-                    <div class="meta-row">
-                        <span class="meta-label">ID</span>
-                        <span class="meta-value id" id="metaId">#—</span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="meta-label">Producto</span>
-                        <span class="meta-value" id="metaCreated">—</span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="meta-label">Estado</span>
-                        <span class="meta-value ok" id="metaStatus">Publicado</span>
-                    </div>
-                </div>
-            </div>
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">◌</div>
@@ -243,7 +213,7 @@
             </div>
         </div>
     </div>
-    <%- include("../partials/global/scripts", { js: "editProducts" }) %>
+    <%- include("../partials/global/scripts", { js: "createProduct" }) %>
         </body>
 
         </html>
