@@ -19,4 +19,13 @@ Comenzar a hacer:
  - Asumir que va a haber muchísimos errores a través del desarrollo y que se aprende a partir de ellos.
 
 Hacer más:
- - 
+ - Estructuracion del codigo, es importante para el orden y el mantenimiento del mismo. Un ambiente controlado previene los fracasos y errores que resulten en tiempo perdido.
+
+Continuar haciendo:
+ - Aprovechar las ventajas que la IA nos puede proporcionar a la hora de solucionar problemas y de automatizar codigo.
+
+Hacer menos:
+ - Perfeccionar cada minimo aspecto del codigo, esto consume tiempo que puede ser aplicado en otras areas de mas importancia.
+
+Dejar de hacer:
+ - Distraerse con otras cosas que no tengan que ver con el codigo o el desarrollo del proyecto.

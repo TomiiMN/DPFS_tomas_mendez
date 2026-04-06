@@ -30,7 +30,7 @@ function renderProducts(products) {
                                 <strong>${product.name}</strong><br>
                                 <span class="muted">${product.model || ""}</span>
                             </div>
-                            <div>
+                            <div class="flags">
                                 ${product.flags?.featured ? `<span class="flag featured">Destacado</span>` : ""}
                                 ${product.flags?.onSale ? `<span class="flag on-sale">Oferta</span>` : ""}
                             </div>
