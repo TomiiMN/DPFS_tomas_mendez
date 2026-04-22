@@ -2,13 +2,13 @@
     <a href="/products/<%= product.id %>" class="LN_news-item">
         <div class="LN_img-container">
             <img 
-            src="<%= product.images[0] %>" 
+            src="<%= product.img %>" 
             alt="<%= product.name %>" 
             class="LN_img-news">
         </div>
         <div class="LN_news-description">
             <div class="LN_product-tags">
-                <h4 class="LN_product-type"><%= product.category %></h4>
+                <h4 class="LN_product-type"><%= product.category[0].name %></h4>
                 <h3 class="LN_product-name"><%= product.name %></h3>
             </div>
             <p class="LN_product-price">$ <%= product.price.toLocaleString('es-AR') %></p>

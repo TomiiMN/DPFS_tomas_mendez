@@ -1,21 +1,27 @@
 <%- include("../partials/global/head", { title: "Admin - Editor" , css: "create-editProductStyle" }) %>
-    <script>
-        window.categoriesData = <%- JSON.stringify(categories) %>;
-        window.brandsData = <%- JSON.stringify(brands) %>;
+    <script id="data" type="application/json">
+    <%- JSON.stringify({
+        product,
+        categories,
+        brands,
+        tags,
+        productTags: product.tags || []
+    }) %>
     </script>
     <div class="page-header">
         <div>
             <div class="breadcrumb">
-                <a href="#">Admin</a> / <a href="/admin/products">Products</a> / <span
-                    id="breadcrumbName">Cargando...</span>
+                <a href="#">Admin</a> / <a href="/admin/products">Products</a> / <span id="breadcrumbName">
+                    <%= product.name %>
+                </span>
             </div>
             <div class="page-title">Editor de producto</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
             <span class="edit-badge">Modo edición</span>
             <div class="mode-toggle">
-                <button class="mode-btn" id="btnCreate">✦ Crear</button>
-                <button class="mode-btn active">Editar</button>
+                <a href="/admin/<%= product.id %>" class="mode-btn">Detalle</a>
+                <button class="mode-btn active">✦ Editar</button>
             </div>
         </div>
     </div>
@@ -29,7 +35,8 @@
                 <div class="card-body">
                     <div class="field">
                         <label>Nombre del producto <span class="req">*</span></label>
-                        <input id="inputName" type="text" placeholder="Ej. Procesador AMD Ryzen 5 5600GT">
+                        <input id="inputName" type="text" placeholder="Ej. Procesador AMD Ryzen 5 5600GT"
+                            value="<%= product.name %>">
                         <div class="field-meta">
                             <span class="field-hint">Sé descriptivo y específico</span>
                             <span class="char-count" id="countName">0 / 120</span>
@@ -44,7 +51,8 @@
                         </div>
                         <div class="field no-margin">
                             <label>Modelo</label>
-                            <input id="inputModel" type="text" placeholder="Ej. Ryzen 5 5600GT">
+                            <input id="inputModel" type="text" placeholder="Ej. Ryzen 5 5600GT"
+                                value="<%= product.model %>">
                         </div>
                     </div>
                     <div class="input-row">
@@ -65,27 +73,30 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">◻</div>
-                    <div class="card-title">Imágenes del producto</div>
+                    <div class="card-icon">🖼</div>
+                    <div class="card-title">Imagen del producto</div>
                 </div>
-                <div class="card-body">
-                    <div class="upload-zone" id="uploadZone">
-                        <span class="upload-icon">⊕</span>
-                        <div class="upload-text">
-                            <strong>Hacé clic para subir</strong> o arrastrá y soltá acá
+
+                <div class="card-body <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
+                    <div class="upload-zone <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>"
+                        id="uploadZone">
+                        <img id="imgPreview" src="<%= product?.img || '' %>" class="imgPreview <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>"
+                            alt="Vista previa de la imagen">
+                        <div id="uploadPlaceholder" class="<%= product?.img ? 'hidden' : '' %>">
+                            <span class="upload-icon">🖼</span>
+                            <div class="upload-text">
+                                <strong>Ingresá una ruta de imagen</strong>
+                            </div>
+                            <div class="upload-meta">
+                                Ej: /images/products/mi-producto.jpg
+                            </div>
                         </div>
-                        <div class="upload-meta">PNG, JPG, WEBP · Máx. 5 MB · Mín. 800×800 px</div>
                     </div>
-                    <div class="thumb-row" id="thumbRow">
-                        <div class="thumb main-thumb">
-                            🖼
-                            <span class="thumb-badge">MAIN</span>
-                        </div>
-                        <div class="thumb">🖼</div>
-                        <div class="thumb">🖼</div>
-                        <div class="thumb thumb-add">+</div>
+                    <div class="field <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
+                        <label>Ruta de la imagen</label>
+                        <input type="text" name="img" id="imgInput" placeholder="/images/products/mi-producto.jpg"
+                            value="<%= product?.img || '' %>">
                     </div>
-                    <div class="field-hint" style="margin-top:8px">La primera imagen es la portada</div>
                 </div>
             </div>
             <div class="card">
@@ -99,14 +110,15 @@
                             <label>Precio <span class="req">*</span></label>
                             <div class="input-wrap has-prefix">
                                 <div class="input-prefix">$</div>
-                                <input id="inputPrice" type="number" placeholder="0.00">
+                                <input id="inputPrice" type="number" placeholder="0.00" value="<%= product.price %>">
                             </div>
                         </div>
                         <div class="field no-margin">
                             <label>Precio original <span class="hint">— tachado</span></label>
                             <div class="input-wrap has-prefix">
                                 <div class="input-prefix">$</div>
-                                <input id="inputOriginalPrice" type="number" placeholder="0.00">
+                                <input id="inputOriginalPrice" type="number" placeholder="0.00"
+                                    value="<%= product.oldPrice %>">
                             </div>
                         </div>
                     </div>
@@ -156,12 +168,7 @@
                 <div class="card-body">
                     <div class="field">
                         <label>Tags</label>
-                        <div class="tags-wrap">
-                            <span class="tag">gaming <span class="tag-remove">×</span></span>
-                            <span class="tag">rgb <span class="tag-remove">×</span></span>
-                            <span class="tag">wireless <span class="tag-remove">×</span></span>
-                            <input class="tag-input" placeholder="Agregar...">
-                        </div>
+                        <div class="tags-wrap" id="tagsContainer"></div>
                     </div>
                     <div class="input-row">
                         <div class="field">
@@ -175,7 +182,7 @@
                         </div>
                         <div class="field">
                             <label>Fecha de salida</label>
-                            <input id="inputReleaseDate" type="date">
+                            <input id="inputReleaseDate" type="date" value="<%= product.releaseDate %>">
                         </div>
                     </div>
                 </div>
@@ -201,15 +208,19 @@
                 <div class="card-body compact-padding">
                     <div class="meta-row">
                         <span class="meta-label">ID</span>
-                        <span class="meta-value id" id="metaId">#—</span>
+                        <span class="meta-value id" id="metaId">#<%= product.id %></span>
                     </div>
                     <div class="meta-row">
                         <span class="meta-label">Producto</span>
-                        <span class="meta-value" id="metaCreated">—</span>
+                        <span class="meta-value" id="metaCreated">
+                            <%= product.name %>
+                        </span>
                     </div>
                     <div class="meta-row">
                         <span class="meta-label">Estado</span>
-                        <span class="meta-value ok" id="metaStatus">Publicado</span>
+                        <span class="meta-value ok" id="metaStatus">
+                            <%= product.state %>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -236,6 +247,16 @@
                         </div>
                         <label class="toggle">
                             <input type="checkbox" id="togSale">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Publicado</div>
+                            <div class="toggle-desc">Disponible para clientes</div>
+                        </div>
+                        <label class="toggle">
+                            <input type="checkbox" id="togPublic" name="onPublic" value="true">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>

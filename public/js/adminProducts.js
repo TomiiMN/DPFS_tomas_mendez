@@ -37,12 +37,12 @@ function renderProducts(products) {
                         </td>
                         <td class="col-price">$${product.price.toLocaleString()}</td>
                         <td class="col-brand">${product.brand}</td>
-                        <td class="col-cat">${product.category}</td>
+                        <td class="col-cat">${product.category[0].name}</td>
                         <td class="col-status">${product.state || "No publicado"}</td>
                         <td class="col-actions">
                             <div class="row-actions">
-                                <a href="/admin/products/edit-product" class="action-a-btn">✏️</a>
-                                <button class="action-a-btn danger">🗑</button>
+                                <a href="/admin/${product.id}/edit" class="action-a-btn">✏️</a>
+                                <a href="/admin/${product.id}" class="action-a-btn">👁️</a>
                             </div>    
                         </td>
                         `;

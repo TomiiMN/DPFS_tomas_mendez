@@ -142,6 +142,7 @@ main {
 }
 
 .product__summary {
+    margin-top: 1em;
     margin-inline: 1em;
     display: flex;
     flex-direction: column;
@@ -399,8 +400,7 @@ h4 {
     }
 
     .product__summary {
-        margin-top: 1em;
-        margin-left: 1em;
+        margin: 1em;
         margin-right: 3em;
     }
 
@@ -424,12 +424,4 @@ h4 {
         max-width: 1200px;
     }
 
-}
-
-@media (min-width: 1200px) {
-
-    .product__summary {
-        margin-left: 2em;
-    }
-    
 }
