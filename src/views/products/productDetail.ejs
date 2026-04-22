@@ -6,22 +6,8 @@
                 <section class="product__gallery">
                     <div class="product__main-image">
                         <div class="imgContainer">
-                            <img src="<%= product.images[0] %>" alt="<%= product.name %>" class="imagenProducto">
+                            <img src="<%= product.img %>" alt="<%= product.name %>" class="imagenProducto">
                         </div>
-                    </div>
-                    <div class="product__images">
-                        <p class="quantity-fotos">
-                            <%= product.images.length %> fotos
-                        </p>
-                        <ul class="thumbnails">
-                            <% product.images.forEach((image, index)=> { %>
-
-                                <li class="thumb <%= index === 0 ? 'active' : '' %>">
-                                    <img src="<%= image %>" alt="<%= product.name %>">
-                                </li>
-
-                                <% }) %>
-                        </ul>
                     </div>
                 </section>
                 <section class="product__summary">
@@ -35,16 +21,27 @@
                     </button>
                     <div class="product__prices">
                         <p class="best-price">Mejor precio</p>
-                        <div class="discount">
-                            <p class="original-price">$ <%= product.oldPrice.toLocaleString() %>
-                            </p>
-                            <p class="diference"> - $ <%= product.discount.toLocaleString() %>
-                            </p>
-                        </div>
-                        <p class="final-price">$ <%= product.price.toLocaleString('es-AR') %>
+
+                        <% const hasDiscount=product.oldPrice && product.oldPrice> product.price;
+                            const discount = hasDiscount ? (product.oldPrice - product.price) : 0;
+                        %>
+
+                        <% if (hasDiscount) { %>
+                            <div class="discount">
+                                <p class="original-price">
+                                    $ <%= product.oldPrice.toLocaleString('es-AR') %>
+                                </p>
+                                <p class="diference">
+                                    - $ <%= discount.toLocaleString('es-AR') %>
+                                </p>
+                            </div>
+                        <% } %>
+                        <p class="final-price">
+                            $ <%= product.price.toLocaleString('es-AR') %>
                         </p>
-                        <p class="info-discount"><strong>Incluye 5% de descuento</strong> por pago con depósito o
-                            transferencia</p>
+                        <p class="info-discount">
+                            <strong>Incluye 5% de descuento</strong> por pago con depósito o transferencia
+                        </p>
                     </div>
                     <div class="product__features">
                         <p class="feature stock">

@@ -65,10 +65,10 @@
                     </div>
                 </div>
 
-                <p class="MP_products-count">Mostrando <span id="resultsCount"><%= productsList.length %></span> productos</p>
+                <p class="MP_products-count">Mostrando <span id="resultsCount"><%= products.length %></span> productos</p>
 
                 <ul class="MP_products-grid" id="productsGrid">
-                    <% productsList.forEach(product=> { %>
+                    <% products.forEach(product=> { %>
                         <%- include("../partials/productList/productCard", { product }) %>
                             <% }) %>
                 </ul>

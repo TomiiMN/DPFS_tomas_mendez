@@ -5,6 +5,7 @@
     --active-primary: #b85bff;
     --light-primary: rgba(143, 0, 255, 0.12);
     --text-white: #FFFFFF;
+    --text-white-secondary: #9090b0;
     --text-black: #0D0D0D;
     --link: #3870FE;
     --bg-cards: #E2E2E2;
@@ -12,8 +13,16 @@
     --border2: #3a3a3a;
     --muted: #a1a1aa;
     --muted2: #71717a;
+    --text-muted: #5a5a78;
     --titles-prices: "Sora", sans-serif;
     --description-btn: "Inter", sans-serif;
     --green: #22c55e;
+    --green2: #86efac;
+    --green-bg: #052e16;
+    --amber: #fcd34d;
+    --amber-bg: #2a1a00;
     --red: #ef4444;
+    --red2: #f87171;
+    --red2-bg: rgba(239, 68, 68, 0.1);
+    --red2-border: rgba(239, 68, 68, 0.2);
 }

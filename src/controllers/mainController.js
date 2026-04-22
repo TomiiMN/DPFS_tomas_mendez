@@ -1,6 +1,6 @@
-const products = require('../../data/products')
-const mainController = {
-    home: (req, res) => {
+const productsModel = require("../models/productsModel");module.exports = {
+    index: (req, res) => {
+        const products = productsModel.getAll();
         const featuredProducts = products.filter(product => product.flags.featured)
         const latestProducts = products
             .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
@@ -10,7 +10,6 @@ const mainController = {
             featuredProducts,
             latestProducts,
             brandProducts
-        });
-    }
+        })
+    },
 }
-module.exports = mainController;

@@ -1,7 +1,12 @@
 <%- include("../partials/global/head", { title: "Admin - Crear Producto" , css: "create-editProductStyle" }) %>
-    <script>
-        window.categoriesData = <%- JSON.stringify(categories) %>;
-        window.brandsData = <%- JSON.stringify(brands) %>;
+    <script id="data" type="application/json">
+        <%- JSON.stringify({
+        categories,
+        brands,
+        tags,
+        specsLabels,
+        specsConfig
+    }) %>
     </script>
     <div class="page-header">
         <div>
@@ -10,209 +15,189 @@
             </div>
             <div class="page-title">Nuevo producto</div>
         </div>
-        <div class="mode-toggle">
-            <button class="mode-btn active">✦ Crear</button>
-            <button class="mode-btn" id="btnEdit">Editar</button>
-        </div>
     </div>
-    <div class="layout">
-        <div style="display:flex;flex-direction:column;gap:14px;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◈</div>
-                    <div class="card-title">Información básica</div>
-                </div>
-                <div class="card-body">
-                    <div class="field">
-                        <label>Nombre del producto <span class="req">*</span></label>
-                        <input id="inputName" type="text" placeholder="Ej. Procesador AMD Ryzen 5 5600GT">
-                        <div class="field-meta">
-                            <span class="field-hint">Sé descriptivo y específico</span>
-                            <span class="char-count" id="countName">0 / 120</span>
-                        </div>
+    <form action="/products" method="post">
+        <div class="layout">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◈</div>
+                        <div class="card-title">Información básica</div>
                     </div>
-                    <div class="input-row" style="margin-bottom: 18px;">
-                        <div class="field no-margin">
-                            <label>Marca <span class="req">*</span></label>
-                            <select id="brandSelect">
-                                <option value="" disabled selected>Seleccionar...</option>
-                            </select>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Modelo</label>
-                            <input id="inputModel" type="text" placeholder="Ej. Ryzen 5 5600GT">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Categoría <span class="req">*</span></label>
-                            <select id="categorySelect">
-                                <option value="" disabled selected>Seleccionar...</option>
-                            </select>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Subcategoría</label>
-                            <select id="subcategorySelect">
-                                <option value="" disabled selected>Seleccionar...</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◻</div>
-                    <div class="card-title">Imágenes del producto</div>
-                </div>
-                <div class="card-body">
-                    <div class="upload-zone">
-                        <span class="upload-icon">⊕</span>
-                        <div class="upload-text">
-                            <strong>Hacé clic para subir</strong> o arrastrá y soltá acá
-                        </div>
-                        <div class="upload-meta">PNG, JPG, WEBP · Máx. 5 MB · Mín. 800×800 px</div>
-                    </div>
-                    <div class="thumb-row">
-                        <div class="thumb main-thumb">
-                            🖼
-                            <span class="thumb-badge">MAIN</span>
-                        </div>
-                        <div class="thumb">🖼</div>
-                        <div class="thumb">🖼</div>
-                        <div class="thumb thumb-add">+</div>
-                    </div>
-                    <div class="field-hint" style="margin-top:8px">La primera imagen es la portada</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◇</div>
-                    <div class="card-title">Precio</div>
-                </div>
-                <div class="card-body">
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Precio <span class="req">*</span></label>
-                            <div class="input-wrap has-prefix">
-                                <div class="input-prefix">$</div>
-                                <input id="inputPrice" type="number" placeholder="0.00">
-                            </div>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Precio original <span class="hint">— tachado</span></label>
-                            <div class="input-wrap has-prefix">
-                                <div class="input-prefix">$</div>
-                                <input id="inputOriginalPrice" type="number" placeholder="0.00">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">▽</div>
-                    <div class="card-title">Atributos</div>
-                </div>
-                <div class="card-body">
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Socket</label>
-                            <div class="tags-wrap" id="tagsSocket">
-                                <input class="tag-input" placeholder="Agregar...">
-                            </div>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Núcleos</label>
-                            <div class="tags-wrap" id="tagsNucleos">
-                                <input class="tag-input" placeholder="Agregar...">
-                            </div>
-                        </div>
-                    </div>
-                    <div style="height:14px"></div>
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Hilos</label>
-                            <input id="inputHilos" type="number" placeholder="0">
-                        </div>
-                        <div class="field no-margin">
-                            <label>Frecuencia Turbo</label>
-                            <div class="input-wrap has-suffix">
-                                <input id="inputFreq" type="number" placeholder="0.0">
-                                <div class="input-suffix">GHz</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">▣</div>
-                    <div class="card-title">Filtros</div>
-                </div>
-                <div class="card-body">
-                    <div class="field">
-                        <label>Tags</label>
-                        <div class="tags-wrap">
-                            <!-- <span class="tag"><span class="tag-remove">×</span></span> -->
-                            <input class="tag-input" placeholder="Agregar...">
-                        </div>
-                    </div>
-                    <div class="input-row">
+                    <div class="card-body">
                         <div class="field">
-                            <label>Tier</label>
-                            <select id="filterTier">
-                                <option value="" disabled selected>Seleccionar...</option>
-                                <option value="entrada">Entrada</option>
-                                <option value="media">Media</option>
-                                <option value="alta">Alta</option>
-                            </select>
+                            <label>Nombre del producto <span class="req">*</span></label>
+                            <input id="inputName" name="name" type="text"
+                                placeholder="Ej. Procesador AMD Ryzen 5 5600GT">
+                            <div class="field-meta">
+                                <span class="field-hint">Sé descriptivo y específico</span>
+                                <span class="char-count" id="countName">0 / 120</span>
+                            </div>
                         </div>
+                        <div class="input-row" style="margin-bottom: 18px;">
+                            <div class="field no-margin">
+                                <label>Marca <span class="req">*</span></label>
+                                <select id="brandSelect" name="brand_id">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                </select>
+                            </div>
+                            <div class="field no-margin">
+                                <label>Modelo</label>
+                                <input id="inputModel" name="model" type="text" placeholder="Ej. Ryzen 5 5600GT">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="field no-margin">
+                                <label>Categoría <span class="req">*</span></label>
+                                <select id="categorySelect" name="category_id">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                </select>
+                            </div>
+                            <div class="field no-margin">
+                                <label>Subcategoría</label>
+                                <select id="subcategorySelect" name="subcategory_id">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🖼</div>
+                        <div class="card-title">Imagen del producto</div>
+                    </div>
+
+                    <div class="card-body" id="img-card-body">
+                        <div class="upload-zone" id="uploadZone">
+                            <img id="imgPreview" src="" class="imgPreview" alt="Vista previa de la imagen">
+                            <div id="uploadPlaceholder">
+                                <span class="upload-icon">🖼</span>
+                                <div class="upload-text">
+                                    <strong>Ingresá una ruta de imagen</strong>
+                                </div>
+                                <div class="upload-meta">
+                                    Ej: /images/products/mi-producto.jpg
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field" id="img-field">
+                            <label>Ruta de la imagen</label>
+                            <input type="text" name="img" id="imgInput" placeholder="/images/products/mi-producto.jpg"
+                                value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◇</div>
+                        <div class="card-title">Precio</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-row">
+                            <div class="field no-margin">
+                                <label>Precio <span class="req">*</span></label>
+                                <div class="input-wrap has-prefix">
+                                    <div class="input-prefix">$</div>
+                                    <input id="inputPrice" name="price" type="number" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="field no-margin">
+                                <label>Precio original <span class="hint">— tachado</span></label>
+                                <div class="input-wrap has-prefix">
+                                    <div class="input-prefix">$</div>
+                                    <input id="inputOriginalPrice" name="oldPrice" type="number" placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">▽</div>
+                        <div class="card-title">Especificaciones</div>
+                    </div>
+                    <div class="card-body" id="specsContainer"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">▣</div>
+                        <div class="card-title">Filtros</div>
+                    </div>
+                    <div class="card-body">
                         <div class="field">
-                            <label>Fecha de salida</label>
-                            <input id="inputReleaseDate" type="date">
+                            <label>Tags</label>
+                            <div class="tags-wrap" id="tagsContainer">
+                                <input type="hidden" name="tags" id="tagsInput">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="field">
+                                <label>Tier</label>
+                                <select id="filterTier" name="tier">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                    <option value="entrada">Entrada</option>
+                                    <option value="media">Media</option>
+                                    <option value="alta">Alta</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Fecha de salida</label>
+                                <input id="inputReleaseDate" type="date" name="releaseDate">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card" style="overflow:visible;border:none;background:none;padding:0">
-                <div class="actions"
-                    style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px">
-                    <button class="btn btn-primary">✦ Publicar producto</button>
-                    <button class="btn btn-ghost">Descartar</button>
-                </div>
-            </div>
-        </div>
-        <div class="right-col">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◌</div>
-                    <div class="card-title">Opciones</div>
-                </div>
-                <div class="card-body compact-padding">
-                    <div class="toggle-row">
-                        <div class="toggle-info">
-                            <div class="toggle-label">Destacado</div>
-                            <div class="toggle-desc">Aparece en la página de inicio</div>
-                        </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="togFeatured">
-                            <span class="toggle-slider"></span>
-                        </label>
+                <div class="card" style="overflow:visible;border:none;background:none;padding:0">
+                    <div class="actions"
+                        style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px">
+                        <button type="submit" class="btn btn-primary">✦ Publicar producto</button>
+                        <button type="button" class="btn btn-ghost">Descartar</button>
                     </div>
-                    <div class="toggle-row">
-                        <div class="toggle-info">
-                            <div class="toggle-label">En oferta</div>
-                            <div class="toggle-desc">Muestra badge de descuento</div>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◌</div>
+                        <div class="card-title">Opciones</div>
+                    </div>
+                    <div class="card-body compact-padding">
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Destacado</div>
+                                <div class="toggle-desc">Aparece en la página de inicio</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="togFeatured" name="featured" value="true">
+                                <span class="toggle-slider"></span>
+                            </label>
                         </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="togSale">
-                            <span class="toggle-slider"></span>
-                        </label>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-label">En oferta</div>
+                                <div class="toggle-desc">Muestra badge de descuento</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="togSale" name="onSale" value="true">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Publicado</div>
+                                <div class="toggle-desc">Disponible para clientes</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="togPublic" name="onPublic" value="true">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <%- include("../partials/global/scripts", { js: "createProduct" }) %>
         </body>
 
