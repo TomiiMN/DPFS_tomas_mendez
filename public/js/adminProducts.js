@@ -1,12 +1,25 @@
-function renderData(product) {
+// Data
+const dataEl = document.getElementById("data");
+if (!dataEl) {
+  console.error("No se encontró el script con datos");
+}
+let data = {};
+try {
+  data = JSON.parse(dataEl.textContent);
+} catch (error) {
+  console.error("Error parseando data:", error);
+}
+const products = data.products || {};
+// Renderizado
+function renderData(products) {
     const statTotal = document.getElementById("statTotal")
     const statPublished = document.getElementById("statPublished")
     const statSale = document.getElementById("statSale")
     const statFeatured = document.getElementById("statFeatured")
-    const totalAmount = product.length
-    const publishedProduct = product.filter(product => product.state == "Publicado")
-    const saleProduct = product.filter(product => product.flags?.onSale)
-    const featuredProduct = product.filter(product => product.flags?.featured)
+    const totalAmount = products.length
+    const publishedProduct = products.filter(product => product.state == "Publicado")
+    const saleProduct = products.filter(product => product.flags?.onSale)
+    const featuredProduct = products.filter(product => product.flags?.featured)
     statTotal.innerHTML = `${totalAmount || "-"}`
     statPublished.innerHTML = `${publishedProduct.length || "-"}`
     statSale.innerHTML = `${saleProduct.length || "-"}`
@@ -41,8 +54,8 @@ function renderProducts(products) {
                         <td class="col-status">${product.state || "No publicado"}</td>
                         <td class="col-actions">
                             <div class="row-actions">
-                                <a href="/admin/${product.id}/edit" class="action-a-btn">✏️</a>
-                                <a href="/admin/${product.id}" class="action-a-btn">👁️</a>
+                                <a href="/admin/products/${product.id}/edit" class="action-a-btn">✏️</a>
+                                <a href="/admin/products/${product.id}" class="action-a-btn">👁️</a>
                             </div>    
                         </td>
                         `;
@@ -50,8 +63,6 @@ function renderProducts(products) {
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
-    const products = window.productsData || [];
-
     renderData(products);
     renderProducts(products);
 });

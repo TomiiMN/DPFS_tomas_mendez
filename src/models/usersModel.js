@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const filePath = path.join(__dirname, "../../data/products.json")
+const filePath = path.join(__dirname, "../../data/users.json")
 const readData = () => {
     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 };
@@ -12,25 +12,25 @@ module.exports = {
     getById: (id) => {
         return readData().find(p => p.id == id)
     },
-    create: (newProduct) => {
-        const products = readData();
-        const newId = products.length ? products.at(-1).id + 1 : 1;
-        const productWithId = {
+    create: (newUser) => {
+        const users = readData();
+        const newId = users.length ? users.at(-1).id + 1 : 1;
+        const userWithId = {
             id: newId,
-            ...newProduct
+            ...newUser
         };
-        products.push(productWithId);
-        writeData(products);
+        users.push(userWithId);
+        writeData(users);
     },
     update: (id, updatedData) => {
-        let products = readData();
-        products = products.map(p =>
+        let users = readData();
+        users = users.map(p =>
             p.id == id ? { ...p, ...updatedData, id: Number(id) } : p
         )
-        writeData(products);
+        writeData(users);
     },
     delete: (id) => {
-        const products = readData().filter(p => p.id != id)
-        writeData(products);
+        const users = readData().filter(p => p.id != id)
+        writeData(users);
     }
 }

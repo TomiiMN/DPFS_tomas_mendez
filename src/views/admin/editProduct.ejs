@@ -5,13 +5,15 @@
         categories,
         brands,
         tags,
-        productTags: product.tags || []
+        productTags: product.tags || [],
+        specsLabels,
+        specsConfig
     }) %>
     </script>
-    <div class="page-header">
+    <header class="page-header">
         <div>
             <div class="breadcrumb">
-                <a href="#">Admin</a> / <a href="/admin/products">Products</a> / <span id="breadcrumbName">
+                <a href="/">Home</a> / <a href="#">Admin</a> / <a href="/admin/products">Products</a> / <span id="breadcrumbName">
                     <%= product.name %>
                 </span>
             </div>
@@ -20,250 +22,225 @@
         <div style="display:flex;align-items:center;gap:10px;">
             <span class="edit-badge">Modo edición</span>
             <div class="mode-toggle">
-                <a href="/admin/<%= product.id %>" class="mode-btn">Detalle</a>
+                <a href="/admin/products/<%= product.id %>" class="mode-btn">Detalle</a>
                 <button class="mode-btn active">✦ Editar</button>
             </div>
         </div>
-    </div>
-    <div class="layout">
-        <div style="display:flex;flex-direction:column;gap:14px;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◈</div>
-                    <div class="card-title">Información básica</div>
-                </div>
-                <div class="card-body">
-                    <div class="field">
-                        <label>Nombre del producto <span class="req">*</span></label>
-                        <input id="inputName" type="text" placeholder="Ej. Procesador AMD Ryzen 5 5600GT"
-                            value="<%= product.name %>">
-                        <div class="field-meta">
-                            <span class="field-hint">Sé descriptivo y específico</span>
-                            <span class="char-count" id="countName">0 / 120</span>
+    </header>
+    <form action="/admin/products/<%= product.id %>?_method=PUT" method="POST" id="editProductForm">
+        <input type="hidden" name="tags" id="tagsInput">
+        <main class="layout">
+            <section style="display:flex;flex-direction:column;gap:14px;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◈</div>
+                        <div class="card-title">Información básica</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="field">
+                            <label>Nombre del producto <span class="req">*</span></label>
+                            <input id="inputName" name="name" type="text"
+                                placeholder="Ej. Procesador AMD Ryzen 5 5600GT" value="<%= product.name %>">
+                            <div class="field-meta">
+                                <span class="field-hint">Sé descriptivo y específico</span>
+                                <span class="char-count" id="countName">0 / 120</span>
+                            </div>
+                        </div>
+                        <div class="input-row" style="margin-bottom: 18px;">
+                            <div class="field no-margin">
+                                <label>Marca <span class="req">*</span></label>
+                                <select id="brandSelect" name="brand_id">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                </select>
+                            </div>
+                            <div class="field no-margin">
+                                <label>Modelo</label>
+                                <input id="inputModel" type="text" placeholder="Ej. Ryzen 5 5600GT"
+                                    value="<%= product.model %>" name="model">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="field no-margin">
+                                <label>Categoría <span class="req">*</span></label>
+                                <select id="categorySelect" name="category_id">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                </select>
+                            </div>
+                            <div class="field no-margin">
+                                <label>Subcategoría</label>
+                                <select id="subcategorySelect" name="subcategory_id">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-row" style="margin-bottom: 18px;">
-                        <div class="field no-margin">
-                            <label>Marca <span class="req">*</span></label>
-                            <select id="brandSelect">
-                                <option value="" disabled selected>Seleccionar...</option>
-                            </select>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Modelo</label>
-                            <input id="inputModel" type="text" placeholder="Ej. Ryzen 5 5600GT"
-                                value="<%= product.model %>">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Categoría <span class="req">*</span></label>
-                            <select id="categorySelect">
-                                <option value="" disabled selected>Seleccionar...</option>
-                            </select>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Subcategoría</label>
-                            <select id="subcategorySelect">
-                                <option value="" disabled selected>Seleccionar...</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">🖼</div>
-                    <div class="card-title">Imagen del producto</div>
-                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🖼</div>
+                        <div class="card-title">Imagen del producto</div>
+                    </div>
 
-                <div class="card-body <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
-                    <div class="upload-zone <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>"
-                        id="uploadZone">
-                        <img id="imgPreview" src="<%= product?.img || '' %>" class="imgPreview <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>"
-                            alt="Vista previa de la imagen">
-                        <div id="uploadPlaceholder" class="<%= product?.img ? 'hidden' : '' %>">
-                            <span class="upload-icon">🖼</span>
-                            <div class="upload-text">
-                                <strong>Ingresá una ruta de imagen</strong>
-                            </div>
-                            <div class="upload-meta">
-                                Ej: /images/products/mi-producto.jpg
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
-                        <label>Ruta de la imagen</label>
-                        <input type="text" name="img" id="imgInput" placeholder="/images/products/mi-producto.jpg"
-                            value="<%= product?.img || '' %>">
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◇</div>
-                    <div class="card-title">Precio</div>
-                </div>
-                <div class="card-body">
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Precio <span class="req">*</span></label>
-                            <div class="input-wrap has-prefix">
-                                <div class="input-prefix">$</div>
-                                <input id="inputPrice" type="number" placeholder="0.00" value="<%= product.price %>">
+                    <div class="card-body <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
+                        <div class="upload-zone <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>"
+                            id="uploadZone">
+                            <img id="imgPreview" src="<%= product?.img || '' %>"
+                                class="imgPreview <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>"
+                                alt="Vista previa de la imagen">
+                            <div id="uploadPlaceholder" class="<%= product?.img ? 'hidden' : '' %>">
+                                <span class="upload-icon">🖼</span>
+                                <div class="upload-text">
+                                    <strong>Ingresá una ruta de imagen</strong>
+                                </div>
+                                <div class="upload-meta">
+                                    Ej: /images/products/mi-producto.jpg
+                                </div>
                             </div>
                         </div>
-                        <div class="field no-margin">
-                            <label>Precio original <span class="hint">— tachado</span></label>
-                            <div class="input-wrap has-prefix">
-                                <div class="input-prefix">$</div>
-                                <input id="inputOriginalPrice" type="number" placeholder="0.00"
-                                    value="<%= product.oldPrice %>">
-                            </div>
+                        <div class="field <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
+                            <label>Ruta de la imagen</label>
+                            <input type="text" name="img" id="imgInput" placeholder="/images/products/mi-producto.jpg"
+                                value="<%= product?.img || '' %>">
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">▽</div>
-                    <div class="card-title">Atributos</div>
-                </div>
-                <div class="card-body">
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Socket</label>
-                            <div class="tags-wrap" id="tagsSocket">
-                                <input class="tag-input" placeholder="Agregar...">
-                            </div>
-                        </div>
-                        <div class="field no-margin">
-                            <label>Núcleos</label>
-                            <div class="tags-wrap" id="tagsNucleos">
-                                <input class="tag-input" placeholder="Agregar...">
-                            </div>
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◇</div>
+                        <div class="card-title">Precio</div>
                     </div>
-                    <div style="height:14px"></div>
-                    <div class="input-row">
-                        <div class="field no-margin">
-                            <label>Hilos</label>
-                            <input id="inputHilos" type="number" placeholder="0">
-                        </div>
-                        <div class="field no-margin">
-                            <label>Frecuencia Turbo</label>
-                            <div class="input-wrap has-suffix">
-                                <input id="inputFreq" type="number" placeholder="0.0">
-                                <div class="input-suffix">GHz</div>
+                    <div class="card-body">
+                        <div class="input-row">
+                            <div class="field no-margin">
+                                <label>Precio <span class="req">*</span></label>
+                                <div class="input-wrap has-prefix">
+                                    <div class="input-prefix">$</div>
+                                    <input id="inputPrice" type="number" placeholder="0.00" value="<%= product.price %>"
+                                        name="price">
+                                </div>
+                            </div>
+                            <div class="field no-margin">
+                                <label>Precio original <span class="hint">— tachado</span></label>
+                                <div class="input-wrap has-prefix">
+                                    <div class="input-prefix">$</div>
+                                    <input id="inputOriginalPrice" type="number" placeholder="0.00"
+                                        value="<%= product.oldPrice %>" name="oldPrice">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">▣</div>
-                    <div class="card-title">Filtros</div>
-                </div>
-                <div class="card-body">
-                    <div class="field">
-                        <label>Tags</label>
-                        <div class="tags-wrap" id="tagsContainer"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">▽</div>
+                        <div class="card-title">Especificaciones</div>
                     </div>
-                    <div class="input-row">
+                    <div class="card-body" id="specsContainer"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">▣</div>
+                        <div class="card-title">Filtros</div>
+                    </div>
+                    <div class="card-body">
                         <div class="field">
-                            <label>Tier</label>
-                            <select id="filterTier">
-                                <option value="" disabled selected>Seleccionar...</option>
-                                <option value="entrada">Entrada</option>
-                                <option value="media">Media</option>
-                                <option value="alta">Alta</option>
-                            </select>
+                            <label>Tags</label>
+                            <div class="tags-wrap" id="tagsContainer"></div>
                         </div>
-                        <div class="field">
-                            <label>Fecha de salida</label>
-                            <input id="inputReleaseDate" type="date" value="<%= product.releaseDate %>">
+                        <div class="input-row">
+                            <div class="field">
+                                <label>Tier</label>
+                                <select id="filterTier" name="tier">
+                                    <option value="" disabled selected>Seleccionar...</option>
+                                    <option value="entrada">Entrada</option>
+                                    <option value="media">Media</option>
+                                    <option value="alta">Alta</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Fecha de salida</label>
+                                <input id="inputReleaseDate" type="date" value="<%= product.releaseDate %>"
+                                    name="releaseDate">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class=" card" style="overflow:visible;border:none;background:none;padding:0">
-                <div class="actions">
-                    <button class="btn btn-primary" id="btnSave" disabled>✦ Guardar cambios</button>
-                    <span class="changes-pill" id="changesPill">
-                        <span class="dot"></span>
-                        <span id="changesCount">0</span> cambio(s) sin guardar
-                    </span>
-                    <button class="btn btn-danger" id="btnDelete">⊘ Eliminar producto</button>
-                    <button class="btn btn-ghost" id="btnDiscard">Descartar</button>
-                </div>
-            </div>
-        </div>
-        <div class="right-col">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◈</div>
-                    <div class="card-title">Detalles del producto</div>
-                </div>
-                <div class="card-body compact-padding">
-                    <div class="meta-row">
-                        <span class="meta-label">ID</span>
-                        <span class="meta-value id" id="metaId">#<%= product.id %></span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="meta-label">Producto</span>
-                        <span class="meta-value" id="metaCreated">
-                            <%= product.name %>
-                        </span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="meta-label">Estado</span>
-                        <span class="meta-value ok" id="metaStatus">
-                            <%= product.state %>
-                        </span>
+                <div class="card" style="overflow:visible;border:none;background:none;padding:0">
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary" id="btnSave" disabled>✦ Guardar cambios</button>
+                        <button type="button" class="btn btn-danger" id="btnDelete">
+                            ⊘ Eliminar producto
+                        </button>
+                        <button type="button" class="btn btn-ghost" id="btnDiscard">Descartar</button>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">◌</div>
-                    <div class="card-title">Opciones</div>
-                </div>
-                <div class="card-body compact-padding">
-                    <div class="toggle-row">
-                        <div class="toggle-info">
-                            <div class="toggle-label">Destacado</div>
-                            <div class="toggle-desc">Aparece en la página de inicio</div>
+            </section>
+            <section class="right-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◈</div>
+                        <div class="card-title">Detalles del producto</div>
+                    </div>
+                    <div class="card-body compact-padding">
+                        <div class="meta-row">
+                            <span class="meta-label">ID</span>
+                            <span class="meta-value id" id="metaId">#<%= product.id %></span>
                         </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="togFeatured">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="toggle-row">
-                        <div class="toggle-info">
-                            <div class="toggle-label">En oferta</div>
-                            <div class="toggle-desc">Muestra badge de descuento</div>
+                        <div class="meta-row">
+                            <span class="meta-label">Producto</span>
+                            <span class="meta-value" id="metaCreated">
+                                <%= product.name %>
+                            </span>
                         </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="togSale">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="toggle-row">
-                        <div class="toggle-info">
-                            <div class="toggle-label">Publicado</div>
-                            <div class="toggle-desc">Disponible para clientes</div>
+                        <div class="meta-row">
+                            <span class="meta-label">Estado</span>
+                            <span class="meta-value ok" id="metaStatus">
+                                <%= product.state %>
+                            </span>
                         </div>
-                        <label class="toggle">
-                            <input type="checkbox" id="togPublic" name="onPublic" value="true">
-                            <span class="toggle-slider"></span>
-                        </label>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">◌</div>
+                        <div class="card-title">Opciones</div>
+                    </div>
+                    <div class="card-body compact-padding">
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Destacado</div>
+                                <div class="toggle-desc">Aparece en la página de inicio</div>
+                            </div>
+                            <label class="toggle">
+                                <input name="featured" type="checkbox" id="togFeatured">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-label">En oferta</div>
+                                <div class="toggle-desc">Muestra badge de descuento</div>
+                            </div>
+                            <label class="toggle">
+                                <input name="onSale" type="checkbox" id="togSale">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Publicado</div>
+                                <div class="toggle-desc">Disponible para clientes</div>
+                            </div>
+                            <label class="toggle">
+                                <input name="onPublic" type="checkbox" id="togPublic" value="true">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
     <%- include("../partials/global/scripts", { js: "editProducts" }) %>
         </body>
 

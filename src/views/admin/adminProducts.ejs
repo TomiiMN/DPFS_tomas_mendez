@@ -1,14 +1,16 @@
 <%- include("../partials/global/head", { title: "Admin" , css: "adminProductsStyle" }) %>
-    <script>
-        window.productsData = <%- JSON.stringify(products) %>;
+    <script id="data" type="application/json">
+        <%- JSON.stringify({
+        products
+    }) %>
     </script>
     <div class="page-header">
         <div>
-            <div class="breadcrumb"><a href="#">Admin</a> / Products</div>
+            <div class="breadcrumb"><a href="/">Home</a> / <a href="#">Admin</a> / Products</div>
             <div class="page-title">Productos</div>
         </div>
         <div class="header-actions">
-            <a href="/admin/create-product" class="btn btn-primary">✦ Nuevo producto</a>
+            <a href="/admin/products/create-product" class="btn btn-primary">✦ Nuevo producto</a>
         </div>
     </div>
     <div class="stats-row" id="statsRow">
@@ -95,6 +97,6 @@
         <div class="page-btns" id="pageBtns"></div>
     </div>
     <%- include("../partials/global/scripts", { js: "adminProducts" }) %>
-    </body>
+        </body>
 
-    </html>
+        </html>

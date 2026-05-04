@@ -1,0 +1,492 @@
+/* ================================================
+   userProfileStyle.css — Perfil de usuario
+   TechBox Marketplace
+   ================================================ */
+
+/* ---- Layout principal ---- */
+
+.profile-main {
+    margin-top: 100px;
+    min-height: calc(100vh - 100px);
+    padding: 2em 1em 3em;
+    font-family: var(--description-btn);
+}
+
+.profile-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+/* ---- Sidebar ---- */
+
+.profile-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background-color: #141414;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2em 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+    position: sticky;
+    top: 120px;
+}
+
+/* Avatar */
+.profile-avatar-wrapper {
+    position: relative;
+    width: 96px;
+    height: 96px;
+}
+
+.profile-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-primary);
+    display: block;
+}
+
+.profile-avatar-edit-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    border: 2px solid var(--bg-body);
+    color: var(--text-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-avatar-edit-btn:hover {
+    background-color: var(--hover-primary);
+    transform: scale(1.1);
+}
+
+/* Info en sidebar */
+.profile-sidebar-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.profile-fullname {
+    font-family: var(--titles-prices);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin: 0;
+}
+
+.profile-badge {
+    font-family: var(--description-btn);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 99px;
+}
+
+.badge-admin {
+    background-color: var(--light-primary);
+    color: var(--color-primary);
+    border: 1px solid rgba(143, 0, 255, 0.3);
+}
+
+.badge-customer {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: var(--green);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+/* Navegación sidebar */
+.profile-sidebar-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    border-top: 1px solid var(--border);
+    padding-top: 1.2em;
+}
+
+.profile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    padding: 0.65em 0.9em;
+    border-radius: 10px;
+    font-family: var(--description-btn);
+    font-size: 0.9rem;
+    color: var(--text-white-secondary);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.profile-nav-item:hover {
+    background-color: var(--light-primary);
+    color: var(--color-primary);
+}
+
+.profile-nav-item.active {
+    background-color: var(--light-primary);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.profile-nav-item svg {
+    flex-shrink: 0;
+}
+
+.profile-nav-logout {
+    margin-top: 0.5em;
+    color: var(--red2);
+    border-top: 1px solid var(--border);
+    padding-top: 1em;
+    margin-top: 0.5em;
+}
+
+.profile-nav-logout:hover {
+    background-color: var(--red2-bg);
+    color: var(--red);
+}
+
+/* ---- Contenido principal ---- */
+
+.profile-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    min-width: 0;
+}
+
+/* Secciones */
+.profile-section {
+    background-color: #141414;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2em;
+}
+
+.profile-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.8em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-section-title {
+    font-family: var(--titles-prices);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin: 0;
+}
+
+/* Botón editar */
+.profile-edit-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: var(--description-btn);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: var(--light-primary);
+    border: 1px solid rgba(143, 0, 255, 0.25);
+    border-radius: 8px;
+    padding: 0.4em 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-edit-btn:hover {
+    background-color: rgba(143, 0, 255, 0.2);
+    transform: scale(1.03);
+}
+
+/* Formulario */
+.profile-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+}
+
+.profile-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.profile-form-group--full {
+    grid-column: span 2;
+}
+
+.profile-label {
+    font-family: var(--description-btn);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-white-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-input {
+    font-family: var(--description-btn);
+    font-size: 0.95rem;
+    color: var(--text-white);
+    background-color: #1a1a1a;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 0.7em 1em;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    width: 100%;
+}
+
+.profile-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background-color: #1e1a26;
+}
+
+.profile-input:disabled {
+    color: var(--muted);
+    cursor: default;
+    background-color: #181818;
+    border-color: var(--border);
+}
+
+.profile-input--readonly {
+    color: var(--muted2) !important;
+    cursor: not-allowed;
+}
+
+/* Input con botón de visibilidad */
+.profile-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-input-wrapper .profile-input {
+    padding-right: 2.8em;
+}
+
+.profile-toggle-password {
+    position: absolute;
+    right: 0.8em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted2);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+    padding: 0;
+}
+
+.profile-toggle-password:hover {
+    color: var(--color-primary);
+}
+
+/* Acciones del formulario */
+.profile-form-actions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+    padding-top: 0.5em;
+    border-top: 1px solid var(--border);
+    margin-top: 0.5em;
+}
+
+.profile-form-actions--visible {
+    display: flex;
+}
+
+.profile-btn-cancel {
+    font-family: var(--description-btn);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 0.6em 1.4em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profile-btn-cancel:hover {
+    border-color: var(--muted);
+    color: var(--text-white);
+}
+
+.profile-btn-save {
+    font-family: var(--description-btn);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-white);
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6em 1.6em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-btn-save:hover {
+    background-color: var(--hover-primary);
+    transform: scale(1.03);
+}
+
+.profile-btn-save:active {
+    background-color: var(--active-primary);
+}
+
+/* ---- Sección pedidos vacíos ---- */
+
+.profile-orders-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    padding: 3em 1em;
+    color: var(--muted2);
+    text-align: center;
+}
+
+.profile-orders-empty svg {
+    color: var(--muted2);
+    opacity: 0.5;
+}
+
+.profile-orders-empty p {
+    font-family: var(--description-btn);
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+.profile-orders-cta {
+    display: inline-block;
+    font-family: var(--description-btn);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-white);
+    background-color: var(--color-primary);
+    text-decoration: none;
+    padding: 0.6em 1.6em;
+    border-radius: 8px;
+    margin-top: 0.5em;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-orders-cta:hover {
+    background-color: var(--hover-primary);
+    transform: scale(1.03);
+}
+
+/* ================================================
+   Responsive
+   ================================================ */
+
+@media (max-width: 900px) {
+    .profile-container {
+        flex-direction: column;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1em;
+        padding: 1.5em;
+    }
+
+    .profile-sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-top: none;
+        padding-top: 0;
+        border-left: 1px solid var(--border);
+        padding-left: 1em;
+    }
+
+    .profile-nav-logout {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+        border-left: 1px solid var(--border2);
+        padding-left: 0.5em;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-main {
+        padding: 1em 0.75em 2em;
+    }
+
+    .profile-form {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-form-group--full {
+        grid-column: span 1;
+    }
+
+    .profile-form-actions {
+        grid-column: span 1;
+        flex-direction: column;
+    }
+
+    .profile-btn-cancel,
+    .profile-btn-save {
+        width: 100%;
+        text-align: center;
+    }
+
+    .profile-section {
+        padding: 1.5em 1em;
+    }
+
+    .profile-sidebar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-sidebar-nav {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid var(--border);
+        padding-top: 1em;
+        width: 100%;
+    }
+
+    .profile-nav-logout {
+        border-left: none;
+        padding-left: 0;
+    }
+}
