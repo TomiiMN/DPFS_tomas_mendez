@@ -6,4 +6,7 @@ const readData = () => {
 };
 module.exports = {
     getAll: () => readData(),
+    getById: (id) => {
+        return readData().find(p => p.id == id)
+    }
 }

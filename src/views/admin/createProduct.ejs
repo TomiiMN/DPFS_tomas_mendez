@@ -10,13 +10,11 @@
     </script>
     <div class="page-header">
         <div>
-            <div class="breadcrumb">
-                <a href="#">Admin</a> / <a href="/admin/products">Products</a> / Nuevo producto
-            </div>
+            <div class="breadcrumb"><a href="/">Home</a> / <a href="#">Admin</a> / <a href="/admin/products">Products</a> / Nuevo producto</div>
             <div class="page-title">Nuevo producto</div>
         </div>
     </div>
-    <form action="/products" method="post">
+    <form action="/admin/products" method="post">
         <div class="layout">
             <div style="display:flex;flex-direction:column;gap:14px;">
                 <div class="card">
@@ -127,9 +125,8 @@
                     <div class="card-body">
                         <div class="field">
                             <label>Tags</label>
-                            <div class="tags-wrap" id="tagsContainer">
-                                <input type="hidden" name="tags" id="tagsInput">
-                            </div>
+                            <div class="tags-wrap" id="tagsContainer"></div>
+                            <input type="hidden" name="tags" id="tagsInput">
                         </div>
                         <div class="input-row">
                             <div class="field">

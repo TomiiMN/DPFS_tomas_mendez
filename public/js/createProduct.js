@@ -44,7 +44,6 @@ function initCategories(categories) {
     });
 }
 function loadSubcategories(parentId, selectedSubId = null) {
-    subcategorySelect.innerHTML = '<option value="" disabled selected>Seleccionar...</option>';
     const subs = categories.filter(c => c.parent_id == parentId);
     if (subs.length === 0) {
         subcategorySelect.disabled = true;
@@ -150,8 +149,7 @@ function renderTags() {
             const value = input.value.trim().toLowerCase();
             if (!value) return;
             if (!availableTags.includes(value)) {
-                alert("Tag no valida");
-                return;
+                console.warn("Tag nueva:", value);
             }
             if (!selectedTags.includes(value)) {
                 selectedTags.push(value);

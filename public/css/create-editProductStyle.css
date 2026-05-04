@@ -669,32 +669,6 @@ select {
     color: var(--color-primary);
 }
 
-/* ─── CHANGES COUNTER ─── */
-.changes-pill {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    background: var(--light-primary);
-    border: 1px solid rgba(143, 0, 255, 0.25);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--color-primary);
-    font-family: var(--description-btn);
-}
-
-.changes-pill.visible {
-    display: inline-flex;
-}
-
-.changes-pill .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-}
-
 /* ─── RIGHT COLUMN ─── */
 .right-col {
     display: flex;

@@ -16,7 +16,7 @@ module.exports = {
         res.render("products/productDetail", { product })
     },
     cart: (req, res) => {
-        const products = productModel.getAll();
+        const products = productsModel.getAll();
         const ids = [2, 4, 6];
         const cartProducts = products.filter(product => ids.includes(product.id));
         const total = cartProducts.reduce((acc, product) => acc + product.price, 0)

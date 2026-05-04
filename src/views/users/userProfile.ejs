@@ -1,0 +1,218 @@
+<%- include("../partials/global/head", { title: "Perfil" , css: "userProfileStyle" }) %>
+<%- include("../partials/global/header", { showNav: false }) %>
+
+<main class="profile-main">
+    <div class="profile-container">
+        <aside class="profile-sidebar">
+            <div class="profile-avatar-wrapper">
+                <% if (user.avatar && user.avatar.trim() !== '') { %>
+                    <img src="<%= user.avatar %>" alt="Avatar de <%= user.firstName %>" class="profile-avatar">
+                <% } else { %>
+                    <img src="/images/avatars/avatar-man-1.png" alt="Avatar por defecto" class="profile-avatar">
+                <% } %>
+                <button class="profile-avatar-edit-btn" title="Cambiar foto">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="profile-sidebar-info">
+                <h2 class="profile-fullname"><%= user.firstName %> <%= user.lastName %></h2>
+                <span class="profile-badge <%= user.type === 'Admin' ? 'badge-admin' : 'badge-customer' %>">
+                    <%= user.type === 'Admin' ? 'Administrador' : 'Cliente' %>
+                </span>
+            </div>
+
+            <nav class="profile-sidebar-nav">
+                <a href="#info" class="profile-nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Información personal
+                </a>
+                <a href="#security" class="profile-nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    Seguridad
+                </a>
+                <a href="/users/logout" class="profile-nav-item profile-nav-logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Cerrar sesión
+                </a>
+            </nav>
+        </aside>
+        <div class="profile-content">
+            <section class="profile-section" id="info">
+                <div class="profile-section-header">
+                    <h3 class="profile-section-title">Información personal</h3>
+                    <button class="profile-edit-btn" id="editInfoBtn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Editar
+                    </button>
+                </div>
+
+                <form class="profile-form" id="infoForm">
+                    <div class="profile-form-group">
+                        <label class="profile-label">Nombre</label>
+                        <input
+                            type="text"
+                            class="profile-input"
+                            value="<%= user.firstName %>"
+                            name="firstName"
+                            disabled
+                        >
+                    </div>
+                    <div class="profile-form-group">
+                        <label class="profile-label">Apellido</label>
+                        <input
+                            type="text"
+                            class="profile-input"
+                            value="<%= user.lastName %>"
+                            name="lastName"
+                            disabled
+                        >
+                    </div>
+                    <div class="profile-form-group">
+                        <label class="profile-label">Correo electrónico</label>
+                        <input
+                            type="email"
+                            class="profile-input"
+                            value="<%= user.email %>"
+                            name="email"
+                            disabled
+                        >
+                    </div>
+                    <div class="profile-form-group">
+                        <label class="profile-label">Nombre de usuario</label>
+                        <input
+                            type="text"
+                            class="profile-input"
+                            value="<%= user.username %>"
+                            name="username"
+                            disabled
+                        >
+                    </div>
+                    <div class="profile-form-actions" id="infoActions" style="display: none;">
+                        <button type="button" class="profile-btn-cancel" id="cancelInfoBtn">Cancelar</button>
+                        <button type="submit" class="profile-btn-save">Guardar cambios</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Sección: Seguridad -->
+            <section class="profile-section" id="security">
+                <div class="profile-section-header">
+                    <h3 class="profile-section-title">Seguridad</h3>
+                </div>
+
+                <form class="profile-form" id="securityForm">
+                    <div class="profile-form-group profile-form-group--full">
+                        <label class="profile-label">Contraseña actual</label>
+                        <div class="profile-input-wrapper">
+                            <input
+                                type="password"
+                                class="profile-input"
+                                value="<%= user.password %>"
+                                name="currentPassword"
+                                placeholder="Ingresá tu contraseña actual"
+                            >
+                            <button type="button" class="profile-toggle-password" title="Mostrar/ocultar contraseña">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="profile-form-group">
+                        <label class="profile-label">Nueva contraseña</label>
+                        <div class="profile-input-wrapper">
+                            <input
+                                type="password"
+                                class="profile-input"
+                                name="newPassword"
+                                placeholder="Nueva contraseña"
+                            >
+                            <button type="button" class="profile-toggle-password" title="Mostrar/ocultar contraseña">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="profile-form-group">
+                        <label class="profile-label">Confirmar contraseña</label>
+                        <div class="profile-input-wrapper">
+                            <input
+                                type="password"
+                                class="profile-input"
+                                name="confirmPassword"
+                                placeholder="Repetí la nueva contraseña"
+                            >
+                            <button type="button" class="profile-toggle-password" title="Mostrar/ocultar contraseña">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="profile-form-actions profile-form-actions--visible">
+                        <button type="submit" class="profile-btn-save">Actualizar contraseña</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</main>
+
+<%- include("../partials/global/footer") %>
+
+<script>
+    const editInfoBtn = document.getElementById('editInfoBtn');
+    const cancelInfoBtn = document.getElementById('cancelInfoBtn');
+    const infoForm = document.getElementById('infoForm');
+    const infoActions = document.getElementById('infoActions');
+    editInfoBtn.addEventListener('click', () => {
+        const inputs = infoForm.querySelectorAll('input:not([readonly])');
+        inputs.forEach(input => input.disabled = false);
+        infoActions.style.display = 'flex';
+        editInfoBtn.style.display = 'none';
+    });
+    cancelInfoBtn.addEventListener('click', () => {
+        const inputs = infoForm.querySelectorAll('input');
+        inputs.forEach(input => input.disabled = true);
+        infoActions.style.display = 'none';
+        editInfoBtn.style.display = 'flex';
+    });
+    document.querySelectorAll('.profile-toggle-password').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const input = btn.previousElementSibling;
+            input.type = input.type === 'password' ? 'text' : 'password';
+        });
+    });
+    const navItems = document.querySelectorAll('.profile-nav-item:not(.profile-nav-logout)');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>

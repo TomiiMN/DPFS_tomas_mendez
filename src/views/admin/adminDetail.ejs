@@ -1,30 +1,28 @@
 <%- include("../partials/global/head", { title: "Admin - Detail" , css: "adminDetailStyle" }) %>
     <main>
-        <div class="breadcrumb">
-            <a href="#">Admin</a>
-            <span>/</span>
-            <a href="/admin/products">Products</a>
-            <span>/</span>
-            <span>
-                <%= product.name %>
-            </span>
+        <div class="breadcrumb"><a href="/">Home</a>/<a href="#">Admin</a>/<a href="/admin/products">Products</a>/<span><%= product.name %></span>
         </div>
 
-        <div class="page-header">
+        <header class="page-header">
             <h1 class="page-title">Detalle del producto</h1>
             <div class="header-actions">
-                <button class="btn btn-danger">Eliminar</button>
+                <form action="/admin/products/<%= product.id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button class="btn btn-danger"
+                        onclick="return confirm('¿Seguro que querés eliminar este producto?')">
+                        Eliminar
+                    </button>
+                </form>
                 <div class="mode-toggle">
                     <button class="mode-btn active">✦ Detalle</button>
-                    <a href="/admin/<%= product.id %>/edit" class="mode-btn">Editar</a>
+                    <a href="/admin/products/<%= product.id %>/edit" class="mode-btn">Editar</a>
                 </div>
             </div>
-        </div>
+        </header>
 
         <div class="layout">
 
             <!-- LEFT COLUMN -->
-            <div class="left-column">
+            <section class="left-column">
 
                 <!-- Información básica -->
                 <div class="card">
@@ -177,10 +175,10 @@
                     </table>
                 </div>
 
-            </div>
+            </section>
 
             <!-- RIGHT COLUMN -->
-            <div>
+            <section>
 
                 <!-- Imagen -->
                 <div class="card">
@@ -234,7 +232,7 @@
                     </div>
                 </div>
 
-            </div>
+            </section>
         </div>
     </main>
 

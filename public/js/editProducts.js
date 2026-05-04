@@ -16,10 +16,64 @@ const tagsData = data.tags || [];
 const productTags = data.productTags || [];
 let selectedTags = [...productTags];
 const availableTags = tagsData.map((t) => t.name);
-
+const specsLabels = data.specsLabels || {};
+const specsConfig = data.specsConfig || {};
 const categorySelect = document.getElementById("categorySelect");
 const subcategorySelect = document.getElementById("subcategorySelect");
 const brandSelect = document.getElementById("brandSelect");
+const specsContainer = document.getElementById("specsContainer");
+const tagsInput = document.getElementById("tagsInput");
+// Detectar cambios dentro del formulario para habilitar el botón de guardar
+const form = document.getElementById("editProductForm");
+const btnSave = document.getElementById("btnSave");
+function getFormData() {
+  return {
+    name: document.getElementById("inputName").value.trim(),
+    brand: document.getElementById("brandSelect").value.trim(),
+    model: document.getElementById("inputModel").value.trim(),
+    category: document.getElementById("categorySelect").value,
+    subcategory: document.getElementById("subcategorySelect").value,
+    img: document.getElementById("imgInput").value.trim(),
+    price: document.getElementById("inputPrice").value.trim(),
+    oldPrice: document.getElementById("inputOriginalPrice").value.trim(),
+    releaseDate: document.getElementById("inputReleaseDate").value,
+    tier: document.getElementById("filterTier").value,
+    featured: document.getElementById("togFeatured").checked,
+    sale: document.getElementById("togSale").checked,
+    public: document.getElementById("togPublic").checked,
+    tags: [...selectedTags].sort(),
+    specs: getSpecsData(),
+  }
+}
+function getSpecsData() {
+  const specs = {};
+  const inputs = specsContainer.querySelectorAll("[name^='specs']");
+  inputs.forEach(input => {
+    const match = input.name.match(/specs\[(.*?)\]/);
+    if (!match) return;
+    const key = match[1];
+    let value = input.value;
+    if (value === "true") value = true;
+    else if (value === "false") value = false;
+    specs[key] = value;
+  });
+  return specs;
+}
+let initialData;
+function checkChanges() {
+  const currentData = JSON.stringify(getFormData());
+  if (currentData !== initialData) {
+    btnSave.disabled = false;
+  } else {
+    btnSave.disabled = true;
+  }
+}
+form.addEventListener("input", checkChanges);
+form.addEventListener("change", checkChanges);
+// hiddenInputs
+function updateHiddenInputs() {
+  tagsInput.value = JSON.stringify(selectedTags);
+}
 // Categorias y subcategorías
 let categories = [];
 subcategorySelect.disabled = true;
@@ -55,6 +109,10 @@ function loadSubcategories(parentId, selectedSubId = null) {
     if (selectedSubId && sub.id == selectedSubId) opt.selected = true;
     subcategorySelect.appendChild(opt);
   });
+  const selectedId = subcategorySelect.value;
+  if (selectedId) {
+    renderSpecs(Number(selectedId), product.specs || {});
+  }
 }
 categorySelect.addEventListener("change", () => {
   loadSubcategories(categorySelect.value);
@@ -105,6 +163,8 @@ function renderTags() {
       }
       input.value = "";
       renderTags();
+      updateHiddenInputs();
+      checkChanges();
     }
   });
   input.addEventListener("input", () => {
@@ -136,6 +196,8 @@ function renderDropdown(suggestions, dropdown, input) {
       input.value = "";
       dropdown.style.display = "none";
       renderTags();
+      updateHiddenInputs();
+      checkChanges();
     });
     dropdown.appendChild(option);
   });
@@ -146,8 +208,9 @@ document.addEventListener("click", (e) => {
   if (!e.target.classList.contains("tag-remove")) return;
   const tag = e.target.dataset.tag;
   selectedTags = selectedTags.filter((t) => t !== tag);
-
   renderTags();
+  updateHiddenInputs();
+  checkChanges();
 });
 
 document.addEventListener("click", (e) => {
@@ -171,7 +234,122 @@ input.addEventListener("input", function () {
     placeholder.style.display = "block";
   }
 });
+// Specs
+function renderSpecs(subcategoryId, values = {}) {
+  if (!specsContainer) return;
+  if (!subcategoryId) {
+    showSpecsMessage("Seleccioná una subcategoría para ver las especificaciones");
+    return;
+  }
+  const config = specsConfig[subcategoryId];
+  if (!config) {
+    showSpecsMessage("Esta subcategoría no tiene especificaciones configuradas");
+    return;
+  }
+  specsContainer.innerHTML = "";
+  let row = null;
+  Object.entries(config).forEach(([key, type]) => {
+    if (type === "boolean") {
+      if (!row || row.children.length === 2) {
+        if (row) {
+          const spacer = document.createElement("div");
+          spacer.style.height = "14px";
+          specsContainer.appendChild(spacer);
+        }
+        row = document.createElement("div");
+        row.className = "input-row";
+        specsContainer.appendChild(row);
+      }
+      const field = document.createElement("div");
+      field.className = "field no-margin";
+      const label = document.createElement("label");
+      label.textContent = specsLabels[key] || key;
+      const select = document.createElement("select");
+      select.name = `specs[${key}]`;
+      const optionYes = document.createElement("option");
+      optionYes.value = "true";
+      optionYes.textContent = "Sí";
+      const optionNo = document.createElement("option");
+      optionNo.value = "false";
+      optionNo.textContent = "No";
+      const currentValue = values[key];
+      if (currentValue === true || currentValue === "true") {
+        optionYes.selected = true;
+      } else {
+        optionNo.selected = true;
+      }
+      select.appendChild(optionYes);
+      select.appendChild(optionNo);
+      field.appendChild(label);
+      field.appendChild(select);
+      row.appendChild(field);
+      return;
+    }
+    if (!row || row.children.length === 2) {
+      if (row) {
+        const spacer = document.createElement("div");
+        spacer.style.height = "14px";
+        specsContainer.appendChild(spacer);
+      }
+      row = document.createElement("div");
+      row.className = "input-row";
+      specsContainer.appendChild(row);
+    }
+    const field = document.createElement("div");
+    field.className = "field no-margin";
+    const label = document.createElement("label");
+    label.textContent = specsLabels[key] || key;
+    const input = document.createElement("input");
+    input.type = type === "number" ? "number" : "text";
+    input.value = values[key] || "";
+    input.name = `specs[${key}]`;
+    field.appendChild(label);
+    field.appendChild(input);
+    row.appendChild(field);
+  });
+}
+let currentSpecs = {};
+function showSpecsMessage(message) {
+  specsContainer.innerHTML = "";
 
+  const msg = document.createElement("p");
+  msg.className = "specs-message";
+  msg.textContent = message;
+
+  specsContainer.appendChild(msg);
+}
+subcategorySelect.addEventListener("change", () => {
+  const value = subcategorySelect.value;
+  if (!value) return;
+  currentSpecs = getSpecsData();
+  renderSpecs(Number(value), currentSpecs);
+});
+// Button delete
+const btnDelete = document.getElementById("btnDelete");
+btnDelete.addEventListener("click", () => {
+  const confirmDelete = confirm("¿Seguro que querés eliminar este producto?");
+  if (!confirmDelete) return;
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = `/admin/products/${product.id}?_method=DELETE`;
+  document.body.appendChild(form);
+  form.submit();
+});
+// Button descartar
+const btnDiscard = document.getElementById("btnDiscard");
+btnDiscard.addEventListener("click", () => {
+  const confirmDiscard = confirm("¿Descartar cambios?");
+  if (!confirmDiscard) return;
+  window.location.href = "/admin/products";
+});
+
+specsContainer.addEventListener("input", () => {
+  updateHiddenInputs();
+  checkChanges();
+});
+form.addEventListener("submit", () => {
+  updateHiddenInputs();
+});
 document.addEventListener("DOMContentLoaded", () => {
   // Renders
   categories = categoriesData || [];
@@ -188,4 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (product.tier) {
     tierSelect.value = product.tier;
   }
+  initialData = JSON.stringify(getFormData());
+  updateHiddenInputs();
+  checkChanges();
 });
