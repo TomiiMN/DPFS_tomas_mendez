@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "../../data/users.json")
@@ -13,10 +14,9 @@ module.exports = {
         return readData().find(p => p.id == id)
     },
     create: (newUser) => {
-        const users = readData();
-        const newId = users.length ? users.at(-1).id + 1 : 1;
+        let users = readData();
         const userWithId = {
-            id: newId,
+            id: uuidv4(),
             ...newUser
         };
         users.push(userWithId);
@@ -25,7 +25,7 @@ module.exports = {
     update: (id, updatedData) => {
         let users = readData();
         users = users.map(p =>
-            p.id == id ? { ...p, ...updatedData, id: Number(id) } : p
+            p.id == id ? { ...p, ...updatedData } : p
         )
         writeData(users);
     },

@@ -11,21 +11,46 @@ const userController = {
         const user = usersModel.getById(id);
         if (!user) {
             return res.send("Usuario no encontrado");
-        }
+        };
         res.render("users/userProfile", { user });
     },
     create: (req, res) => {
         const { email, username, firstname, lastname, password, confirmPassword } = req.body;
+        const users = usersModel.getAll();
+        // Comprobacion inputs no estan vacios
+        if (!email || !username || !firstname || !lastname || !password) {
+            return res.send("Todos los campos son obligatorios");
+        }
+        // Comprobacion email valido
+        if (
+            !email.includes("@gmail.com") &&
+            !email.includes("@hotmail.com") &&
+            !email.includes("@yahoo.com")
+        ) {
+            return res.send("Email inválido");
+        }
+        // Validacion de coincidencia con contraseña de confirmacion
         if (password !== confirmPassword) {
             return res.send("Las contraseñas no coinciden");
         }
+        if (users.find(u => u.email === email)) {
+            return res.send("El email ya está registrado");
+        }
+        if (users.find(u => u.username === username)) {
+            return res.send("El nombre de usuario ya existe");
+        }
+        let avatarPath = "/images/avatars/default.png";
+        if (req.file) {
+            avatarPath = `/images/avatars/${req.file.filename}`;
+        }
         const newUser = {
-            email,
-            username,
             firstname,
             lastname,
+            email,
             password,
-            confirmPassword
+            username,
+            type: "Customer",
+            avatar: avatarPath
         };
         usersModel.create(newUser);
         res.redirect("/users/login");

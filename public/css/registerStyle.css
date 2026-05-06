@@ -84,28 +84,45 @@ main {
     border-bottom: 1px solid rgba(0, 0, 0, 0.8);
 }
 
-.password-group {
-    position: relative;
+.file-input {
+    grid-column: span 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.file-label {
     display: flex;
     align-items: center;
-    width: 90%;
-}
-
-.password-group input {
-    width: 100%;
-    padding-right: 40px;
-}
-
-.password-toggle {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
+    justify-content: center;
+    font-family: var(--description-btn);
+    font-size: 14px;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px dashed var(--color-primary);
+    border-radius: 8px;
+    padding: 10px;
     cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.file-label:hover {
+    font-weight: 600;
+    transform: scale(1.03);
+    background-color: var(--hover-primary);
+    color: var(--text-white);
+    border: 1px dashed transparent;
+}
+
+.file-name {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
 }
 
 .registration__buttonSubmit {
-    font-family: "Inter", sans-serif;
+    font-family: var(--description-btn);
     font-weight: 600;
     font-size: 16px;
     color: var(--text-white);
@@ -119,7 +136,8 @@ main {
 }
 
 .registration__buttonSubmit:hover {
-    transform: scale(1.02, 1.02);
+    transform: scale(1.03);
+    background-color: var(--hover-primary);
 }
 
 #link-p {
@@ -175,7 +193,6 @@ main {
     }
 
     .container {
-        height: 460px;
         padding-inline: 2em;
     }
 
@@ -188,7 +205,8 @@ main {
         row-gap: 3em;
     }
 
-    .registration__input, .password-group {
+    .registration__input,
+    .password-group {
         width: 100%;
     }
 
