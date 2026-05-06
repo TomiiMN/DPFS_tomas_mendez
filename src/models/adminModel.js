@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "../../data/products.json")
@@ -14,9 +15,8 @@ module.exports = {
     },
     create: (newProduct) => {
         const products = readData();
-        const newId = products.length ? products.at(-1).id + 1 : 1;
         const productWithId = {
-            id: newId,
+            id: uuidv4(),
             ...newProduct
         };
         products.push(productWithId);

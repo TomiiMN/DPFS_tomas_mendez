@@ -288,7 +288,6 @@ function renderSpecs(subcategoryId, values = {}) {
         field.appendChild(input);
         row.appendChild(field);
     });
-    console.log("Renderizando specs para:", subcategoryId);
 }
 function showSpecsMessage(message) {
     specsContainer.innerHTML = "";

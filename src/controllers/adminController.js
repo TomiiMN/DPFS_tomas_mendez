@@ -69,9 +69,6 @@ const adminController = {
         const category = categoriesModel.getById(Number(data.category_id));
         const subcategory = categoriesModel.getById(Number(data.subcategory_id));
         const brand = brandsModel.getById(Number(data.brand_id));
-        console.log("TAGS:", data.tags);
-        console.log("SPECS:", data.specs);
-        console.log("TYPE SPECS:", typeof data.specs);
         const updatedProduct = {
             name: data.name,
             brand: brand.name,
