@@ -1,12 +1,13 @@
 <%- include("../partials/global/head", { title: "Perfil" , css: "userProfileStyle" }) %>
 <%- include("../partials/global/header", { showNav: false }) %>
+<%- include("../partials/global/alerts") %>
 
 <main class="profile-main">
     <div class="profile-container">
         <aside class="profile-sidebar">
             <div class="profile-avatar-wrapper">
                 <% if (user.avatar && user.avatar.trim() !== '') { %>
-                    <img src="<%= user.avatar %>" alt="Avatar de <%= user.firstName %>" class="profile-avatar">
+                    <img src="<%= user.avatar %>" alt="Avatar de <%= user.firstname %>" class="profile-avatar">
                 <% } else { %>
                     <img src="/images/avatars/avatar-man-1.png" alt="Avatar por defecto" class="profile-avatar">
                 <% } %>
@@ -19,7 +20,7 @@
             </div>
 
             <div class="profile-sidebar-info">
-                <h2 class="profile-fullname"><%= user.firstName %> <%= user.lastName %></h2>
+                <h2 class="profile-fullname"><%= user.firstname %> <%= user.lastname %></h2>
                 <span class="profile-badge <%= user.type === 'Admin' ? 'badge-admin' : 'badge-customer' %>">
                     <%= user.type === 'Admin' ? 'Administrador' : 'Cliente' %>
                 </span>
@@ -63,14 +64,14 @@
                     </button>
                 </div>
 
-                <form class="profile-form" id="infoForm">
+                <form class="profile-form" id="infoForm" method="POST" action="/users/update-info/<%= user.id %>">
                     <div class="profile-form-group">
                         <label class="profile-label">Nombre</label>
                         <input
                             type="text"
                             class="profile-input"
-                            value="<%= user.firstname %>"
-                            name="firstName"
+                            value="<%= oldData?.firstname || user.firstname %>"
+                            name="firstname"
                             disabled
                         >
                     </div>
@@ -79,8 +80,8 @@
                         <input
                             type="text"
                             class="profile-input"
-                            value="<%= user.lastname %>"
-                            name="lastName"
+                            value="<%= oldData?.lastname || user.lastname %>"
+                            name="lastname"
                             disabled
                         >
                     </div>
@@ -89,7 +90,7 @@
                         <input
                             type="email"
                             class="profile-input"
-                            value="<%= user.email %>"
+                            value="<%= oldData?.email || user.email %>"
                             name="email"
                             disabled
                         >
@@ -99,7 +100,7 @@
                         <input
                             type="text"
                             class="profile-input"
-                            value="<%= user.username %>"
+                            value="<%= oldData?.username || user.username %>"
                             name="username"
                             disabled
                         >
@@ -110,21 +111,19 @@
                     </div>
                 </form>
             </section>
-
-            <!-- Sección: Seguridad -->
             <section class="profile-section" id="security">
                 <div class="profile-section-header">
                     <h3 class="profile-section-title">Seguridad</h3>
                 </div>
 
-                <form class="profile-form" id="securityForm">
+                <form class="profile-form" id="securityForm" method="POST" action="/users/update-password/<%= user.id %>">
                     <div class="profile-form-group profile-form-group--full">
                         <label class="profile-label">Contraseña actual</label>
                         <div class="profile-input-wrapper">
                             <input
                                 type="password"
                                 class="profile-input"
-                                value="<%= user.password %>"
+                                value="<%= oldData?.currentPassword || '' %>"
                                 name="currentPassword"
                                 placeholder="Ingresá tu contraseña actual"
                             >

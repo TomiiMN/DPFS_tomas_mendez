@@ -15,7 +15,7 @@ const adminController = {
         const categories = categoriesModel.getAll();
         const brands = brandsModel.getAll();
         const tags = tagsModel.getAll();
-        res.render("admin/createProduct", { categories, brands, tags, specsLabels, specsConfig });
+        res.render("admin/createProduct", { categories, brands, tags, specsLabels, specsConfig, oldData: {} });
     },
     detail: (req, res) => {
         const product = adminModel.getById(req.params.id)
@@ -26,7 +26,7 @@ const adminController = {
         const tags = tagsModel.getAll();
         const categories = categoriesModel.getAll();
         const brands = brandsModel.getAll();
-        res.render("admin/editProduct", { product, categories, brands, tags, specsLabels, specsConfig });
+        res.render("admin/editProduct", { product, categories, brands, tags, specsLabels, specsConfig, oldData: {} });
     },
     store: (req, res) => {
         const data = req.body;

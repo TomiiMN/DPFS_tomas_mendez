@@ -10,6 +10,7 @@
         specsConfig
     }) %>
     </script>
+    <%- include("../partials/global/alerts") %>
     <header class="page-header">
         <div>
             <div class="breadcrumb">
@@ -40,7 +41,7 @@
                         <div class="field">
                             <label>Nombre del producto <span class="req">*</span></label>
                             <input id="inputName" name="name" type="text"
-                                placeholder="Ej. Procesador AMD Ryzen 5 5600GT" value="<%= product.name %>">
+                                placeholder="Ej. Procesador AMD Ryzen 5 5600GT" value="<%= oldData?.name || product.name %>">
                             <div class="field-meta">
                                 <span class="field-hint">Sé descriptivo y específico</span>
                                 <span class="char-count" id="countName">0 / 120</span>
@@ -56,7 +57,7 @@
                             <div class="field no-margin">
                                 <label>Modelo</label>
                                 <input id="inputModel" type="text" placeholder="Ej. Ryzen 5 5600GT"
-                                    value="<%= product.model %>" name="model">
+                                    value="<%= oldData?.model || product.model %>" name="model">
                             </div>
                         </div>
                         <div class="input-row">
@@ -100,7 +101,7 @@
                         <div class="field <%= product?.img && product.img.trim() !== '' ? 'has-image' : '' %>">
                             <label>Ruta de la imagen</label>
                             <input type="text" name="img" id="imgInput" placeholder="/images/products/mi-producto.jpg"
-                                value="<%= product?.img || '' %>">
+                                value="<%= oldData?.img || product?.img || '' %>">
                         </div>
                     </div>
                 </div>
@@ -115,7 +116,7 @@
                                 <label>Precio <span class="req">*</span></label>
                                 <div class="input-wrap has-prefix">
                                     <div class="input-prefix">$</div>
-                                    <input id="inputPrice" type="number" placeholder="0.00" value="<%= product.price %>"
+                                    <input id="inputPrice" type="number" placeholder="0.00" value="<%= oldData?.price || product.price %>"
                                         name="price">
                                 </div>
                             </div>
@@ -124,7 +125,7 @@
                                 <div class="input-wrap has-prefix">
                                     <div class="input-prefix">$</div>
                                     <input id="inputOriginalPrice" type="number" placeholder="0.00"
-                                        value="<%= product.oldPrice %>" name="oldPrice">
+                                        value="<%= oldData?.oldPrice || product.oldPrice %>" name="oldPrice">
                                 </div>
                             </div>
                         </div>
@@ -159,7 +160,7 @@
                             </div>
                             <div class="field">
                                 <label>Fecha de salida</label>
-                                <input id="inputReleaseDate" type="date" value="<%= product.releaseDate %>"
+                                <input id="inputReleaseDate" type="date" value="<%= oldData?.releaseDate || product.releaseDate %>"
                                     name="releaseDate">
                             </div>
                         </div>

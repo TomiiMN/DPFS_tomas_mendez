@@ -1,6 +1,6 @@
 <%- include("../partials/global/head", { title: "Register" , css: "registerStyle" }) %>
     <%- include("../partials/global/header", { showNav: false }) %>
-
+    <%- include("../partials/global/alerts") %>
         <main>
             <section class="container">
                 <h2 id="tituloForm">Registro de Usuario</h2>
@@ -8,22 +8,22 @@
                 <form class="registration" id="registerForm" method="POST" action="/users/register"
                     enctype="multipart/form-data">
                     <input class="registration__input" type="email" placeholder="Email*" name="email"
-                        id="email"></input>
+                        id="email" value="<%= oldData?.email || '' %>">
                     <input class="registration__input" type="text" placeholder="Nombre de Usuario*" name="username"
-                        id="username">
+                        id="username" value="<%= oldData?.username || '' %>">
                     <input class="registration__input" type="text" placeholder="Nombre*" name="firstname"
-                        id="firstname">
+                        id="firstname" value="<%= oldData?.firstname || '' %>">
                     <input class="registration__input" type="text" placeholder="Apellido*" name="lastname"
-                        id="lastname">
+                        id="lastname" value="<%= oldData?.lastname || '' %>">
                     <input class="registration__input" type="password" placeholder="Contraseña*" name="password"
-                        id="password">
+                        id="password" value="<%= oldData?.password || '' %>">
                     <input class="registration__input" type="password" placeholder="Confirmar Contraseña*"
-                        name="confirmPassword" id="confirmPassword">
+                        name="confirmPassword" id="confirmPassword" value="<%= oldData?.confirmPassword || '' %>">
                     <div class="file-input">
                         <label for="avatar" class="file-label">
                             <span>Subir imagen de perfil</span>
                         </label>
-                        <input type="file" name="avatar" id="avatar" hidden>
+                        <input type="file" name="avatar" id="avatar" value="<%= oldData?.avatar || '' %>" hidden>
                         <p class="file-name" id="fileName">Ningún archivo seleccionado</p>
                     </div>
                     <button type="submit" class="registration__buttonSubmit">Registrarme</button>
