@@ -7,7 +7,9 @@ router.get("/login", userController.login);
 router.get("/register", userController.register);
 router.get("/profile/:id", userController.profile);
 // CRUD
+router.post("/login", userController.loginProcess);
 router.post("/register", upload.single("avatar"), userController.create);
-router.put("/:id", userController.update);
+router.post("/update-info/:id", userController.updateInfo);
+router.post("/update-password/:id", userController.updatePassword);
 router.delete("/:id", userController.delete);
 module.exports = router;

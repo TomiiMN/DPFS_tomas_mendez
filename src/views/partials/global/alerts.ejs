@@ -1,0 +1,34 @@
+<div class="alert-container">
+
+    <% if (typeof error !=="undefined" ) { %>
+        <div class="alert alert-danger show">
+            <%= error %>
+                <button class="btn-close" onclick="closeAlert(this)">×</button>
+        </div>
+        <% } %>
+
+            <% if (typeof success !=="undefined" ) { %>
+                <div class="alert alert-success show">
+                    <%= success %>
+                        <button class="btn-close" onclick="closeAlert(this)">×</button>
+                </div>
+                <% } %>
+
+                    <% if (typeof warning !=="undefined" ) { %>
+                        <div class="alert alert-warning show">
+                            <%= warning %>
+                                <button class="btn-close" onclick="closeAlert(this)">×</button>
+                        </div>
+                        <% } %>
+
+</div>
+
+<script>
+    function closeAlert(button) {
+        const alert = button.parentElement;
+        alert.classList.remove("show");
+        setTimeout(() => {
+            alert.remove();
+        }, 3000);
+    }
+</script>

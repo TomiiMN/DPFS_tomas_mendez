@@ -1,29 +1,43 @@
 <%- include("../partials/global/head", { title: "Login" , css: "loginStyle" }) %>
     <%- include("../partials/global/header", { showNav: false }) %>
-        <main>
-            <section class="container">
-                <h2 id="tituloForm">Inicio de sesión</h2>
-                <p class="descriptions">Ingresa tus datos para iniciar sesión</p>
-                <form class="login">
-                    <input class="login__input" type="email" placeholder="Email*">
-                    <div class="login__password">
-                        <input class="login__input" type="password" placeholder="Contraseña*">
-                        <p>Olvidaste tu contraseña? Entra <a href="#" class="link-p">aquí</a></p>
-                    </div>
-                    <div class="login__input-remember">
-                        <label class="login__checkbox">
-                            <input type="checkbox" id="remember">
-                            <span class="remember">Recordarme</span>
-                        </label>
-                        <button type="submit" class="buttonSubmit">Iniciar sesión</button>
-                    </div>
-                </form>
-                <p class="descriptions">¿No tienes una cuenta? Registrate <a href="/users/register" class="link-p">aquí</a></p>
-            </section>
-        </main>
+        <%- include("../partials/global/alerts") %>
+            <main>
+                <section class="container">
+                    <h2 id="tituloForm">Inicio de sesión</h2>
+                    <p class="descriptions">Ingresa tus datos para iniciar sesión</p>
+                    <form class="login" action="/users/login" method="POST">
+                        <input class="login__input" type="email" placeholder="Email*" name="email" id="email"
+                            value="<%= oldData?.email || '' %>">
+                        <div class="login__password">
+                            <div class="input-password-wrapper">
+                                <input class="login__input" type="password" name="password" id="password"
+                                    placeholder="Contraseña*">
+                                <button type="button" class="input-toggle-password"
+                                    title="Mostrar/ocultar contraseña">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <p>Olvidaste tu contraseña? Entra <a href="#" class="link-p">aquí</a></p>
+                        </div>
+                        <div class="login__input-remember">
+                            <label class="login__checkbox">
+                                <input type="checkbox" id="remember" name="remember">
+                                <span class="remember">Recordarme</span>
+                            </label>
+                            <button type="submit" class="buttonSubmit">Iniciar sesión</button>
+                        </div>
+                    </form>
+                    <p class="descriptions">¿No tienes una cuenta? Registrate <a href="/users/register"
+                            class="link-p">aquí</a></p>
+                </section>
+            </main>
 
 
-        <%- include("../partials/global/footer") %>
-            </body>
+            <%- include("../partials/global/footer") %>
+                </body>
 
-            </html>
+                </html>

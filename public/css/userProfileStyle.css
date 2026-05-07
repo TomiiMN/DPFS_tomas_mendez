@@ -1,10 +1,3 @@
-/* ================================================
-   userProfileStyle.css — Perfil de usuario
-   TechBox Marketplace
-   ================================================ */
-
-/* ---- Layout principal ---- */
-
 .profile-main {
     margin-top: 100px;
     min-height: calc(100vh - 100px);
@@ -279,7 +272,6 @@
     cursor: not-allowed;
 }
 
-/* Input con botón de visibilidad */
 .profile-input-wrapper {
     position: relative;
     display: flex;

@@ -300,23 +300,13 @@
     "avatar": "/images/avatars/default.png"
   },
   {
-    "id": "e093ebee-3602-4d46-b648-6c445c9940cb",
-    "firstname": "Tomas",
-    "lastname": "Mendez Nacher",
-    "email": "tomas@gmail.com",
-    "password": "123456",
-    "username": "Tomatito",
+    "id": "33c5b2f2-d2e7-422a-a538-4fdfdfaa49a2",
+    "firstname": "Riquelme",
+    "lastname": "Villanueva",
+    "email": "riquelme@gmail.com",
+    "password": "$2b$10$7y9Q/UIQF1utj3qXzbcSFeWjbGclltxzf709AQeWgQkKXUKzQbO4i",
+    "username": "Riquelme",
     "type": "Customer",
-    "avatar": "/images/avatars/1778020457318.png"
-  },
-  {
-    "id": "9e1afbe1-9340-40f9-b473-52480392bbc8",
-    "firstname": "Robert",
-    "lastname": "Pattison",
-    "email": "tomas123456@gmail.com",
-    "password": "123456789",
-    "username": "Tomatito123456",
-    "type": "Customer",
-    "avatar": "/images/avatars/1778020588583.png"
+    "avatar": "/images/avatars/1778088389658.png"
   }
 ]

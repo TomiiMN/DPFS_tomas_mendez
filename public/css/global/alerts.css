@@ -1,0 +1,62 @@
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.alert {
+    min-width: 250px;
+    max-width: 350px;
+    padding: 12px 40px 12px 16px;
+    border-radius: 6px;
+    font-family: var(--description-btn);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: relative;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.alert.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.alert-danger {
+    background-color: var(--text-white);
+    color: var(--red);
+}
+
+.alert-success {
+    background-color: var(--text-white);
+    color: var(--green);
+}
+
+.alert-warning {
+    background-color: var(--text-white);
+    color: var(--amber);
+}
+
+/* Botón cerrar */
+.btn-close {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: inherit;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover */
+.btn-close:hover {
+    opacity: 0.7;
+}

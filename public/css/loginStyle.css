@@ -50,7 +50,7 @@ main {
     font-size: 30px;
 }
 
-.descriptions{
+.descriptions {
     color: var(--color-primary);
 }
 
@@ -83,24 +83,50 @@ main {
     border-bottom: 1px solid rgba(0, 0, 0, 0.8);
 }
 
-.login__password{
+.login__password {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: start;
     gap: 10px;
 }
 
-.login__input-remember{
+.input-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-password-wrapper .login__password {
+    padding-right: 2.8em;
+}
+
+.input-toggle-password {
+    position: absolute;
+    right: 0.8em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted2);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+    padding: 0;
+}
+
+.input-toggle-password:hover {
+    color: var(--color-primary);
+}
+
+.login__input-remember {
     width: 100%;
 }
 
-.login__checkbox{
+.login__checkbox {
     display: flex;
     gap: 5px;
 }
 
-.remember{
+.remember {
     color: #0D0D0D;
     font-family: "Sora", sans-serif;
     font-size: 14px;
@@ -144,7 +170,7 @@ main {
         gap: 20px;
         justify-content: center;
     }
-    
+
     .header__search-form {
         width: 300px;
     }
