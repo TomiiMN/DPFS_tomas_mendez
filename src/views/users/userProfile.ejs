@@ -25,7 +25,6 @@
                     <%= user.type === 'Admin' ? 'Administrador' : 'Cliente' %>
                 </span>
             </div>
-
             <nav class="profile-sidebar-nav">
                 <a href="#info" class="profile-nav-item active">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -63,7 +62,6 @@
                         Editar
                     </button>
                 </div>
-
                 <form class="profile-form" id="infoForm" method="POST" action="/users/update-info/<%= user.id %>">
                     <div class="profile-form-group">
                         <label class="profile-label">Nombre</label>
@@ -115,7 +113,6 @@
                 <div class="profile-section-header">
                     <h3 class="profile-section-title">Seguridad</h3>
                 </div>
-
                 <form class="profile-form" id="securityForm" method="POST" action="/users/update-password/<%= user.id %>">
                     <div class="profile-form-group profile-form-group--full">
                         <label class="profile-label">Contraseña actual</label>
@@ -169,7 +166,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="profile-form-actions profile-form-actions--visible">
                         <button type="submit" class="profile-btn-save">Actualizar contraseña</button>
                     </div>
@@ -178,40 +174,7 @@
         </div>
     </div>
 </main>
-
 <%- include("../partials/global/footer") %>
-
-<script>
-    const editInfoBtn = document.getElementById('editInfoBtn');
-    const cancelInfoBtn = document.getElementById('cancelInfoBtn');
-    const infoForm = document.getElementById('infoForm');
-    const infoActions = document.getElementById('infoActions');
-    editInfoBtn.addEventListener('click', () => {
-        const inputs = infoForm.querySelectorAll('input:not([readonly])');
-        inputs.forEach(input => input.disabled = false);
-        infoActions.style.display = 'flex';
-        editInfoBtn.style.display = 'none';
-    });
-    cancelInfoBtn.addEventListener('click', () => {
-        const inputs = infoForm.querySelectorAll('input');
-        inputs.forEach(input => input.disabled = true);
-        infoActions.style.display = 'none';
-        editInfoBtn.style.display = 'flex';
-    });
-    document.querySelectorAll('.profile-toggle-password').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const input = btn.previousElementSibling;
-            input.type = input.type === 'password' ? 'text' : 'password';
-        });
-    });
-    const navItems = document.querySelectorAll('.profile-nav-item:not(.profile-nav-logout)');
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            navItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-        });
-    });
-</script>
-
+<%- include("../partials/global/scripts", { js: "userProfile" }) %>
 </body>
 </html>

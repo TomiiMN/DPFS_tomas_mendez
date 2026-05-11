@@ -21,6 +21,12 @@ const userController = {
     },
     loginProcess: (req, res) => {
         const { email, password } = req.body;
+        if(!email || !password || email.trim() === "" || password.trim() === "") {
+            return res.render("users/login", {
+                warning: "Todos los campos son obligatorios",
+                oldData: req.body
+            })
+        };
         const users = usersModel.getAll();
         const user = users.find(u => u.email === email);
         if (!user) {
