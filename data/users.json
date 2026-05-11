@@ -300,13 +300,13 @@
     "avatar": "/images/avatars/default.png"
   },
   {
-    "id": "33c5b2f2-d2e7-422a-a538-4fdfdfaa49a2",
-    "firstname": "Riquelme",
-    "lastname": "Villanueva",
+    "id": "9c85f9c3-1d5e-4d72-968a-f11caa8c160f",
+    "firstName": "Riquelme",
+    "lastName": "Villanueva",
     "email": "riquelme@gmail.com",
-    "password": "$2b$10$7y9Q/UIQF1utj3qXzbcSFeWjbGclltxzf709AQeWgQkKXUKzQbO4i",
+    "password": "$2b$10$gGD1z9VaA3EbRqYwjyHCPuqoJx78tuieu9lj8y.RY.YO.Ge1B1TTG",
     "username": "Riquelme",
     "type": "Customer",
-    "avatar": "/images/avatars/1778088389658.png"
+    "avatar": "/images/avatars/1778511643667.png"
   }
 ]

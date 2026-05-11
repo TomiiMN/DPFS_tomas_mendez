@@ -2,7 +2,7 @@ a {
     text-decoration: none;
 }
 
-a strong {
+strong {
     font-family: "Inter", sans-serif;
     color: var(--text-white);
 }

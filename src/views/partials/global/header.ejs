@@ -1,39 +1,48 @@
 <header>
     <div class="header__top">
-            <a href="/" class="logo-a">
-                <img src="/images/ui/techBoxLogo.png" alt="Logo" class="logo">
-            </a>
-            <div class="header__container">
-                <form class="header__search-form">
-                    <label for="search" class="header__sr-only">Buscar productos</label>
-                    <input id="search" placeholder="Buscar..." type="text" class="header__inputSearch">
-                    <button type="submit" class="header__search-btn">
-                        <svg class="icon-search">
-                            <use href="/images/sprite.svg#icon-search"></use>
-                        </svg>
-                    </button>
-                </form>
-                <div class="header__container-navegation">
-                    <button class="container-navegation__button-menu">
-                        <svg class="icon">
-                            <use href="/images/sprite.svg#icon-menu"></use>
-                        </svg>
-                    </button>
-                    <nav class="container-navegation__header-navegation">
-                        <a href="/users/login" class="ingresar">
-                            <strong>Ingresar</strong>
-                            <svg class="icon">
-                                <use href="/images/sprite.svg#icon-user"></use>
-                            </svg>
+        <a href="/" class="logo-a">
+            <img src="/images/ui/techBoxLogo.png" alt="Logo" class="logo">
+        </a>
+        <div class="header__container">
+            <form class="header__search-form">
+                <label for="search" class="header__sr-only">Buscar productos</label>
+                <input id="search" placeholder="Buscar..." type="text" class="header__inputSearch">
+                <button type="submit" class="header__search-btn">
+                    <svg class="icon-search">
+                        <use href="/images/sprite.svg#icon-search"></use>
+                    </svg>
+                </button>
+            </form>
+            <div class="header__container-navegation">
+                <button class="container-navegation__button-menu">
+                    <svg class="icon">
+                        <use href="/images/sprite.svg#icon-menu"></use>
+                    </svg>
+                </button>
+                <nav class="container-navegation__header-navegation">
+                    <% if (userLogged) { %>
+                        <a href="/users/profile" class="ingresar">
+                            <strong>
+                                <%= userLogged.firstName %>
+                                    <%= userLogged.lastName %>
+                            </strong>
                         </a>
-                        <a href="/products/cart" class="shopping-cart">
-                            <svg class="icon">
-                                <use href="/images/sprite.svg#icon-cart"></use>
-                            </svg>
-                        </a>
-                    </nav>
-                </div>
+                        <% } else { %>
+                            <a href="/users/login" class="ingresar">
+                                <strong>Ingresar</strong>
+                                <svg class="icon">
+                                    <use href="/images/sprite.svg#icon-user"></use>
+                                </svg>
+                            </a>
+                            <% } %>
+                                <a href="/products/cart" class="shopping-cart">
+                                    <svg class="icon">
+                                        <use href="/images/sprite.svg#icon-cart"></use>
+                                    </svg>
+                                </a>
+                </nav>
             </div>
+        </div>
     </div>
 
     <% if (showNav) { %>

@@ -1,5 +1,4 @@
 .profile-main {
-    margin-top: 100px;
     min-height: calc(100vh - 100px);
     padding: 2em 1em 3em;
     font-family: var(--description-btn);
@@ -147,8 +146,10 @@
 }
 
 .profile-nav-logout {
+    background-color: transparent;
     margin-top: 0.5em;
     color: var(--red2);
+    border: 1px solid transparent;
     border-top: 1px solid var(--border);
     padding-top: 1em;
     margin-top: 0.5em;
@@ -299,6 +300,46 @@
     color: var(--color-primary);
 }
 
+.file-input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.file-hidden {
+    display: none;
+}
+
+.file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--description-btn);
+    font-size: 14px;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px dashed var(--color-primary);
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.file-label:hover {
+    font-weight: 600;
+    transform: scale(1.03);
+    background-color: var(--hover-primary);
+    color: var(--text-white);
+    border: 1px dashed transparent;
+}
+
+.file-name {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+
 /* Acciones del formulario */
 .profile-form-actions {
     grid-column: span 2;
@@ -354,48 +395,26 @@
     background-color: var(--active-primary);
 }
 
-/* ---- Sección pedidos vacíos ---- */
-
-.profile-orders-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1em;
-    padding: 3em 1em;
-    color: var(--muted2);
-    text-align: center;
-}
-
-.profile-orders-empty svg {
-    color: var(--muted2);
-    opacity: 0.5;
-}
-
-.profile-orders-empty p {
-    font-family: var(--description-btn);
-    font-size: 0.95rem;
-    color: var(--muted);
-    margin: 0;
-}
-
-.profile-orders-cta {
-    display: inline-block;
+.profile-btn-delete {
     font-family: var(--description-btn);
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--text-white);
-    background-color: var(--color-primary);
-    text-decoration: none;
-    padding: 0.6em 1.6em;
+    color: var(--muted2);
+    background: transparent;
+    border: none;
     border-radius: 8px;
-    margin-top: 0.5em;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    padding: 0.6em 1.6em;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
-.profile-orders-cta:hover {
-    background-color: var(--hover-primary);
-    transform: scale(1.03);
+.form-delete {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.profile-btn-delete:hover {
+    color: var(--red);
 }
 
 /* ================================================
@@ -418,7 +437,7 @@
     }
 
     .profile-sidebar-nav {
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         justify-content: center;
         border-top: none;
@@ -432,7 +451,11 @@
         padding-top: 0;
         margin-top: 0;
         border-left: 1px solid var(--border2);
-        padding-left: 0.5em;
+        margin-left: 1em;
+    }
+
+    .profile-content {
+        width: 100%;
     }
 }
 
