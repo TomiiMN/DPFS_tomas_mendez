@@ -47,16 +47,25 @@
     height: 18px;
 }
 
-.password-toggle .icon {
-    width: 25px;
-    height: 25px;
-    color: #666;
-    transition: color .3s ease, transform .3s ease;
+.icon-edit {
+    width: 16px;
+    height: 16px;
 }
 
-.password-toggle:hover .icon {
-    color: #000;
-    transform: scale(1.08);
+.icon-nav-profile {
+    width: 18px;
+    height: 18px;
+}
+
+.icon-password-toggle {
+    width: 18px;
+    height: 18px;
+}
+
+.icon-detail-admin {
+    width: 16px;
+    height: 16px;
+    color: white;
 }
 
 @media (min-width: 1024px) {

@@ -3,8 +3,7 @@ const saltRounds = 10;
 const usersModel = require("../models/usersModel");
 const userController = {
     profile: (req, res) => {
-        const id = req.params.id;
-        const user = usersModel.getById(id);
+        const user = req.session.user;
         if (!user) {
             return res.render("users/login", {
                 error: "Usuario no encontrado",
@@ -42,7 +41,11 @@ const userController = {
                 oldData: req.body
             });
         }
-        res.redirect(`/users/profile/${user.id}`);
+        req.session.user = user;
+        if(req.body.remember) {
+            res.cookie('userEmail', user.email, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+        }
+        res.redirect("/users/profile");
     },
     register: (req, res) => {
         res.render("users/register", {
@@ -51,10 +54,10 @@ const userController = {
         );
     },
     create: (req, res) => {
-        const { email, username, firstname, lastname, password, confirmPassword } = req.body;
+        const { email, username, firstName, lastName, password, confirmPassword } = req.body;
         const users = usersModel.getAll();
         // Comprobacion inputs no estan vacios
-        if (!email || !username || !firstname || !lastname || !password) {
+        if (!email || !username || !firstName || !lastName || !password) {
             return res.render("users/register", {
                 warning: "Todos los campos son obligatorios",
                 oldData: req.body
@@ -100,8 +103,8 @@ const userController = {
             avatarPath = `/images/avatars/${req.file.filename}`;
         }
         const newUser = {
-            firstname,
-            lastname,
+            firstName,
+            lastName,
             email,
             password: hashedPassword,
             username,
@@ -113,17 +116,17 @@ const userController = {
     },
     updateInfo: (req, res) => {
         const id = req.params.id;
-        const { email, username, firstname, lastname } = req.body;
+        const { email, username, firstName, lastName } = req.body;
         const users = usersModel.getAll();
         const user = usersModel.getById(id);
         if (!user) {
-            return res.render("/users/login", {
+            return res.render("users/login", {
                 error: "Usuario no encontrado",
                 oldData: {}
             });
         }
-        if (!email || !username || !firstname || !lastname) {
-            return res.render(`users/userProfile`, {
+        if (!email || !username || !firstName || !lastName) {
+            return res.render("users/userProfile", {
                 user: { ...user, ...req.body },
                 warning: "Todos los campos son obligatorios",
                 oldData: req.body
@@ -135,14 +138,14 @@ const userController = {
             !email.includes("@hotmail.com") &&
             !email.includes("@yahoo.com")
         ) {
-            return res.render(`users/userProfile`, {
+            return res.render("users/userProfile", {
                 user: { ...user, ...req.body },
                 error: "Email inválido",
                 oldData: req.body
             });
         }
         if (users.find(u => u.email === email && u.id !== id)) {
-            return res.render(`users/userProfile`, {
+            return res.render("users/userProfile", {
                 user: { ...user, ...req.body },
                 warning: "El email ya está registrado",
                 oldData: req.body
@@ -150,7 +153,7 @@ const userController = {
             );
         }
         if (users.find(u => u.username === username && u.id !== id)) {
-            return res.render(`users/userProfile`, {
+            return res.render("users/userProfile", {
                 user: { ...user, ...req.body },
                 warning: "El nombre de usuario ya está registrado",
                 oldData: req.body
@@ -161,24 +164,24 @@ const userController = {
             ...user,
             email,
             username,
-            firstname,
-            lastname
+            firstName,
+            lastName
         }
         usersModel.update(id, updatedData);
-        res.redirect(`/users/profile/${id}`);
+        res.redirect("/users/profile");
     },
     updatePassword: (req, res) => {
         const id = req.params.id;
         const { currentPassword, newPassword, confirmPassword } = req.body;
         const user = usersModel.getById(id);
         if (!user) {
-            return res.render("/users/login", {
+            return res.render("users/login", {
                 error: "Usuario no encontrado",
                 oldData: {}
             });
         }
         if (!currentPassword || !newPassword || !confirmPassword) {
-            return res.render(`users/userProfile`, {
+            return res.render("users/userProfile", {
                 user,
                 warning: "Todos los campos son obligatorios",
                 oldData: req.body
@@ -186,14 +189,14 @@ const userController = {
         };
         const isValid = bcrypt.compareSync(currentPassword, user.password);
         if (!isValid) {
-            return res.render(`users/userProfile`, {
+            return res.render("users/userProfile", {
                 user,
                 error: "La contraseña actual es incorrecta",
                 oldData: req.body
             });
         }
         if (newPassword !== confirmPassword) {
-            return res.render(`users/userProfile`, {
+            return res.render("users/userProfile", {
                 user,
                 error: "Las nuevas contraseñas no coinciden",
                 oldData: req.body
@@ -204,14 +207,50 @@ const userController = {
             password: bcrypt.hashSync(newPassword, saltRounds)
         };
         usersModel.update(id, updatedData);
-        return res.render(`users/userProfile`, {
+        return res.render("users/userProfile", {
             user: updatedData,
             success: "Contraseña actualizada exitosamente",
             oldData: {}
         });
     },
+    updateAvatar: (req, res) => {
+        const id = req.params.id;
+        const user = usersModel.getById(id);
+        if (!user) {
+            return res.render("users/login", {
+                error: "Usuario no encontrado",
+                oldData: {}
+            });
+        };
+        if (!req.file) {
+            return res.render("users/userProfile", {
+                user,
+                error: "Por favor, seleccione una imagen",
+                oldData: {}
+            });
+        };
+        const updatedData = {
+            ...user,
+            avatar: `/images/avatars/${req.file.filename}`
+        };
+        usersModel.update(id, updatedData);
+        return res.render("users/userProfile", {
+            user: updatedData,
+            success: "Avatar actualizado exitosamente",
+            oldData: {}
+        });
+    },
+    logout: (req, res) => {
+        res.clearCookie("userEmail");
+        req.session.destroy();
+        res.redirect("/");
+    },
     delete: (req, res) => {
         const id = req.params.id;
+        const user = usersModel.getById(id);
+        if (!user) {
+            return res.redirect("/users/login");
+        }
         usersModel.delete(id);
         res.redirect("/");
     }

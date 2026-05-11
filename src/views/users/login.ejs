@@ -12,12 +12,9 @@
                             <div class="input-password-wrapper">
                                 <input class="login__input" type="password" name="password" id="password"
                                     placeholder="Contraseña*">
-                                <button type="button" class="input-toggle-password"
-                                    title="Mostrar/ocultar contraseña">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
+                                <button type="button" class="input-toggle-password" title="Mostrar/ocultar contraseña">
+                                    <svg class="icon-password-toggle">
+                                        <use href="/images/sprite.svg#icon-eye-alt"></use>
                                     </svg>
                                 </button>
                             </div>
@@ -37,7 +34,7 @@
 
 
             <%- include("../partials/global/footer") %>
-            <%- include("../partials/global/scripts", { js: "login" }) %>
-                </body>
+                <%- include("../partials/global/scripts", { js: "login" }) %>
+                    </body>
 
-                </html>
+                    </html>

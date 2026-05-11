@@ -11,19 +11,17 @@
                             value="<%= oldData?.email || '' %>">
                         <input class="registration__input" type="text" placeholder="Nombre de Usuario*" name="username"
                             id="username" value="<%= oldData?.username || '' %>">
-                        <input class="registration__input" type="text" placeholder="Nombre*" name="firstname"
-                            id="firstname" value="<%= oldData?.firstname || '' %>">
-                        <input class="registration__input" type="text" placeholder="Apellido*" name="lastname"
-                            id="lastname" value="<%= oldData?.lastname || '' %>">
+                        <input class="registration__input" type="text" placeholder="Nombre*" name="firstName"
+                            id="firstName" value="<%= oldData?.firstName || '' %>">
+                        <input class="registration__input" type="text" placeholder="Apellido*" name="lastName"
+                            id="lastName" value="<%= oldData?.lastName || '' %>">
                         <div class="input-password-wrapper">
                             <input class="registration__input" type="password" placeholder="Contraseña*" name="password"
                                 id="password" value="<%= oldData?.password || '' %>">
                             <button type="button" class="input-toggle-password" title="Mostrar/ocultar contraseña">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
+                                <svg class="icon-password-toggle">
+                                    <use href="/images/sprite.svg#icon-eye-alt"></use>
+                                </svg> 
                             </button>
                         </div>
                         <div class="input-password-wrapper">
@@ -31,11 +29,9 @@
                                 name="confirmPassword" id="confirmPassword"
                                 value="<%= oldData?.confirmPassword || '' %>">
                             <button type="button" class="input-toggle-password" title="Mostrar/ocultar contraseña">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
+                                <svg class="icon-password-toggle">
+                                    <use href="/images/sprite.svg#icon-eye-alt"></use>
+                                </svg> 
                             </button>
                         </div>
                         <div class="file-input">
