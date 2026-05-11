@@ -11,5 +11,6 @@ router.post("/login", userController.loginProcess);
 router.post("/register", upload.single("avatar"), userController.create);
 router.post("/update-info/:id", userController.updateInfo);
 router.post("/update-password/:id", userController.updatePassword);
+router.post("/update-avatar/:id", upload.single("avatar"), userController.updateAvatar);
 router.delete("/:id", userController.delete);
 module.exports = router;

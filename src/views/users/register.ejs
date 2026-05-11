@@ -1,39 +1,58 @@
 <%- include("../partials/global/head", { title: "Register" , css: "registerStyle" }) %>
     <%- include("../partials/global/header", { showNav: false }) %>
-    <%- include("../partials/global/alerts") %>
-        <main>
-            <section class="container">
-                <h2 id="tituloForm">Registro de Usuario</h2>
-                <p>Ingresa tus datos para crear una cuenta</p>
-                <form class="registration" id="registerForm" method="POST" action="/users/register"
-                    enctype="multipart/form-data">
-                    <input class="registration__input" type="email" placeholder="Email*" name="email"
-                        id="email" value="<%= oldData?.email || '' %>">
-                    <input class="registration__input" type="text" placeholder="Nombre de Usuario*" name="username"
-                        id="username" value="<%= oldData?.username || '' %>">
-                    <input class="registration__input" type="text" placeholder="Nombre*" name="firstname"
-                        id="firstname" value="<%= oldData?.firstname || '' %>">
-                    <input class="registration__input" type="text" placeholder="Apellido*" name="lastname"
-                        id="lastname" value="<%= oldData?.lastname || '' %>">
-                    <input class="registration__input" type="password" placeholder="Contraseña*" name="password"
-                        id="password" value="<%= oldData?.password || '' %>">
-                    <input class="registration__input" type="password" placeholder="Confirmar Contraseña*"
-                        name="confirmPassword" id="confirmPassword" value="<%= oldData?.confirmPassword || '' %>">
-                    <div class="file-input">
-                        <label for="avatar" class="file-label">
-                            <span>Subir imagen de perfil</span>
-                        </label>
-                        <input type="file" name="avatar" id="avatar" value="<%= oldData?.avatar || '' %>" hidden>
-                        <p class="file-name" id="fileName">Ningún archivo seleccionado</p>
-                    </div>
-                    <button type="submit" class="registration__buttonSubmit">Registrarme</button>
-                </form>
-                <p>¿Ya tienes una cuenta? Inicia sesión <a href="/users/login" id="link-p">aquí</a></p>
-            </section>
-        </main>
+        <%- include("../partials/global/alerts") %>
+            <main>
+                <section class="container">
+                    <h2 id="tituloForm">Registro de Usuario</h2>
+                    <p>Ingresa tus datos para crear una cuenta</p>
+                    <form class="registration" id="registerForm" method="POST" action="/users/register"
+                        enctype="multipart/form-data">
+                        <input class="registration__input" type="email" placeholder="Email*" name="email" id="email"
+                            value="<%= oldData?.email || '' %>">
+                        <input class="registration__input" type="text" placeholder="Nombre de Usuario*" name="username"
+                            id="username" value="<%= oldData?.username || '' %>">
+                        <input class="registration__input" type="text" placeholder="Nombre*" name="firstname"
+                            id="firstname" value="<%= oldData?.firstname || '' %>">
+                        <input class="registration__input" type="text" placeholder="Apellido*" name="lastname"
+                            id="lastname" value="<%= oldData?.lastname || '' %>">
+                        <div class="input-password-wrapper">
+                            <input class="registration__input" type="password" placeholder="Contraseña*" name="password"
+                                id="password" value="<%= oldData?.password || '' %>">
+                            <button type="button" class="input-toggle-password" title="Mostrar/ocultar contraseña">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="input-password-wrapper">
+                            <input class="registration__input" type="password" placeholder="Confirmar Contraseña*"
+                                name="confirmPassword" id="confirmPassword"
+                                value="<%= oldData?.confirmPassword || '' %>">
+                            <button type="button" class="input-toggle-password" title="Mostrar/ocultar contraseña">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="file-input">
+                            <label for="avatar" class="file-label">
+                                <span>Subir imagen de perfil</span>
+                            </label>
+                            <input type="file" name="avatar" id="avatar" value="<%= oldData?.avatar || '' %>" hidden>
+                            <p class="file-name" id="fileName">Ningún archivo seleccionado</p>
+                        </div>
+                        <button type="submit" class="registration__buttonSubmit">Registrarme</button>
+                    </form>
+                    <p>¿Ya tienes una cuenta? Inicia sesión <a href="/users/login" id="link-p">aquí</a></p>
+                </section>
+            </main>
 
-        <%- include("../partials/global/footer") %>
-            <%- include("../partials/global/scripts", { js: "register" }) %>
-                </body>
+            <%- include("../partials/global/footer") %>
+                <%- include("../partials/global/scripts", { js: "register" }) %>
+                    </body>
 
-                </html>
+                    </html>
