@@ -1,5 +1,5 @@
-<li class="product-card-wrapper" data-name="<%= product.name.toLowerCase() %>" data-category="<%= product.category[0].name.toLowerCase() %>"
-    data-price="<%= product.price %>">
+<li class="product-card-wrapper" data-name="<%= product.name.toLowerCase() %>"
+    data-category="<%= product.category[0].name.toLowerCase() %>" data-price="<%= product.price %>">
     <a href="/products/<%= product.id %>" class="product-card">
         <div class="product-card__img-container">
             <img src="<%= product.img %>" alt="<%= product.name %>" class="product-card__img" loading="lazy">
@@ -12,7 +12,7 @@
                 <%= product.name %>
             </h3>
             <div class="product-card__prices">
-                <% if (product.oldPrice !== product.price) { %>
+                <% if (product.oldPrice !==product.price) { %>
                     <p class="product-card__old-price">
                         $ <%= product.oldPrice.toLocaleString('es-AR') %>
                     </p>
@@ -21,7 +21,11 @@
                             $ <%= product.price.toLocaleString('es-AR') %>
                         </p>
             </div>
-            <button class="product-card__button"> <svg class="icon icon-cart-button button-list"> <use xlink:href="/images/sprite.svg#icon-cart-button"></use> </svg> Agregar al carrito</button>
+            <form action="/products/cart/add/<%= product.id %>" method="POST">
+                <button class="product-card__button"> <svg class="icon icon-cart-button button-list">
+                        <use xlink:href="/images/sprite.svg#icon-cart-button"></use>
+                    </svg> Agregar al carrito</button>
+            </form>
         </div>
     </a>
 </li>

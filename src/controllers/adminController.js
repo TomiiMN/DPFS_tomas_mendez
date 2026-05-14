@@ -4,7 +4,6 @@ const brandsModel = require("../models/brandsModel");
 const tagsModel = require("../models/tagsModel");
 const specsLabels = require('../../data/specsLabels');
 const specsConfig = require('../../data/specsConfig');
-const { name } = require("ejs");
 const adminController = {
     index: (req, res) => {
         const products = adminModel.getAll();

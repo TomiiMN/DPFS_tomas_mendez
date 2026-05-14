@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const usersModel = require("../models/usersModel");
+const { isValidEmail } = require('../utils/validators');
 const userController = {
     profile: (req, res) => {
         const user = req.session.user;
@@ -20,7 +21,7 @@ const userController = {
     },
     loginProcess: (req, res) => {
         const { email, password } = req.body;
-        if(!email || !password || email.trim() === "" || password.trim() === "") {
+        if (!email || !password || email.trim() === "" || password.trim() === "") {
             return res.render("users/login", {
                 warning: "Todos los campos son obligatorios",
                 oldData: req.body
@@ -42,7 +43,7 @@ const userController = {
             });
         }
         req.session.user = user;
-        if(req.body.remember) {
+        if (req.body.remember) {
             res.cookie('userEmail', user.email, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
         }
         res.redirect("/users/profile");
@@ -57,41 +58,34 @@ const userController = {
         const { email, username, firstName, lastName, password, confirmPassword } = req.body;
         const users = usersModel.getAll();
         // Comprobacion inputs no estan vacios
-        if (!email || !username || !firstName || !lastName || !password) {
+        if (!email || !username || !firstName || !lastName || !password || !confirmPassword) {
             return res.render("users/register", {
                 warning: "Todos los campos son obligatorios",
-                oldData: req.body
+                oldData: { ...req.body, password: '', confirmPassword: '' }
             });
         }
         // Comprobacion email valido
-        if (
-            !email.includes("@gmail.com") &&
-            !email.includes("@hotmail.com") &&
-            !email.includes("@yahoo.com")
-        ) {
-            return res.render("users/register", {
-                error: "Email inválido",
-                oldData: req.body
-            });
+        if (!isValidEmail(email)) {
+            return res.render("users/register", { error: "Email inválido", oldData: { ...req.body, password: '', confirmPassword: '' } });
         }
         // Validacion de coincidencia con contraseña de confirmacion
         if (password !== confirmPassword) {
             return res.render("users/register", {
                 error: "Las contraseñas no coinciden",
-                oldData: req.body
+                oldData: { ...req.body, password: '', confirmPassword: '' }
             });
         }
         if (users.find(u => u.email === email)) {
             return res.render("users/register", {
                 warning: "El email ya está registrado",
-                oldData: req.body
+                oldData: { ...req.body, password: '', confirmPassword: '' }
             }
             );
         }
         if (users.find(u => u.username === username)) {
             return res.render("users/register", {
                 warning: "El nombre de usuario ya está registrado",
-                oldData: req.body
+                oldData: { ...req.body, password: '', confirmPassword: '' }
             }
             );
         }
@@ -133,11 +127,7 @@ const userController = {
             })
         };
         // Comprobacion email valido
-        if (
-            !email.includes("@gmail.com") &&
-            !email.includes("@hotmail.com") &&
-            !email.includes("@yahoo.com")
-        ) {
+        if (!isValidEmail(email)) {
             return res.render("users/userProfile", {
                 user: { ...user, ...req.body },
                 error: "Email inválido",

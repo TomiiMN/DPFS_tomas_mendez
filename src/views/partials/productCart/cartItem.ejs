@@ -5,15 +5,21 @@
     <div class="body-item">
         <p class="description"><%= product.name %></p>
         <div class="product-buttons">
-            <button class="buttons-delete" aria-label="Eliminar producto">
-                <svg class="icon">
-                    <use href="/images/sprite.svg#icon-trash"></use>
-                </svg>
-            </button>
+            <form action="/products/cart/delete/<%= product.id %>" method="POST">
+                <button class="buttons-delete" aria-label="Eliminar producto" type="submit">
+                    <svg class="icon">
+                        <use href="/images/sprite.svg#icon-trash"></use>
+                    </svg>
+                </button>
+            </form>
             <div class="quantityButtons">
-                <button class="buttons button-minus">-</button>
-                <span class="buttons product-number">1</span>
-                <button class="buttons button-plus">+</button>
+                <form action="/products/cart/remove/<%= product.id %>" method="POST">
+                    <button <% if (product.quantity === 1) { %>class="buttons button-minus minus-disable"<% } else { %>class="buttons button-minus minus-active" <% } %> type="submit" <% if (product.quantity === 1) { %> disabled <% } %>>-</button>
+                </form>
+                <span class="buttons product-number"><%= product.quantity %></span>
+                <form action="/products/cart/add/<%= product.id %>" method="POST">
+                    <button class="buttons button-plus" type="submit">+</button>
+                </form>
             </div>
         </div>
     </div>

@@ -386,6 +386,10 @@
     padding: 0;
 }
 
+.product-card__info form {
+    margin-top: auto;
+}
+
 .product-card__button {
     background-color: var(--color-primary);
     border: none;
@@ -398,7 +402,6 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    margin-top: auto;
     width: 100%;
     cursor: pointer;
     transition: transform 0.2s ease;

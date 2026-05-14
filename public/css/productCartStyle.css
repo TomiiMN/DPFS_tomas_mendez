@@ -79,6 +79,14 @@ main {
     border: transparent;
 }
 
+.cart-empty {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    font-family: var(--description-btn);
+    color: var(--muted);
+}
+
 .container-cart {
     border-radius: 25px;
     background-color: var(--bg-cards);
@@ -88,6 +96,10 @@ main {
     align-items: stretch;
     justify-content: center;
     margin-bottom: 1em;
+}
+
+.container-cart form {
+    align-self: flex-end;
 }
 
 .buttons-delete {
@@ -100,13 +112,12 @@ main {
     color: var(--color-primary);
     padding: 8px 12px;
     font-family: "Inter", sans-serif;
-    transition: all .3s ease;
+    transition: transform .3s ease;
     max-width: 110px;
-    align-self: flex-end;
 }
 
 .buttons-delete:hover {
-    transform: scale(1.03, 1.03);
+    transform: scale(1.03);
 }
 
 .item {
@@ -167,16 +178,28 @@ main {
     margin-left: 25px;
 }
 
-.button-minus {
-    border: #62626279 2px solid;
-    border-right: #62626279 0px solid;
-    color: #62626279;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+.quantityButtons form {
+    height: 100%;
 }
 
-.button-minus:hover {
+.minus-disable {
+    color: #62626279;
+    border: #62626279 2px solid;
+}
+
+.minus-disable:hover {
     background-color: rgba(128, 128, 128, 0.15);
+}
+
+.minus-active:hover {
+    background-color: #9000ff31;
+}
+
+.button-minus {
+    border-right: var(--color-primary) 0px solid;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    height: 100%;
 }
 
 .product-number {
@@ -189,6 +212,7 @@ main {
     border-left: var(--color-primary) 0px solid;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    height: 100%;
 }
 
 .button-plus:hover {
@@ -224,6 +248,7 @@ main {
 }
 
 .list-summary {
+    padding-top: 10px;
     padding-left: 25px;
     width: 100%;
     margin-bottom: 2em;
@@ -239,6 +264,7 @@ main {
 .total-summary p,
 .total-summary strong {
     font-family: "Inter", sans-serif;
+    color: black;
 }
 
 .item-price,
@@ -361,6 +387,11 @@ main {
     .title {
         margin-bottom: 0;
         grid-column: span 3;
+    }
+
+    .cart-empty {
+        grid-column: 1 / 4;
+        grid-row: 2;
     }
 
     .container-cart {
