@@ -6,10 +6,7 @@ function authAdminMiddleware(req, res, next) {
         });
     }
     if (!req.session.user.type || req.session.user.type !== "Admin") {
-        return res.render("users/userProfile", {
-            error: "Tienes que ser un administrador para acceder a esta página",
-            oldData: {}
-        });
+        return res.redirect("/users/profile")
     }
     next();
 }

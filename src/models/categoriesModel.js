@@ -2,7 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "../../data/categories.json")
 const readData = () => {
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    try {
+        return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    } catch (e) {
+        console.error("Error leyendo datos: ", e);
+        return [];
+    }
 };
 module.exports = {
     getAll: () => readData(),

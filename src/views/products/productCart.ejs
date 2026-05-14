@@ -9,44 +9,50 @@
                 </button>
                 <h1>Mi carrito</h1>
             </div>
-            <section class="container-cart">
-                <button class="buttons-delete">
-                    <svg class="icon">
-                        <use href="/images/sprite.svg#icon-trash"></use>
-                    </svg>
-                    <p>Vaciar</p>
-                </button>
-                <ul class="list-products">
-                    <% cartProducts.forEach(product=> { %>
-                        <%- include("../partials/productCart/cartItem", { product }) %>
-                            <% }) %>
-                </ul>
-            </section>
-            <section class="container-summary">
-                <h4>RESUMEN</h4>
-                <ul class="list-summary">
-                    <% cartProducts.forEach(product=> { %>
-                        <%- include("../partials/productCart/summaryItem", { product }) %>
-                            <% }) %>
-                </ul>
-                <div class="total-summary">
-                    <strong class="total">Total</strong>
-                    <p class="total-price">
+            <% if (cartProducts.length> 0) { %>
+                <section class="container-cart">
+                    <form action="/products/cart/clear" method="POST">
+                        <button class="buttons-delete" type="submit">
+                            <svg class="icon">
+                                <use href="/images/sprite.svg#icon-trash"></use>
+                            </svg>
+                            <p>Vaciar</p>
+                        </button>
+                    </form>
+                    <ul class="list-products">
+                        <% cartProducts.forEach(product=> { %>
+                            <%- include("../partials/productCart/cartItem", { product }) %>
+                                <% }) %>
+                    </ul>
+                </section>
+                <section class="container-summary">
+                    <h4>RESUMEN</h4>
+                    <ul class="list-summary">
+                        <% cartProducts.forEach(product=> { %>
+                            <%- include("../partials/productCart/summaryItem", { product }) %>
+                                <% }) %>
+                    </ul>
+                    <div class="total-summary">
+                        <strong class="total">Total</strong>
+                        <p class="total-price">
+                            <svg class="icon-coins">
+                                <use href="/images/sprite.svg#icon-hand-coins"></use>
+                            </svg>
+                            $ <%= total.toLocaleString() %>
+                        </p>
+                    </div>
+                    <p class="description-purchase">
                         <svg class="icon-coins">
                             <use href="/images/sprite.svg#icon-hand-coins"></use>
                         </svg>
-                        $ <%= total.toLocaleString() %>
+                        *Precio abonado con depósito o transferencia
                     </p>
-                </div>
-                <p class="description-purchase">
-                    <svg class="icon-coins">
-                        <use href="/images/sprite.svg#icon-hand-coins"></use>
-                    </svg>
-                    *Precio abonado con depósito o transferencia
-                </p>
-                <button class="buttons-summary button-purchase">Iniciar compra</button>
-                <a href="/products" class="a-buttons">
-                    <button class="buttons-summary button-products">Ver más productos</button>
-                </a>
-            </section>
+                    <button class="buttons-summary button-purchase">Iniciar compra</button>
+                    <a href="/products" class="a-buttons">
+                        <button class="buttons-summary button-products">Ver más productos</button>
+                    </a>
+                </section>
+                <% } else { %>
+                    <p class="cart-empty">No hay productos en el carrito</p>
+                    <% } %>
         </main>

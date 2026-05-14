@@ -22,14 +22,14 @@
                 <nav class="container-navegation__header-navegation">
                     <% if (userLogged) { %>
                         <a href="/users/profile" class="ingresar">
-                            <strong>
+                            <strong class="strong-link">
                                 <%= userLogged.firstName %>
                                     <%= userLogged.lastName %>
                             </strong>
                         </a>
                         <% } else { %>
                             <a href="/users/login" class="ingresar">
-                                <strong>Ingresar</strong>
+                                <strong class="strong-link">Ingresar</strong>
                                 <svg class="icon">
                                     <use href="/images/sprite.svg#icon-user"></use>
                                 </svg>

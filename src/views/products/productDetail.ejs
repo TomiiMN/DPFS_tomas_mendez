@@ -60,11 +60,13 @@
                             </svg> Envios a todo el pais
                         </p>
                     </div>
-                    <button class="product__button-cart">
-                        <svg class="icon icon-cart-button">
-                            <use xlink:href="/images/sprite.svg#icon-cart-button"></use>
-                        </svg> Sumar al carrito
-                    </button>
+                    <form action="/products/cart/add/<%= product.id %>" method="POST">
+                        <button class="product__button-cart" type="submit">
+                            <svg class="icon icon-cart-button">
+                                <use xlink:href="/images/sprite.svg#icon-cart-button"></use>
+                            </svg> Sumar al carrito
+                        </button>
+                    </form>
                 </section>
             </article>
 
