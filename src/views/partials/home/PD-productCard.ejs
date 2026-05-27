@@ -9,8 +9,8 @@
         <div class="PD_product-description">
             <h4 class="PD_product-name"><%= product.name %></h4>
             <div class="PD_prices">
-                <% if (product.oldPrice) { %>
-                    <p class="PD_product-discount">$ <%= product.oldPrice.toLocaleString() %></p>
+                <% if (product.old_price) { %>
+                    <p class="PD_product-discount">$ <%= product.old_price.toLocaleString() %></p>
                 <% } %>
                 <p class="PD_product-price">$ <%= product.price.toLocaleString('es-AR') %></p>
             </div>

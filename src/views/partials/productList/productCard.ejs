@@ -1,30 +1,32 @@
 <li class="product-card-wrapper" data-name="<%= product.name.toLowerCase() %>"
-    data-category="<%= product.category[0].name.toLowerCase() %>" data-price="<%= product.price %>">
+    data-category="<%= product.categories && product.categories[0] ? product.categories[0].name.toLowerCase() : '' %>" data-price="<%= product.price %>">
     <a href="/products/<%= product.id %>" class="product-card">
         <div class="product-card__img-container">
             <img src="<%= product.img %>" alt="<%= product.name %>" class="product-card__img" loading="lazy">
         </div>
         <div class="product-card__info">
             <p class="product-card__category">
-                <%= product.category[0].name %>
+                <%= product.categories && product.categories[0] ? product.categories[0].name : '' %>
             </p>
             <h3 class="product-card__name">
                 <%= product.name %>
             </h3>
             <div class="product-card__prices">
-                <% if (product.oldPrice !==product.price) { %>
+                <% if (product.old_price && product.old_price !== product.price) { %>
                     <p class="product-card__old-price">
-                        $ <%= product.oldPrice.toLocaleString('es-AR') %>
+                        $ <%= product.old_price.toLocaleString('es-AR') %>
                     </p>
-                    <% } %>
-                        <p class="product-card__price">
-                            $ <%= product.price.toLocaleString('es-AR') %>
-                        </p>
+                <% } %>
+                <p class="product-card__price">
+                    $ <%= product.price.toLocaleString('es-AR') %>
+                </p>
             </div>
             <form action="/products/cart/add/<%= product.id %>" method="POST">
-                <button class="product-card__button"> <svg class="icon icon-cart-button button-list">
+                <button class="product-card__button">
+                    <svg class="icon icon-cart-button button-list">
                         <use xlink:href="/images/sprite.svg#icon-cart-button"></use>
-                    </svg> Agregar al carrito</button>
+                    </svg> Agregar al carrito
+                </button>
             </form>
         </div>
     </a>

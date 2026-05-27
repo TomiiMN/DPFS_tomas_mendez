@@ -1,12 +1,17 @@
 const usersModel = require("../models/usersModel");
-function rememberMeMiddleware(req, res, next) {
+
+async function rememberMeMiddleware(req, res, next) {
     if (!req.session.user && req.cookies.userEmail) {
-        const users = usersModel.getAll();
-        const user = users.find(u => u.email === req.cookies.userEmail);
-        if (user) {
-            req.session.user = user;
+        try {
+            const user = await usersModel.getByEmail(req.cookies.userEmail);
+            if (user) {
+                req.session.user = user;
+            }
+        } catch (e) {
+            console.error("Error en rememberMeMiddleware: ", e);
         }
     }
     next();
 }
+
 module.exports = rememberMeMiddleware;

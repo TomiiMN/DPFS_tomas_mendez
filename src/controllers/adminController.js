@@ -1,110 +1,236 @@
-const adminModel = require("../models/adminModel");
-const categoriesModel = require("../models/categoriesModel");
-const brandsModel = require("../models/brandsModel");
-const tagsModel = require("../models/tagsModel");
-const specsLabels = require('../../data/specsLabels');
-const specsConfig = require('../../data/specsConfig');
+const adminModel       = require("../models/adminModel");
+const productsModel    = require("../models/productsModel");
+const categoriesModel  = require("../models/categoriesModel");
+const brandsModel      = require("../models/brandsModel");
+const tagsModel        = require("../models/tagsModel");
+const { Spec, SpecLabel, CategorySpec } = require("../models/index");
+
+// ── Helpers para traer specsLabels y specsConfig desde la DB ───────────────
+
+// Devuelve un objeto { [spec_id]: "Label legible" }
+// equivalente al antiguo specsLabels.js
+async function getSpecsLabels() {
+    const rows = await SpecLabel.findAll({ raw: true });
+    return rows.reduce((acc, row) => {
+        acc[row.spec_id] = row.label;
+        return acc;
+    }, {});
+}
+
+// Devuelve un objeto { [category_id]: [ { id, name, data_type, label } ] }
+// equivalente al antiguo specsConfig.js
+async function getSpecsConfig() {
+    const rows = await CategorySpec.findAll({
+        include: [
+            {
+                model: Spec,
+                as: 'spec',
+                include: [{ model: SpecLabel, as: 'label' }],
+            },
+        ],
+    });
+
+    return rows.reduce((acc, row) => {
+        const r = row.toJSON();
+        if (!acc[r.category_id]) acc[r.category_id] = [];
+        acc[r.category_id].push({
+            id:        r.spec_id,
+            name:      r.spec?.name      ?? '',
+            data_type: r.data_type,
+            label:     r.spec?.label?.label ?? r.spec?.name ?? '',
+        });
+        return acc;
+    }, {});
+}
+
+// ── Controlador ────────────────────────────────────────────────────────────
+
 const adminController = {
-    index: (req, res) => {
-        const products = adminModel.getAll();
-        const categories = categoriesModel.getAll().filter(cat => cat.parent_id === null);
+    index: async (req, res) => {
+        const products      = await productsModel.getAll();
+        const allCategories = await categoriesModel.getAll();
+        const categories    = allCategories.filter(cat => cat.parent_id === null);
         res.render("admin/adminProducts", { products, categories });
     },
-    create: (req, res) => {
-        const categories = categoriesModel.getAll();
-        const brands = brandsModel.getAll();
-        const tags = tagsModel.getAll();
-        res.render("admin/createProduct", { categories, brands, tags, specsLabels, specsConfig, oldData: {} });
+
+    create: async (req, res) => {
+        const [categories, brands, tags, specsLabels, specsConfig] = await Promise.all([
+            categoriesModel.getAll(),
+            brandsModel.getAll(),
+            tagsModel.getAll(),
+            getSpecsLabels(),
+            getSpecsConfig(),
+        ]);
+        res.render("admin/createProduct", {
+            categories, brands, tags, specsLabels, specsConfig, oldData: {}
+        });
     },
-    detail: (req, res) => {
-        const product = adminModel.getById(req.params.id)
-        res.render("admin/adminDetail", { product, specsLabels })
+
+    detail: async (req, res) => {
+        const [product, specsLabels] = await Promise.all([
+            productsModel.getById(req.params.id),
+            getSpecsLabels(),
+        ]);
+        res.render("admin/adminDetail", { product, specsLabels });
     },
-    edit: (req, res) => {
-        const product = adminModel.getById(req.params.id)
-        const tags = tagsModel.getAll();
-        const categories = categoriesModel.getAll();
-        const brands = brandsModel.getAll();
-        res.render("admin/editProduct", { product, categories, brands, tags, specsLabels, specsConfig, oldData: {} });
+
+    edit: async (req, res) => {
+        const [product, categories, brands, tags, specsLabels, specsConfig] = await Promise.all([
+            productsModel.getById(req.params.id),
+            categoriesModel.getAll(),
+            brandsModel.getAll(),
+            tagsModel.getAll(),
+            getSpecsLabels(),
+            getSpecsConfig(),
+        ]);
+        res.render("admin/editProduct", {
+            product, categories, brands, tags, specsLabels, specsConfig, oldData: {}
+        });
     },
-    store: (req, res) => {
+
+    store: async (req, res) => {
         const data = req.body;
-        const category = categoriesModel.getById(Number(data.category_id));
-        const subcategory = categoriesModel.getById(Number(data.subcategory_id));
-        const brand = brandsModel.getById(Number(data.brand_id));
-        const newProduct = {
-            name: data.name,
-            brand: brand.name,
-            model: data.model,
-            price: Number(data.price),
-            oldPrice: Number(data.oldPrice),
-            releaseDate: data.releaseDate,
-            img: data.img,
-            category: [
-                {
-                    id: category.id,
-                    name: category.name
-                },
-                {
-                    id: subcategory.id,
-                    name: subcategory.name
-                }
-            ],
-            specs: data.specs || {},
-            tags: data.tags ? JSON.parse(data.tags) : [],
-            tier: data.tier,
-            state: data.onPublic ? "Publicado" : "No Publicado",
-            flags: {
-                featured: !!data.featured,
-                onSale: !!data.onSale,
-            },
+
+        const [categories, brands, tags, specsLabels, specsConfig] = await Promise.all([
+            categoriesModel.getAll(),
+            brandsModel.getAll(),
+            tagsModel.getAll(),
+            getSpecsLabels(),
+            getSpecsConfig(),
+        ]);
+
+        if (!data.name || !data.brand_id || !data.model || !data.price || !data.oldPrice ||
+            !data.releaseDate || !data.category_id || !data.subcategory_id || !data.img || !data.tier) {
+            return res.render("admin/createProduct", {
+                categories, brands, tags, specsLabels, specsConfig,
+                warning: "Todos los campos son obligatorios",
+                oldData: data,
+            });
         }
-        adminModel.create(newProduct);
+
+        try {
+            const newProduct = {
+                name:         data.name,
+                brand_id:     Number(data.brand_id),
+                model:        data.model,
+                price:        Number(data.price),
+                old_price:    Number(data.oldPrice),
+                release_date: data.releaseDate,
+                img:          data.img,
+                tier:         data.tier,
+                state:        data.onPublic,
+                featured:     data.featured,
+                on_sale:      data.onSale,
+            };
+            const productId = await adminModel.create(newProduct);
+            await adminModel.addCategory(productId, Number(data.category_id));
+            await adminModel.addCategory(productId, Number(data.subcategory_id));
+
+            if (data.tags) {
+                const selectedTags = JSON.parse(data.tags);
+                for (const tagId of selectedTags) {
+                    await adminModel.addTag(productId, Number(tagId));
+                }
+            }
+            if (data.specs) {
+                const specs = JSON.parse(data.specs);
+                for (const specId in specs) {
+                    const value = specs[specId];
+                    if (value && value.trim() !== "") {
+                        await adminModel.addSpec(productId, Number(specId), value);
+                    }
+                }
+            }
+        } catch (e) {
+            console.error("Error creando producto: ", e);
+            return res.render("admin/createProduct", {
+                categories, brands, tags, specsLabels, specsConfig,
+                oldData: data,
+                warning: "Error creando producto",
+            });
+        }
+
         res.redirect("/admin/products");
     },
-    update: (req, res) => {
-        const id = req.params.id;
+
+    update: async (req, res) => {
+        const id   = req.params.id;
         const data = req.body;
-        const category = categoriesModel.getById(Number(data.category_id));
-        const subcategory = categoriesModel.getById(Number(data.subcategory_id));
-        const brand = brandsModel.getById(Number(data.brand_id));
-        const updatedProduct = {
-            name: data.name,
-            brand: brand.name,
-            model: data.model,
-            price: Number(data.price),
-            oldPrice: Number(data.oldPrice),
-            releaseDate: data.releaseDate,
-            img: data.img,
-            category: [
-                {
-                    id: category.id,
-                    name: category.name
-                },
-                {
-                    id: subcategory.id,
-                    name: subcategory.name
-                }
-            ],
-            tags:
-                typeof data.tags === "string"
-                    ? JSON.parse(data.tags)
-                    : data.tags || [],
-            specs: data.specs || {},
-            tier: data.tier,
-            state: data.onPublic ? "Publicado" : "No Publicado",
-            flags: {
-                featured: !!data.featured,
-                onSale: !!data.onSale,
-            },
+
+        const [product, categories, brands, tags, specsLabels, specsConfig] = await Promise.all([
+            productsModel.getById(id),
+            categoriesModel.getAll(),
+            brandsModel.getAll(),
+            tagsModel.getAll(),
+            getSpecsLabels(),
+            getSpecsConfig(),
+        ]);
+
+        if (!product) return res.redirect("/admin/products");
+
+        if (!data.name || !data.brand_id || !data.model || !data.price || !data.oldPrice ||
+            !data.releaseDate || !data.category_id || !data.subcategory_id || !data.img || !data.tier) {
+            return res.render("admin/editProduct", {
+                product, categories, brands, tags, specsLabels, specsConfig,
+                warning: "Todos los campos son obligatorios",
+                oldData: data,
+            });
         }
-        adminModel.update(id, updatedProduct);
+
+        try {
+            const updatedProduct = {
+                name:         data.name,
+                brand_id:     Number(data.brand_id),
+                model:        data.model,
+                price:        Number(data.price),
+                old_price:    Number(data.oldPrice),
+                release_date: data.releaseDate,
+                img:          data.img,
+                tier:         data.tier,
+                state:        data.onPublic,
+                featured:     data.featured,
+                on_sale:      data.onSale,
+            };
+            await adminModel.update(id, updatedProduct);
+            await adminModel.deleteCategories(id);
+            await adminModel.deleteTags(id);
+            await adminModel.addCategory(id, Number(data.category_id));
+            await adminModel.addCategory(id, Number(data.subcategory_id));
+
+            if (data.tags) {
+                const selectedTags = JSON.parse(data.tags);
+                for (const tagId of selectedTags) {
+                    await adminModel.addTag(id, Number(tagId));
+                }
+            }
+            await adminModel.deleteSpecs(id);
+            if (data.specs) {
+                const specs = JSON.parse(data.specs);
+                for (const specId in specs) {
+                    const value = specs[specId];
+                    if (value && value.trim() !== "") {
+                        await adminModel.addSpec(id, Number(specId), value);
+                    }
+                }
+            }
+
+            res.redirect("/admin/products");
+        } catch (e) {
+            console.error("Error actualizando producto: ", e);
+            res.render("admin/editProduct", {
+                product, categories, brands, tags, specsLabels, specsConfig,
+                oldData: data,
+                warning: "Error actualizando producto",
+            });
+        }
+    },
+
+    destroy: async (req, res) => {
+        const product = await productsModel.getById(req.params.id);
+        if (!product) return res.redirect("/admin/products");
+        await adminModel.delete(req.params.id);
         res.redirect("/admin/products");
     },
-    destroy: (req, res) => {
-        const id = req.params.id;
-        adminModel.delete(id);
-        res.redirect("/admin/products");
-    }
 };
+
 module.exports = adminController;

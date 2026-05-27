@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="prices">
-        <p class="original-price">$ <%= product.oldPrice.toLocaleString() %></p>
-        <p class="discount">$ <%= product.price.toLocaleString('es-AR') %></p>
+        <p class="original-price">$ <%= Number(product.old_price || 0).toLocaleString('es-AR') %></p>
+        <p class="discount">$ <%= Number(product.price || 0).toLocaleString('es-AR') %></p>
     </div>
 </li>

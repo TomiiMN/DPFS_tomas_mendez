@@ -358,8 +358,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initBrands(brands);
   renderTags();
   // Options
-  document.getElementById("togFeatured").checked = !!product.flags?.featured;
-  document.getElementById("togSale").checked = !!product.flags?.onSale;
+  document.getElementById("togFeatured").checked = !!product.featured == 1;
+  document.getElementById("togSale").checked = product.on_sale == 1;
   document.getElementById("togPublic").checked = product.state === "Publicado";
   // Tier
   const tierSelect = document.getElementById("filterTier");

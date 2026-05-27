@@ -61,13 +61,13 @@
                         <div class="field">
                             <span class="field-label">Categoría</span>
                             <span class="field-value">
-                                <%= product.category[0].name %>
+                                <%= product.categories && product.categories[0] ? product.categories[0].name : '-' %>
                             </span>
                         </div>
                         <div class="field">
                             <span class="field-label">Subcategoría</span>
                             <span class="field-value">
-                                <%= product.category[1].name %>
+                                <%= product.categories && product.categories[1] ? product.categories[1].name : '-' %>
                             </span>
                         </div>
                     </div>
@@ -75,13 +75,13 @@
                         <div class="field">
                             <span class="field-label">Tier</span>
                             <span class="field-value">
-                                <%= product.tier.charAt(0).toUpperCase() + product.tier.slice(1) %>
+                                <%= product.tier ? product.tier.charAt(0).toUpperCase() + product.tier.slice(1) : '-' %>
                             </span>
                         </div>
                         <div class="field">
                             <span class="field-label">Fecha de lanzamiento</span>
                             <span class="field-value muted">
-                                <%= product.releaseDate %>
+                                <%= product.release_date ? new Date(product.release_date).toLocaleDateString('es-AR') : '-' %>
                             </span>
                         </div>
                     </div>
@@ -91,11 +91,15 @@
                     <div class="field">
                         <span class="field-label" style="margin-bottom:6px">Tags</span>
                         <div class="badge-row">
-                            <% product.tags.forEach(tag=> { %>
-                                <span class="badge badge-purple">
-                                    <%= tag.charAt(0).toUpperCase() + tag.slice(1) %>
-                                </span>
+                            <% if (product.tags && product.tags.length > 0) { %>
+                                <% product.tags.forEach(tag => { %>
+                                    <span class="badge badge-purple">
+                                        <%= tag.name.charAt(0).toUpperCase() + tag.name.slice(1) %>
+                                    </span>
                                 <% }) %>
+                            <% } else { %>
+                                <span class="field-value muted">Sin tags</span>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -110,38 +114,34 @@
                         </div>
                         <span class="card-title">Precio</span>
                     </div>
-                    <% let discount=0; const hasDiscount=product.oldPrice && product.oldPrice> product.price;
+                    <% let discount = 0;
+                       const hasDiscount = product.old_price && product.old_price > product.price;
+                       if (hasDiscount) {
+                           discount = Math.round(((product.old_price - product.price) / product.old_price) * 100);
+                       }
+                       const formattedPrice = product.price.toLocaleString("es-AR");
+                       const formattedOldPrice = product.old_price ? product.old_price.toLocaleString("es-AR") : null;
+                    %>
 
-                        if (hasDiscount) {
-                        discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
-                        }
-
-                        const formattedPrice = product.price.toLocaleString("es-AR");
-                        const formattedOldPrice = product.oldPrice?.toLocaleString("es-AR");
-                        %>
-
-                        <div class="field-grid">
-                            <div class="field">
-                                <span class="field-label">Precio actual</span>
-                                <div class="price-row">
-                                    <span class="field-value large">$ <%= formattedPrice %></span>
-
-                                    <% if (hasDiscount) { %>
-                                        <span class="discount-pill">
-                                            <%= discount %>% off
-                                        </span>
-                                        <% } %>
-
-                                </div>
-                            </div>
-
-                            <% if (hasDiscount) { %>
-                                <div class="field">
-                                    <span class="field-label">Precio original</span>
-                                    <span class="field-value strike">$ <%= formattedOldPrice %></span>
-                                </div>
+                    <div class="field-grid">
+                        <div class="field">
+                            <span class="field-label">Precio actual</span>
+                            <div class="price-row">
+                                <span class="field-value large">$ <%= formattedPrice %></span>
+                                <% if (hasDiscount) { %>
+                                    <span class="discount-pill">
+                                        <%= discount %>% off
+                                    </span>
                                 <% } %>
+                            </div>
                         </div>
+                        <% if (hasDiscount) { %>
+                            <div class="field">
+                                <span class="field-label">Precio original</span>
+                                <span class="field-value strike">$ <%= formattedOldPrice %></span>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
 
                 <!-- Especificaciones -->
@@ -155,21 +155,16 @@
                         <span class="card-title">Especificaciones</span>
                     </div>
                     <table class="specs-table">
-                        <% for (let key in product.specs) { %>
-                            <tr>
-                                <!-- Label bonito -->
-                                <td>
-                                    <%= specsLabels[key] || key %>
-                                </td>
-
-                                <!-- Valor -->
-                                <td>
-                                    <%= typeof product.specs[key]==="string" ?
-                                        product.specs[key].charAt(0).toUpperCase() + product.specs[key].slice(1) :
-                                        product.specs[key] %>
-                                </td>
-                            </tr>
-                            <% } %>
+                        <% if (product.specs && product.specs.length > 0) { %>
+                            <% product.specs.forEach(spec => { %>
+                                <tr>
+                                    <td><%= specsLabels[spec.name] || spec.name %></td>
+                                    <td><%= typeof spec.value === "string" ? spec.value.charAt(0).toUpperCase() + spec.value.slice(1) : spec.value %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr><td colspan="2" class="muted">Sin especificaciones</td></tr>
+                        <% } %>
                     </table>
                 </div>
 
@@ -211,18 +206,15 @@
                         <div class="field">
                             <span class="field-label">Flags</span>
                             <div class="badge-row" style="margin-top:4px">
-                                <% if (product.flags?.featured) { %>
+                                <% if (product.featured) { %>
                                     <span class="badge badge-purple2">Destacado</span>
-                                    <% } %>
-
-                                        <% if (product.flags?.onSale) { %>
-                                            <span class="badge badge-red">En oferta</span>
-                                            <% } %>
-
-                                                <% if (!product.flags || (!product.flags.featured &&
-                                                    !product.flags.onSale)) { %>
-                                                    <span class="field-value muted">Sin flags</span>
-                                                    <% } %>
+                                <% } %>
+                                <% if (product.on_sale) { %>
+                                    <span class="badge badge-red">En oferta</span>
+                                <% } %>
+                                <% if (!product.featured && !product.on_sale) { %>
+                                    <span class="field-value muted">Sin flags</span>
+                                <% } %>
                             </div>
                         </div>
                     </div>
