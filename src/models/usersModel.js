@@ -1,46 +1,73 @@
-const { v4: uuidv4 } = require("uuid");
-const fs = require("fs");
-const path = require("path");
-const filePath = path.join(__dirname, "../../data/users.json")
-const readData = () => {
-    try {
-        return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    } catch (e) {
-        console.error("Error leyendo datos: ", e);
-        return [];
-    }
+const { v4: uuidv4 } = require('uuid');
+const { User } = require('./index');
+
+const UserModel = {
+    getAll: async () => {
+        try {
+            return await User.findAll({ raw: true });
+        } catch (e) {
+            console.error('Error obteniendo usuarios: ', e);
+            return [];
+        }
+    },
+
+    getById: async (id) => {
+        try {
+            const user = await User.findByPk(id, { raw: true });
+            return user ?? null;
+        } catch (e) {
+            console.error('Error obteniendo usuario por ID: ', e);
+            return null;
+        }
+    },
+
+    getByEmail: async (email) => {
+        try {
+            const user = await User.findOne({ where: { email }, raw: true });
+            return user ?? null;
+        } catch (e) {
+            console.error('Error obteniendo usuario por email: ', e);
+            return null;
+        }
+    },
+
+    create: async (newUser) => {
+        const { firstName, lastName, email, password, username, type, avatar } = newUser;
+        try {
+            await User.create({
+                id: uuidv4(),
+                first_name: firstName,
+                last_name:  lastName,
+                email,
+                password,
+                username,
+                type,
+                avatar,
+            });
+        } catch (e) {
+            console.error('Error creando usuario: ', e);
+        }
+    },
+
+    update: async (id, updatedData) => {
+        const { firstName, lastName, email, password, username, type, avatar } = updatedData;
+        try {
+            await User.update(
+                { first_name: firstName, last_name: lastName, email, password, username, type, avatar },
+                { where: { id } }
+            );
+        } catch (e) {
+            console.error('Error actualizando usuario: ', e);
+        }
+    },
+
+    delete: async (id) => {
+        try {
+            await User.destroy({ where: { id } });
+        } catch (e) {
+            console.error('Error eliminando usuario: ', e);
+        }
+    },
 };
-const writeData = (data) => {
-    try {
-        fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
-    } catch (e) {
-        console.error("Error leyendo datos: ", e);
-        return [];
-    }
-};
-module.exports = {
-    getAll: () => readData(),
-    getById: (id) => {
-        return readData().find(p => p.id == id)
-    },
-    create: (newUser) => {
-        let users = readData();
-        const userWithId = {
-            id: uuidv4(),
-            ...newUser
-        };
-        users.push(userWithId);
-        writeData(users);
-    },
-    update: (id, updatedData) => {
-        let users = readData();
-        users = users.map(p =>
-            p.id == id ? { ...p, ...updatedData } : p
-        )
-        writeData(users);
-    },
-    delete: (id) => {
-        const users = readData().filter(p => p.id != id)
-        writeData(users);
-    }
-}
+
+module.exports = UserModel;

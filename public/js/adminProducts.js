@@ -9,21 +9,21 @@ try {
 } catch (error) {
   console.error("Error parseando data:", error);
 }
-const products = data.products || {};
+const products = data.products || [];
 // Renderizado
 function renderData(products) {
-    const statTotal = document.getElementById("statTotal")
-    const statPublished = document.getElementById("statPublished")
-    const statSale = document.getElementById("statSale")
-    const statFeatured = document.getElementById("statFeatured")
-    const totalAmount = products.length
-    const publishedProduct = products.filter(product => product.state == "Publicado")
-    const saleProduct = products.filter(product => product.flags?.onSale)
-    const featuredProduct = products.filter(product => product.flags?.featured)
-    statTotal.innerHTML = `${totalAmount || "-"}`
-    statPublished.innerHTML = `${publishedProduct.length || "-"}`
-    statSale.innerHTML = `${saleProduct.length || "-"}`
-    statFeatured.innerHTML = `${featuredProduct.length || "-"}`
+    const statTotal = document.getElementById("statTotal");
+    const statPublished = document.getElementById("statPublished");
+    const statSale = document.getElementById("statSale");
+    const statFeatured = document.getElementById("statFeatured");
+    const totalAmount = products.length;
+    const publishedProduct = products.filter(product => product.state == "Publicado");
+    const saleProduct = products.filter(product => product.on_sale == 1);
+    const featuredProduct = products.filter(product => product.featured == 1);
+    statTotal.innerHTML = `${totalAmount || "-"}`;
+    statPublished.innerHTML = `${publishedProduct.length || "-"}`;
+    statSale.innerHTML = `${saleProduct.length || "-"}`;
+    statFeatured.innerHTML = `${featuredProduct.length || "-"}`;
 }
 function renderProducts(products) {
     const tableBody = document.getElementById("tableBody");
@@ -44,13 +44,13 @@ function renderProducts(products) {
                                 <span class="muted">${product.model || ""}</span>
                             </div>
                             <div class="flags">
-                                ${product.flags?.featured ? `<span class="flag featured">Destacado</span>` : ""}
-                                ${product.flags?.onSale ? `<span class="flag on-sale">Oferta</span>` : ""}
+                                ${(product.featured == 1) ? `<span class="flag featured">Destacado</span>` : ""}
+                                ${(product.on_sale == 1) ? `<span class="flag on-sale">Oferta</span>` : ""}
                             </div>
                         </td>
                         <td class="col-price">$${product.price.toLocaleString()}</td>
                         <td class="col-brand">${product.brand}</td>
-                        <td class="col-cat">${product.category[0].name}</td>
+                        <td class="col-cat">${product.categories?.[0]?.name || "-"}</td>
                         <td class="col-status">${product.state || "No publicado"}</td>
                         <td class="col-actions">
                             <div class="row-actions">

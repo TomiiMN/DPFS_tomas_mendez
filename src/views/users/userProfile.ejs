@@ -7,7 +7,7 @@
                     <aside class="profile-sidebar">
                         <div class="profile-avatar-wrapper">
                             <% if (user.avatar && user.avatar.trim() !=='' ) { %>
-                                <img src="<%= user.avatar %>" alt="Avatar de <%= user.firstName %>"
+                                <img src="<%= user.avatar %>" alt="Avatar de <%= user.first_name %>"
                                     class="profile-avatar">
                                 <% } else { %>
                                     <img src="/images/avatars/default.png" alt="Avatar por defecto"
@@ -22,8 +22,8 @@
 
                         <div class="profile-sidebar-info">
                             <h2 class="profile-fullname">
-                                <%= user.firstName %>
-                                    <%= user.lastName %>
+                                <%= user.first_name %>
+                                    <%= user.last_name %>
                             </h2>
                             <span class="profile-badge <%= user.type === 'Admin' ? 'badge-admin' : 'badge-customer' %>">
                                 <%= user.type==='Admin' ? 'Administrador' : 'Cliente' %>
@@ -74,12 +74,12 @@
                                 <div class="profile-form-group">
                                     <label class="profile-label">Nombre</label>
                                     <input type="text" class="profile-input"
-                                        value="<%= oldData?.firstName || user.firstName %>" name="firstName" disabled>
+                                        value="<%= oldData?.firstName || user.first_name %>" name="firstName" disabled>
                                 </div>
                                 <div class="profile-form-group">
                                     <label class="profile-label">Apellido</label>
                                     <input type="text" class="profile-input"
-                                        value="<%= oldData?.lastName || user.lastName %>" name="lastName" disabled>
+                                        value="<%= oldData?.lastName || user.last_name %>" name="lastName" disabled>
                                 </div>
                                 <div class="profile-form-group">
                                     <label class="profile-label">Correo electrónico</label>
