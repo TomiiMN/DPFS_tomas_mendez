@@ -1,6 +1,6 @@
 <li>
     <div class="item-summary">
-        <p><%= product.quantity %> <%= product.categories?.[1]?.name || "-" %></p>
+        <p><%= product.quantity %> <%= product.categories?.[1]?.name || product.categories?.[0]?.name || "producto" %></p>
         <p class="item-price">$ <%= product.subtotal.toLocaleString('es-AR') %></p>
     </div>
 </li>

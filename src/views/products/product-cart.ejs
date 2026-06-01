@@ -1,4 +1,4 @@
-<%- include("../partials/global/head", { title: "Carrito de compras" , css: "productCartStyle" }) %>
+<%- include("../partials/global/head", { title: "Carrito de compras" , css: "product-cart-style" }) %>
     <%- include("../partials/global/header", { showNav: true }) %>
         <main>
             <div class="title">
@@ -21,7 +21,7 @@
                     </form>
                     <ul class="list-products">
                         <% cartProducts.forEach(product=> { %>
-                            <%- include("../partials/productCart/cartItem", { product }) %>
+                            <%- include("../partials/product-cart/cart-item", { product }) %>
                                 <% }) %>
                     </ul>
                 </section>
@@ -29,7 +29,7 @@
                     <h4>RESUMEN</h4>
                     <ul class="list-summary">
                         <% cartProducts.forEach(product=> { %>
-                            <%- include("../partials/productCart/summaryItem", { product }) %>
+                            <%- include("../partials/product-cart/summary-item", { product }) %>
                                 <% }) %>
                     </ul>
                     <div class="total-summary">
@@ -56,3 +56,6 @@
                     <p class="cart-empty">No hay productos en el carrito</p>
                     <% } %>
         </main>
+        </body>
+
+        </html>

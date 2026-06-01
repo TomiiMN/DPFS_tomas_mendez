@@ -1,4 +1,4 @@
-const usersModel = require("../models/usersModel");
+const usersModel = require("../models/users-model");
 
 async function rememberMeMiddleware(req, res, next) {
     if (!req.session.user && req.cookies.userEmail) {

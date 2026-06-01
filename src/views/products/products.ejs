@@ -1,4 +1,4 @@
-<%- include("../partials/global/head", { title: "TechBox" , css: "productsStyle" }) %>
+<%- include("../partials/global/head", { title: "TechBox" , css: "products-style" }) %>
     <%- include("../partials/global/header", { showNav: false }) %>
         <main class="products-page">
 
@@ -69,7 +69,7 @@
 
                 <ul class="MP_products-grid" id="productsGrid">
                     <% products.forEach(product=> { %>
-                        <%- include("../partials/productList/productCard", { product }) %>
+                        <%- include("../partials/product-list/product-list-card", { product }) %>
                             <% }) %>
                 </ul>
 
