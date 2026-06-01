@@ -1,37 +1,44 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const usersModel = require("../models/usersModel");
-const { isValidEmail } = require('../utils/validator');
-
+const usersModel = require("../models/users-model");
+const { validationResult } = require('express-validator');
+ 
 const userController = {
     profile: (req, res) => {
         const user = req.session.user;
         if (!user) {
             return res.render("users/login", {
-                error: "Usuario no encontrado",
+                error: "Tenés que iniciar sesión para acceder a esta página",
                 oldData: {}
             });
         };
-        res.render("users/userProfile", { user, oldData: {} });
+        res.render("users/user-profile", { user, oldData: {} });
     },
+ 
     login: (req, res) => {
         res.render("users/login", { oldData: {} });
     },
+ 
     loginProcess: async (req, res) => {
-        const { email, password } = req.body;
-        if (!email || !password || email.trim() === "" || password.trim() === "") {
+        // 1. Validaciones de Express Validator
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
             return res.render("users/login", {
-                warning: "Todos los campos son obligatorios",
+                warning: errors.array()[0].msg,
                 oldData: req.body
             });
-        };
+        }
+ 
+        // 2. Lógica de negocio
+        const { email, password } = req.body;
         const user = await usersModel.getByEmail(email);
         if (!user) {
             return res.render("users/login", {
                 error: "Email no registrado",
                 oldData: req.body
             });
-        };
+        }
+ 
         const isValid = bcrypt.compareSync(password, user.password);
         if (!isValid) {
             return res.render("users/login", {
@@ -39,35 +46,31 @@ const userController = {
                 oldData: req.body
             });
         }
+ 
         req.session.user = user;
         if (req.body.remember) {
             res.cookie('userEmail', user.email, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
         }
         res.redirect("/users/profile");
     },
+ 
     register: (req, res) => {
         res.render("users/register", { oldData: {} });
     },
+ 
     create: async (req, res) => {
-        const { email, username, firstName, lastName, password, confirmPassword } = req.body;
-        if (!email || !username || !firstName || !lastName || !password || !confirmPassword) {
+        // 1. Validaciones de Express Validator
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
             return res.render("users/register", {
-                warning: "Todos los campos son obligatorios",
+                error: errors.array()[0].msg,
                 oldData: { ...req.body, password: '', confirmPassword: '' }
             });
         }
-        if (!isValidEmail(email)) {
-            return res.render("users/register", {
-                error: "Email inválido",
-                oldData: { ...req.body, password: '', confirmPassword: '' }
-            });
-        }
-        if (password !== confirmPassword) {
-            return res.render("users/register", {
-                error: "Las contraseñas no coinciden",
-                oldData: { ...req.body, password: '', confirmPassword: '' }
-            });
-        }
+ 
+        // 2. Lógica de negocio
+        const { email, username, firstName, lastName, password } = req.body;
+ 
         const existingUser = await usersModel.getByEmail(email);
         if (existingUser) {
             return res.render("users/register", {
@@ -75,11 +78,21 @@ const userController = {
                 oldData: { ...req.body, password: '', confirmPassword: '' }
             });
         }
+ 
+        const existingUsers = await usersModel.getAll();
+        if (existingUsers.find(u => u.username === username)) {
+            return res.render("users/register", {
+                warning: "El nombre de usuario ya está en uso",
+                oldData: { ...req.body, password: '', confirmPassword: '' }
+            });
+        }
+ 
         const hashedPassword = bcrypt.hashSync(password, saltRounds);
         let avatarPath = "/images/avatars/default.png";
         if (req.file) {
             avatarPath = `/images/avatars/${req.file.filename}`;
         }
+ 
         const newUser = {
             firstName,
             lastName,
@@ -89,50 +102,54 @@ const userController = {
             type: "Customer",
             avatar: avatarPath
         };
+ 
         await usersModel.create(newUser);
         res.redirect("/users/login");
     },
+ 
     updateInfo: async (req, res) => {
-        const { email, username, firstName, lastName } = req.body;
         const userSession = req.session.user;
         const id = userSession?.id;
+ 
         if (!userSession || !id) {
             return res.render("users/login", {
-                error: "Usuario no encontrado",
+                error: "Tenés que iniciar sesión para acceder a esta página",
                 oldData: {}
             });
         }
+ 
         const user = await usersModel.getById(id);
+ 
+        // 1. Validaciones de Express Validator
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render("users/user-profile", {
+                user,
+                warning: errors.array()[0].msg,
+                oldData: req.body
+            });
+        }
+ 
+        // 2. Lógica de negocio
+        const { email, username, firstName, lastName } = req.body;
         const users = await usersModel.getAll();
-        if (!email || !username || !firstName || !lastName) {
-            return res.render("users/userProfile", {
-                user: { ...user, first_name: firstName || user.first_name, last_name: lastName || user.last_name },
-                warning: "Todos los campos son obligatorios",
-                oldData: req.body
-            });
-        };
-        if (!isValidEmail(email)) {
-            return res.render("users/userProfile", {
-                user,
-                error: "Email inválido",
-                oldData: req.body
-            });
-        }
+ 
         if (users.find(u => u.email === email && u.id !== id)) {
-            return res.render("users/userProfile", {
+            return res.render("users/user-profile", {
                 user,
-                warning: "El email ya está registrado",
+                warning: "El email ya está registrado por otro usuario",
                 oldData: req.body
             });
         }
+ 
         if (users.find(u => u.username === username && u.id !== id)) {
-            return res.render("users/userProfile", {
+            return res.render("users/user-profile", {
                 user,
-                warning: "El nombre de usuario ya está registrado",
+                warning: "El nombre de usuario ya está en uso",
                 oldData: req.body
             });
         }
-        // usersModel.update espera camelCase; el user de DB viene snake_case
+ 
         const updatedData = {
             firstName,
             lastName,
@@ -142,23 +159,24 @@ const userController = {
             type: user.type,
             avatar: user.avatar
         };
+ 
         await usersModel.update(id, updatedData);
-        // Refrescar sesión con datos actualizados
         const refreshedUser = await usersModel.getById(id);
         req.session.user = refreshedUser;
         res.redirect("/users/profile");
     },
+ 
     updatePassword: async (req, res) => {
-        const { currentPassword, newPassword, confirmPassword } = req.body;
         const userSession = req.session.user;
         const id = userSession?.id;
-        // BUG CORREGIDO: era (!userSession || id) — faltaba el !
+ 
         if (!userSession || !id) {
             return res.render("users/login", {
-                error: "Usuario no encontrado",
+                error: "Tenés que iniciar sesión para acceder a esta página",
                 oldData: {}
             });
-        };
+        }
+ 
         const user = await usersModel.getById(id);
         if (!user) {
             return res.render("users/login", {
@@ -166,28 +184,29 @@ const userController = {
                 oldData: {}
             });
         }
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            return res.render("users/userProfile", {
+ 
+        // 1. Validaciones de Express Validator
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render("users/user-profile", {
                 user,
-                warning: "Todos los campos son obligatorios",
+                warning: errors.array()[0].msg,
                 oldData: req.body
             });
-        };
+        }
+ 
+        // 2. Lógica de negocio
+        const { currentPassword, newPassword } = req.body;
+ 
         const isValid = bcrypt.compareSync(currentPassword, user.password);
         if (!isValid) {
-            return res.render("users/userProfile", {
+            return res.render("users/user-profile", {
                 user,
                 error: "La contraseña actual es incorrecta",
                 oldData: req.body
             });
         }
-        if (newPassword !== confirmPassword) {
-            return res.render("users/userProfile", {
-                user,
-                error: "Las nuevas contraseñas no coinciden",
-                oldData: req.body
-            });
-        }
+ 
         const updatedData = {
             firstName: user.first_name,
             lastName: user.last_name,
@@ -197,38 +216,45 @@ const userController = {
             type: user.type,
             avatar: user.avatar
         };
+ 
         await usersModel.update(id, updatedData);
         const refreshedUser = await usersModel.getById(id);
         req.session.user = refreshedUser;
-        return res.render("users/userProfile", {
+ 
+        return res.render("users/user-profile", {
             user: refreshedUser,
             success: "Contraseña actualizada exitosamente",
             oldData: {}
         });
     },
+ 
     updateAvatar: async (req, res) => {
         const userSession = req.session.user;
         const id = userSession?.id;
+ 
         if (!userSession || !id) {
             return res.render("users/login", {
-                error: "Usuario no encontrado",
+                error: "Tenés que iniciar sesión para acceder a esta página",
                 oldData: {}
             });
         }
+ 
         const user = await usersModel.getById(id);
         if (!user) {
             return res.render("users/login", {
                 error: "Usuario no encontrado",
                 oldData: {}
             });
-        };
+        }
+ 
         if (!req.file) {
-            return res.render("users/userProfile", {
+            return res.render("users/user-profile", {
                 user,
-                error: "Por favor, seleccione una imagen",
+                error: "Por favor, seleccioná una imagen",
                 oldData: {}
             });
-        };
+        }
+ 
         const updatedData = {
             firstName: user.first_name,
             lastName: user.last_name,
@@ -238,37 +264,44 @@ const userController = {
             type: user.type,
             avatar: `/images/avatars/${req.file.filename}`
         };
+ 
         await usersModel.update(id, updatedData);
         const refreshedUser = await usersModel.getById(id);
         req.session.user = refreshedUser;
-        return res.render("users/userProfile", {
+ 
+        return res.render("users/user-profile", {
             user: refreshedUser,
             success: "Avatar actualizado exitosamente",
             oldData: {}
         });
     },
+ 
     logout: (req, res) => {
         res.clearCookie("userEmail");
         req.session.destroy();
         res.redirect("/");
     },
+ 
     delete: async (req, res) => {
         const userSession = req.session.user;
         const id = userSession?.id;
+ 
         if (!userSession || !id) {
             return res.render("users/login", {
-                error: "Usuario no encontrado",
+                error: "Tenés que iniciar sesión para acceder a esta página",
                 oldData: {}
             });
         }
+ 
         const user = await usersModel.getById(id);
         if (!user) {
             return res.redirect("/users/login");
         }
+ 
         await usersModel.delete(id);
         req.session.destroy();
         res.redirect("/");
     }
 };
-
+ 
 module.exports = userController;

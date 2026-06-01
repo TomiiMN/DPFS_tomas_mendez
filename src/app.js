@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -13,7 +14,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(session({
-    secret: "mi_secreto",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -23,15 +24,15 @@ app.use(cookieParser());
 // y sus asociaciones antes de que arranquen las rutas.
 require("./models/index");
 
-const rememberMeMiddleware = require("./middlewares/rememberMeMiddleware");
-const userLoggedMiddleware = require("./middlewares/userLoggedMiddleware");
+const rememberMeMiddleware = require("./middlewares/remember-me-middleware");
+const userLoggedMiddleware = require("./middlewares/user-logged-middleware");
 app.use(rememberMeMiddleware);
 app.use(userLoggedMiddleware);
 
-const mainRoutes    = require("./routes/mainRoutes");
-const userRoutes    = require("./routes/userRoutes");
-const productRoutes = require("./routes/productRoutes");
-const adminRoutes   = require("./routes/adminRoutes");
+const mainRoutes    = require("./routes/main-routes");
+const userRoutes    = require("./routes/user-routes");
+const productRoutes = require("./routes/product-routes");
+const adminRoutes   = require("./routes/admin-routes");
 
 app.use("/",        mainRoutes);
 app.use("/users",   userRoutes);

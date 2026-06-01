@@ -223,14 +223,17 @@ function renderSpecs(subcategoryId, values = {}) {
         return;
     }
     const config = specsConfig[subcategoryId];
-    if (!config) {
+    if (!config || !config.length) {
         showSpecsMessage("Esta subcategoría no tiene especificaciones configuradas");
         return;
     }
     specsContainer.innerHTML = "";
     let row = null;
-    Object.entries(config).forEach(([key, type]) => {
-        if (type === "boolean") {
+    config.forEach(specObj => {
+        const { id, name, data_type, label: specLabel } = specObj;
+        const displayLabel = specLabel || name;
+        const inputName = `specs[${id}]`;
+        if (data_type === "boolean") {
             if (!row || row.children.length === 2) {
                 if (row) {
                     const spacer = document.createElement("div");
@@ -244,16 +247,16 @@ function renderSpecs(subcategoryId, values = {}) {
             const field = document.createElement("div");
             field.className = "field no-margin";
             const label = document.createElement("label");
-            label.textContent = specsLabels[key] || key;
+            label.textContent = displayLabel;
             const select = document.createElement("select");
-            select.name = `specs[${key}]`;
+            select.name = inputName;
             const optionYes = document.createElement("option");
             optionYes.value = "true";
             optionYes.textContent = "Sí";
             const optionNo = document.createElement("option");
             optionNo.value = "false";
             optionNo.textContent = "No";
-            const currentValue = values[key];
+            const currentValue = values[name];
             if (currentValue === true || currentValue === "true") {
                 optionYes.selected = true;
             } else {
@@ -279,11 +282,11 @@ function renderSpecs(subcategoryId, values = {}) {
         const field = document.createElement("div");
         field.className = "field no-margin";
         const label = document.createElement("label");
-        label.textContent = specsLabels[key] || key;
+        label.textContent = displayLabel;
         const input = document.createElement("input");
-        input.type = type === "number" ? "number" : "text";
-        input.value = values[key] || "";
-        input.name = `specs[${key}]`;
+        input.type = data_type === "number" ? "number" : "text";
+        input.value = values[name] || "";
+        input.name = inputName;
         field.appendChild(label);
         field.appendChild(input);
         row.appendChild(field);

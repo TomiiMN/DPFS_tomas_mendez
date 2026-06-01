@@ -1,4 +1,4 @@
-<%- include("../partials/global/head", { title: product.name , css: "productDetailStyle" }) %>
+<%- include("../partials/global/head", { title: product.name , css: "product-detail-style" }) %>
     <%- include("../partials/global/header", { showNav: true })%>
 
         <main>
@@ -22,26 +22,26 @@
                     <div class="product__prices">
                         <p class="best-price">Mejor precio</p>
 
-                        <% const hasDiscount = product.old_price && product.old_price > product.price;
+                        <% const hasDiscount=product.old_price && product.old_price> product.price;
                             const discount = hasDiscount ? (product.old_price - product.price) : 0;
-                        %>
+                            %>
 
-                        <% if (hasDiscount) { %>
-                            <div class="discount">
-                                <p class="original-price">
-                                    $ <%= product.old_price.toLocaleString('es-AR') %>
-                                </p>
-                                <p class="diference">
-                                    - $ <%= discount.toLocaleString('es-AR') %>
-                                </p>
-                            </div>
-                        <% } %>
-                        <p class="final-price">
-                            $ <%= product.price.toLocaleString('es-AR') %>
-                        </p>
-                        <p class="info-discount">
-                            <strong>Incluye 5% de descuento</strong> por pago con depósito o transferencia
-                        </p>
+                            <% if (hasDiscount) { %>
+                                <div class="discount">
+                                    <p class="original-price">
+                                        $ <%= product.old_price.toLocaleString('es-AR') %>
+                                    </p>
+                                    <p class="diference">
+                                        - $ <%= discount.toLocaleString('es-AR') %>
+                                    </p>
+                                </div>
+                                <% } %>
+                                    <p class="final-price">
+                                        $ <%= product.price.toLocaleString('es-AR') %>
+                                    </p>
+                                    <p class="info-discount">
+                                        <strong>Incluye 5% de descuento</strong> por pago con depósito o transferencia
+                                    </p>
                     </div>
                     <div class="product__features">
                         <p class="feature stock">
@@ -87,6 +87,6 @@
             </section>
 
         </main>
-        </body>
-
-        </html>
+        <%- include("../partials/global/footer") %>
+            </body>
+            </html>

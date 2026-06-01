@@ -265,7 +265,7 @@ INSERT INTO specs_labels (spec_id, label) VALUES
     (19, 'Reclinación (°)'),
     (20, 'Fuente recomendada (W)'),
     (21, 'Frecuencia de actualización (Hz)'),
-    (22, 'resolucion'),
+    (22, 'Resolución'),
     (23, 'Iluminación RGB'),
     (24, 'Sensor'),
     (25, 'Tamaño'),

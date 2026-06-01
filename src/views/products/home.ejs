@@ -1,4 +1,4 @@
-<%- include("../partials/global/head", { title: "TechBox" , css: "indexStyle" }) %>
+<%- include("../partials/global/head", { title: "TechBox" , css: "index-style" }) %>
     <%- include("../partials/global/header", { showNav: true }) %>
         <main>
             <section class="carrusel" aria-label="Carrusel principal">
@@ -84,7 +84,7 @@
                 </nav>
                 <ul class="PD_products-list">
                     <% featuredProducts.forEach(product=> { %>
-                        <%- include("../partials/home/pd-productCard", { product }) %>
+                        <%- include("../partials/home/product-card", { product }) %>
                             <% }) %>
                 </ul>
                 <div class="slide-tab" role="tablist" id="PD_slide-tab">
@@ -97,7 +97,7 @@
                 </h2>
                 <ul class="LN_news-list">
                     <% latestProducts.forEach(product=> { %>
-                        <%- include("../partials/home/ln-newsCard", { product }) %>
+                        <%- include("../partials/home/news-card", { product }) %>
                             <% }) %>
                 </ul>
             </section>
@@ -153,12 +153,12 @@
                     </button>
                 </div>
                 <div class="BR_brand-products">
-                    <%- include("../partials/home/br-brand-imageCard", { link: "#" , name: "ASUS" ,
+                    <%- include("../partials/home/brand-image-card", { link: "#" , name: "ASUS" ,
                         imageMobile: "/images/home/Marcas/Imagen-ASUS.jpg" ,
                         imageDesktop: "/images/home/Marcas/Imagen-ASUS-2.jpg" }) %>
                         <ul class="BR_brand-list-items">
                             <% brandProducts.forEach(product=> { %>
-                                <%- include("../partials/home/br-brand-itemCard", { product }) %>
+                                <%- include("../partials/home/brand-item-card", { product }) %>
                             <% }) %>
                         </ul>
                 </div>

@@ -1,5 +1,5 @@
-const Product = require("../models/productsModel")
-const categoriesModel = require("../models/categoriesModel");
+const Product = require("../models/products-model")
+const categoriesModel = require("../models/categories-model");
 module.exports = {
     list: async (req, res) => {
         const products = await Product.getAll();
@@ -13,7 +13,7 @@ module.exports = {
     },
     show: async (req, res) => {
         const product = await Product.getById(req.params.id)
-        res.render("products/productDetail", { product })
+        res.render("products/product-detail", { product })
     },
     cart: async (req, res) => {
         const products = await Product.getAll();
@@ -28,7 +28,7 @@ module.exports = {
             }
         }).filter(Boolean);
         const total = cartProducts.reduce((acc, p) => acc + p.subtotal, 0);
-        res.render("products/productCart", { cartProducts, total });
+        res.render("products/product-cart", { cartProducts, total });
     },
     add: (req, res) => {
         const id = Number(req.params.id);
