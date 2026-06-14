@@ -8,15 +8,19 @@
                     </svg>
                 </button>
                 <div class="carrusel_container-carrusel">
-                    <img src="/images/home/Imagen-carrusel.jpg" alt="Publicidad carrusel"
-                        class="carrusel_carrusel-img">
+                    <div class="carrusel_track">
+                        <img src="/images/home/imagen-carrusel1.jpg" alt="Publicidad carrusel 1"
+                            class="carrusel_carrusel-img carrusel-slide carrusel-slide--active">
+                        <img src="/images/home/imagen-carrusel2.jpg" alt="Publicidad carrusel 2"
+                            class="carrusel_carrusel-img carrusel-slide">
+                        <img src="/images/home/imagen-carrusel3.jpg" alt="Publicidad carrusel 3"
+                            class="carrusel_carrusel-img carrusel-slide">
+                    </div>
                     <div class="slide-tab" role="tablist">
-                        <button class="slide" role="tab" aria-selected="false" aria-label="Slide 1"></button>
                         <button class="slide slide-active" role="tab" aria-selected="true"
-                            aria-label="Slide 2"></button>
+                            aria-label="Slide 1"></button>
+                        <button class="slide" role="tab" aria-selected="false" aria-label="Slide 2"></button>
                         <button class="slide" role="tab" aria-selected="false" aria-label="Slide 3"></button>
-                        <button class="slide" role="tab" aria-selected="false" aria-label="Slide 4"></button>
-                        <button class="slide" role="tab" aria-selected="false" aria-label="Slide 5"></button>
                     </div>
                 </div>
                 <button type="button" class="buttonArrow arrowRight" aria-label="Siguiente" id="carrusel_RightArrow">
@@ -51,29 +55,34 @@
                     </button>
                     <ul class="PD_ul-navigation">
                         <li>
-                            <button type="button"
+                            <button type="button" data-cat="periferico"
                                 class="PD_navigation-button PD_navigation-button-active">Periféricos</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Procesadores</button>
+                            <button type="button" data-cat="procesador"
+                                class="PD_navigation-button">Procesadores</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Monitores</button>
+                            <button type="button" data-cat="monitor" class="PD_navigation-button">Monitores</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Placas de video</button>
+                            <button type="button" data-cat="placa-de-video" class="PD_navigation-button">Placas de
+                                video</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Motherboards</button>
+                            <button type="button" data-cat="motherboard"
+                                class="PD_navigation-button">Motherboards</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Gabinetes</button>
+                            <button type="button" data-cat="gabinete" class="PD_navigation-button">Gabinetes</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Memorias RAM</button>
+                            <button type="button" data-cat="memoria-ram" class="PD_navigation-button">Memorias
+                                RAM</button>
                         </li>
                         <li>
-                            <button type="button" class="PD_navigation-button">Almacenamiento</button>
+                            <button type="button" data-cat="almacenamiento"
+                                class="PD_navigation-button">Almacenamiento</button>
                         </li>
                     </ul>
                     <button type="button" class="buttonArrow arrowRight" aria-label="Siguiente">
@@ -87,10 +96,8 @@
                         <%- include("../partials/home/product-card", { product }) %>
                             <% }) %>
                 </ul>
-                <div class="slide-tab" role="tablist" id="PD_slide-tab">
-                    <button class="slide slide-active" role="tab" aria-selected="true" aria-label="Slide 1"></button>
-                    <button class="slide" role="tab" aria-selected="false" aria-label="Slide 2"></button>
-                </div>
+                <p id="PD_empty-message" class="home-empty-message" style="display:none">No se ha encontrado ningun
+                    producto en descuento dentro de esta categoría</p>
             </section>
             <section class="lastNews">
                 <h2 class="title-h2 LN_title">Conocé los <strong class="title-strong-h2">últimos lanzamientos</strong>
@@ -144,6 +151,21 @@
                             <li>
                                 <button type="button" class="BR_navigation-button">Hyte</button>
                             </li>
+                            <li>
+                                <button type="button" class="BR_navigation-button">NVIDIA</button>
+                            </li>
+                            <li>
+                                <button type="button" class="BR_navigation-button">Steelseries</button>
+                            </li>
+                            <li>
+                                <button type="button" class="BR_navigation-button">Razer</button>
+                            </li>
+                            <li>
+                                <button type="button" class="BR_navigation-button">Redragon</button>
+                            </li>
+                            <li>
+                                <button type="button" class="BR_navigation-button">Samsung</button>
+                            </li>
                         </ul>
                     </nav>
                     <button type="button" class="buttonArrow arrowRight" id="BR_arrow--right" aria-label="Siguiente">
@@ -153,18 +175,24 @@
                     </button>
                 </div>
                 <div class="BR_brand-products">
-                    <%- include("../partials/home/brand-image-card", { link: "#" , name: "ASUS" ,
-                        imageMobile: "/images/home/Marcas/Imagen-ASUS.jpg" ,
-                        imageDesktop: "/images/home/Marcas/Imagen-ASUS-2.jpg" }) %>
-                        <ul class="BR_brand-list-items">
-                            <% brandProducts.forEach(product=> { %>
-                                <%- include("../partials/home/brand-item-card", { product }) %>
-                            <% }) %>
-                        </ul>
+                    <ul class="BR_brand-list-items">
+                        <% brandProducts.forEach(product=> { %>
+                            <%- include("../partials/home/brand-item-card", { product }) %>
+                                <% }) %>
+                    </ul>
+                    <p id="BR_empty-message" class="home-empty-message" style="display:none">No se ha encontrado ningun
+                        producto de esta marca</p>
                 </div>
             </section>
         </main>
         <%- include("../partials/global/footer") %>
-            </body>
+            <script id="home-category-data" type="application/json">
+            <%- JSON.stringify(parentCategories.map(pc => ({
+                slug: pc.slug,
+                ids: [pc.id, ...categories.filter(c => c.parent_id === pc.id).map(c => c.id)]
+            }))) %>
+        </script>
+            <%- include("../partials/global/scripts", { js: "home" }) %>
+                </body>
 
-            </html>
+                </html>

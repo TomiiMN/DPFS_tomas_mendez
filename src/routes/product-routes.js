@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/product-controller");
-const authMiddleware = require("../middlewares/auth-middleware");
+const { authMiddleware } = require("../middlewares/auth-middleware");
 router.get("/", productController.list)
 router.get("/cart", authMiddleware, productController.cart)
 router.get("/:id", productController.show)

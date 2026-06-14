@@ -12,11 +12,12 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const allowed = ['image/jpeg', 'image/png', 'image/gif'];
     if (allowed.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Solo se permiten imágenes'), false);
+      req.fileValidationError = 'El archivo debe ser una imagen JPG, JPEG, PNG o GIF';
+      cb(null, false);
     }
   },
   limits: { fileSize: 2 * 1024 * 1024 } // 2MB máximo

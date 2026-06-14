@@ -2,11 +2,11 @@
     <%- include("../partials/global/header", { showNav: true }) %>
         <main>
             <div class="title">
-                <button class="arrowButtons" onclick="history.back();">
+                <a href="/" class="arrowButtons">
                     <svg class="icon">
                         <use href="/images/sprite.svg#icon-arrow"></use>
                     </svg>
-                </button>
+                </a>
                 <h1>Mi carrito</h1>
             </div>
             <% if (cartProducts.length> 0) { %>
@@ -56,6 +56,5 @@
                     <p class="cart-empty">No hay productos en el carrito</p>
                     <% } %>
         </main>
-        </body>
-
-        </html>
+    </body>
+</html>

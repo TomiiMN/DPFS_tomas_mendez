@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/images/ui/favicon.ico" type="image/x-icon">
-    <title> <%= title || "Marketplace" %> </title>
+    <title>
+        <%= title || "Marketplace" %>
+    </title>
     <!-- CSS's -->
     <link rel="stylesheet" href="/css/global/global.css">
     <link rel="stylesheet" href="/css/global/svg.css">
@@ -12,20 +15,23 @@
     <link rel="stylesheet" href="/css/global/header.css">
     <link rel="stylesheet" href="/css/global/root.css">
     <link rel="stylesheet" href="/css/global/alerts.css">
-    <% if (typeof css !== "undefined" && css) { %>
+    <% if (typeof css !=="undefined" && css) { %>
         <% if (Array.isArray(css)) { %>
-            <% css.forEach(file => { %>
+            <% css.forEach(file=> { %>
                 <link rel="stylesheet" href="/css/<%= file %>.css">
-            <% }) %>
-        <% } else { %>
-            <link rel="stylesheet" href="/css/<%= css %>.css">
-        <% } %>
-    <% } %>
-    <!-- Fuentes de texto -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
-        rel="stylesheet">
+                <% }) %>
+                    <% } else { %>
+                        <link rel="stylesheet" href="/css/<%= css %>.css">
+                        <% } %>
+                            <% } %>
+                                <!-- Fuentes de texto -->
+                                <link rel="preconnect" href="https://fonts.googleapis.com">
+                                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                <link
+                                    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap"
+                                    rel="stylesheet">
+                                <script
+                                    src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.12.0/validator.min.js"></script>
 </head>
+
 <body>

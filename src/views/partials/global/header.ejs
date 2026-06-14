@@ -4,9 +4,9 @@
             <img src="/images/ui/techBoxLogo.png" alt="Logo" class="logo">
         </a>
         <div class="header__container">
-            <form class="header__search-form">
+            <form class="header__search-form" action="/products" method="GET">
                 <label for="search" class="header__sr-only">Buscar productos</label>
-                <input id="search" placeholder="Buscar..." type="text" class="header__inputSearch">
+                <input id="search" name="search" placeholder="Buscar..." type="text" class="header__inputSearch">
                 <button type="submit" class="header__search-btn">
                     <svg class="icon-search">
                         <use href="/images/sprite.svg#icon-search"></use>
@@ -35,7 +35,8 @@
                                 </svg>
                             </a>
                             <% } %>
-                                <a href="/products/cart" class="shopping-cart">
+                            <a href="/products/cart" class="shopping-cart">
+                                    <strong class="strong-link shopping-cart__label">Carrito</strong>
                                     <svg class="icon">
                                         <use href="/images/sprite.svg#icon-cart"></use>
                                     </svg>
@@ -50,3 +51,18 @@
             <% } %>
 
 </header>
+
+<script>
+    const menuBtn = document.querySelector('.container-navegation__button-menu');
+    const mobileNav = document.querySelector('.container-navegation__header-navegation');
+
+    menuBtn.addEventListener('click', () => {
+        mobileNav.classList.toggle('nav--open');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menuBtn.contains(e.target) && !mobileNav.contains(e.target)) {
+            mobileNav.classList.remove('nav--open');
+        }
+    });
+</script>

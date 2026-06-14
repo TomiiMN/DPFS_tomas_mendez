@@ -13,6 +13,17 @@
 .PS_subcategory-a {
     text-decoration: none;
     font-weight: 300;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.PS_subcategory-a.active {
+    font-weight: 700;
+    color: var(--color-primary, #7C3AED);
 }
 
 .PS_filter-item,
@@ -277,6 +288,15 @@
     margin-left: 60px;
 }
 
+.MP_no-results {
+    font-family: "Sora", sans-serif;
+    font-size: 15px;
+    color: #ffffff88;
+    text-align: center;
+    padding: 48px 0;
+    margin: 0;
+}
+
 #resultsCount {
     font-weight: 600;
     color: var(--text-white);
@@ -405,6 +425,7 @@
     width: 100%;
     cursor: pointer;
     transition: transform 0.2s ease;
+    z-index: 5;
 }
 
 .product-card__button:hover {
@@ -496,6 +517,7 @@
 
     /* Lista */
     .MP_products-grid {
+        min-width: 699px;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 15px;

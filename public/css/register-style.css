@@ -68,6 +68,11 @@ main {
     position: relative;
     display: flex;
     align-items: center;
+    width: 90%;
+}
+
+.input-password-wrapper .registration__input {
+    width: 100%;
 }
 
 .registration__input {
@@ -230,7 +235,7 @@ main {
     }
 
     .registration__input,
-    .password-group {
+    .input-password-wrapper {
         width: 100%;
     }
 

@@ -1,0 +1,32 @@
+<%- include("partials/global/head", { title: "Error del servidor" , css: "" }) %>
+
+    <%- include("./partials/global/header", { showNav: false }) %>
+
+        <main style="min-height: 90vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+            <div style="text-align: center; max-width: 480px;">
+
+                <div style="font-size: 64px; margin-bottom: 1rem;">⚠</div>
+
+                <h1 style="font-size: 24px; font-weight: 600; margin-bottom: .75rem; color: var(--text);">
+                    Algo salió mal
+                </h1>
+
+                <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.6;">
+                    <!-- "message" viene del controlador que hizo res.render("error", { message: "..." }) -->
+                    <%= typeof message !=="undefined" ? message
+                        : "Ocurrió un error inesperado. Por favor, intentá de nuevo más tarde." %>
+                </p>
+
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <a href="/" class="btn btn-primary">Volver al inicio</a>
+                    <a href="javascript:history.back()" class="btn btn-secondary">Página anterior</a>
+                </div>
+
+            </div>
+        </main>
+
+        <%- include("partials/global/footer") %>
+
+            </body>
+
+            </html>

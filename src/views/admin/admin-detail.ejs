@@ -1,6 +1,6 @@
 <%- include("../partials/global/head", { title: "Admin - Detail" , css: "admin-detail-style" }) %>
     <main>
-        <div class="breadcrumb"><a href="/">Home</a>/<a href="#">Admin</a>/<a href="/admin/products">Products</a>/<span><%= product.name %></span>
+        <div class="breadcrumb"><a href="/">Home</a>/<a href="/admin/products">Products</a>/<span><%= product.name %></span>
         </div>
 
         <header class="page-header">
@@ -159,7 +159,8 @@
                             <% product.specs.forEach(spec => { %>
                                 <tr>
                                     <td><%= specsLabels[spec.name] || spec.name %></td>
-                                    <td><%= typeof spec.value === "string" ? spec.value.charAt(0).toUpperCase() + spec.value.slice(1) : spec.value %></td>
+                                    <% const displayValue = spec.value === "true" ? "Sí" : spec.value === "false" ? "No" : (typeof spec.value === "string" ? spec.value.charAt(0).toUpperCase() + spec.value.slice(1) : spec.value); %>
+                                    <td><%= displayValue %></td>
                                 </tr>
                             <% }) %>
                         <% } else { %>
@@ -200,7 +201,7 @@
                         <div class="field">
                             <span class="field-label">Estado</span>
                             <div style="margin-top:4px"><span class="badge badge-green">
-                                    <%= product.state %>
+                                    <%= product.state ? "Publicado" : "No publicado" %>
                                 </span></div>
                         </div>
                         <div class="field">

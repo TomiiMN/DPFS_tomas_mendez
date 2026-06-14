@@ -19,26 +19,32 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(cookieParser());
-
-// Importar models/index.js para que Sequelize registre todos los modelos
-// y sus asociaciones antes de que arranquen las rutas.
-require("./models/index");
-
+require("../database/models/index");
 const rememberMeMiddleware = require("./middlewares/remember-me-middleware");
 const userLoggedMiddleware = require("./middlewares/user-logged-middleware");
 app.use(rememberMeMiddleware);
 app.use(userLoggedMiddleware);
 
-const mainRoutes    = require("./routes/main-routes");
-const userRoutes    = require("./routes/user-routes");
+const mainRoutes = require("./routes/main-routes");
+const userRoutes = require("./routes/user-routes");
 const productRoutes = require("./routes/product-routes");
-const adminRoutes   = require("./routes/admin-routes");
+const adminRoutes = require("./routes/admin-routes");
 
-app.use("/",        mainRoutes);
-app.use("/users",   userRoutes);
+app.use("/", mainRoutes);
+app.use("/users", userRoutes);
 app.use("/products", productRoutes);
-app.use("/admin",   adminRoutes);
+app.use("/admin", adminRoutes);
 
+const apiRoutes = require("./routes/api-routes");
+const authAdminMiddleware = require("./middlewares/auth-admin-middleware")
+app.use("/api", authAdminMiddleware, apiRoutes);
+app.use((req, res) => {
+    res.status(404).render("404");
+});
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render("error", { message: "Ocurrió un error interno. Intentá de nuevo más tarde." });
+});
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log("Servidor corriendo en http://localhost:" + PORT);

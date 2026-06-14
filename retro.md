@@ -16,7 +16,7 @@ Dejar de hacer:
 
 # Sprint 2
 Comenzar a hacer:
- - Asumir que va a haber muchísimos errores a través del desarrollo y que se aprende a partir de ellos.
+ - Asumir que va a haber muchísimos errores a través del desarrollo y que se aprende apartir de ellos.
 
 Hacer más:
  - Estructuracion del codigo, es importante para el orden y el mantenimiento del mismo. Un ambiente controlado previene los fracasos y errores que resulten en tiempo perdido.
@@ -29,3 +29,19 @@ Hacer menos:
 
 Dejar de hacer:
  - Distraerse con otras cosas que no tengan que ver con el codigo o el desarrollo del proyecto.
+
+# Sprint 4
+Comenzar a hacer:
+ - Tener mas organizacion a la hora de hacer las tareas. Me cuesta mucho planificar las tareas dentro del panel de trabajo. Me olvido de hacerlo y la falta de estructura puede llevar a perderme en el transcurso de la resolucion de las tareas
+
+Hacer más:
+ - Uso de la IA ya que es muy util a la hora de ahorrar tiempo en escribir codigo y tambien te ayuda a detectar errores
+
+Continuar haciendo:
+ - Dedicarle tiempo a entender el código antes de escribirlo, pensar la lógica primero evita errores difíciles de rastrear después.
+
+Hacer menos:
+ - Avanzar en múltiples partes del proyecto al mismo tiempo sin terminar ninguna, es mejor cerrar una tarea completamente antes de empezar la siguiente.
+
+Dejar de hacer:
+ - Dejar la documentación y los comentarios para el final, después cuesta mucho más recordar por qué hice ciertas cosas.

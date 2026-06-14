@@ -1,0 +1,35 @@
+<%- include("../partials/global/head", { title: "Dashboard — TechBox", css: "dashboard-style" }) %>
+
+<main class="dashboard-main">
+
+    <div class="dashboard-header">
+        <div>
+            <div class="breadcrumb">
+                <a href="/">Home</a> / <a href="/admin/products">Products</a> / Dashboard
+            </div>
+            <h1 class="dashboard-title">Dashboard</h1>
+        </div>
+        <a href="/admin/products" class="btn-back">← Volver a productos</a>
+    </div>
+
+    <!-- React monta todo acá -->
+    <div id="root">
+        <div class="dashboard-loading">
+            <div class="loading-spinner"></div>
+            <p>Cargando dashboard...</p>
+        </div>
+    </div>
+
+</main>
+
+<!-- React 18 desde CDN -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<!-- Babel para transformar JSX en el navegador -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- El dashboard de React -->
+<script type="text/babel" src="/js/dashboard.js"></script>
+
+</body>
+</html>

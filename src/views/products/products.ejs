@@ -22,13 +22,13 @@
                                 <%= category.name %>
                             </button>
                             <ul class="PS_subcategory-list">
-                                <% categories .filter(sub=> sub.parent_id === category.id)
+                                <% categories.filter(sub=> sub.parent_id === category.id)
                                     .forEach(sub => { %>
 
                                     <li class="PS_subcategory-item">
-                                        <a class="PS_subcategory-a" href="#">
+                                        <button class="PS_subcategory-a" data-cat-id="<%= sub.id %>">
                                             <%= sub.name %>
-                                        </a>
+                                        </button>
                                     </li>
 
                                     <% }) %>
@@ -40,10 +40,10 @@
 
             <section class="main-products">
                 <div class="MP_products-toolbar">
-                    <form class="MP_products-search-box">
+                    <form class="MP_products-search-box" action="/products" method="GET">
                         <label for="searchInput" class="MP_sr-only">Buscar productos</label>
                         <input type="search" class="MP_products-search-input" placeholder="Buscar productos..."
-                            id="searchInput">
+                            id="searchInput" name="search" value="<%= search || '' %>">
                         <button type="submit" class="MP_search-btn">
                             <svg class="icon-search-filter">
                                 <use href="/images/sprite.svg#icon-search"></use>
@@ -72,25 +72,19 @@
                         <%- include("../partials/product-list/product-list-card", { product }) %>
                             <% }) %>
                 </ul>
-
-                <nav aria-label="Paginación de productos" class="pagination">
-                    <button class="pagination-btn pagination-arrow-btn pagination-disabled" disabled>
-                        <svg class="icon">
-                            <use href="/images/sprite.svg#icon-chevron-left"></use>
-                        </svg>
-                    </button>
-                    <button class="pagination-btn pagination-active">1</button>
-                    <button class="pagination-btn">2</button>
-                    <button class="pagination-btn pagination-arrow-btn">
-                        <svg class="icon arrowRight">
-                            <use href="/images/sprite.svg#icon-chevron-left"></use>
-                        </svg>
-                    </button>
-                </nav>
-
+                <p class="MP_no-results" id="noResults" style="display:none">
+                    No se encontraron productos para la selección actual.
+                </p>
             </section>
         </main>
         <%- include("../partials/global/footer") %>
+        <script id="category-data" type="application/json">
+            <%- JSON.stringify(parentCategories.map(pc => ({
+                slug: pc.slug,
+                id: pc.id,
+                ids: [pc.id, ...categories.filter(c => c.parent_id === pc.id).map(c => c.id)]
+            }))) %>
+        </script>
         <%- include("../partials/global/scripts", { js: "products" }) %>
             </body>
 

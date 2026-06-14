@@ -48,6 +48,14 @@
                                 </svg>
                                 Avatar
                             </a>
+                            <% if (user.type === 'Admin') { %>
+                            <a href="/admin/products" class="profile-nav-item profile-nav-admin">
+                                <svg class="icon-nav-profile">
+                                    <use href="/images/sprite.svg#icon-shield"></use>
+                                </svg>
+                                Backoffice
+                            </a>
+                            <% } %>
                             <form action="/users/logout" method="POST">
                                 <button type="submit" class="profile-nav-item profile-nav-logout">
                                     <svg class="icon-nav-profile">

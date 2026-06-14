@@ -1,0 +1,34 @@
+<%- include("partials/global/head", { title: "Página no encontrada" , css: "" }) %>
+
+    <%- include("partials/global/nav-header") %>
+
+        <main style="min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+            <div style="text-align: center; max-width: 480px;">
+
+                <div
+                    style="font-size: 80px; font-weight: 700; color: var(--muted); margin-bottom: .5rem; line-height:1;">
+                    404
+                </div>
+
+                <h1 style="font-size: 22px; font-weight: 600; margin-bottom: .75rem; color: var(--text);">
+                    Página no encontrada
+                </h1>
+
+                <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.6;">
+                    La página que estás buscando no existe o fue movida.
+                    <br>Revisá la URL o volvé al inicio.
+                </p>
+
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <a href="/" class="btn btn-primary">Volver al inicio</a>
+                    <a href="/products" class="btn btn-secondary">Ver productos</a>
+                </div>
+
+            </div>
+        </main>
+
+        <%- include("partials/global/footer") %>
+
+            </body>
+
+            </html>
