@@ -8,6 +8,11 @@
     width: 30px;
     height: 30px;
     color: var(--color-primary);
+    transition: color 0.1s ease-in-out;
+}
+
+.icon-search:hover {
+    color: var(--muted)
 }
 
 .icon-search-filter {

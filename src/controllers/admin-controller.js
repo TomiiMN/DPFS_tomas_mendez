@@ -1,13 +1,11 @@
-const adminModel = require("../models/admin-model");
-const productsModel = require("../models/products-model");
-const categoriesModel = require("../models/categories-model");
-const brandsModel = require("../models/brands-model");
-const tagsModel = require("../models/tags-model");
-const { Tag, Spec, SpecLabel, CategorySpec } = require("../models/index");
+const adminModel = require("../../database/models/admin-model");
+const productsModel = require("../../database/models/products-model");
+const categoriesModel = require("../../database/models/categories-model");
+const brandsModel = require("../../database/models/brands-model");
+const tagsModel = require("../../database/models/tags-model");
+const { Tag, Spec, SpecLabel, CategorySpec, Brand, Category } = require("../../database/models/index");
 const { validationResult } = require('express-validator');
-
-// ── Helpers ────────────────────────────────────────────────────────────────
-
+const sequelize = require("../utils/database");
 async function getSpecsLabels() {
     const rows = await SpecLabel.findAll({
         include: [{ model: Spec, attributes: ['name'] }],
@@ -18,7 +16,6 @@ async function getSpecsLabels() {
         return acc;
     }, {});
 }
-
 async function getSpecsConfig() {
     const rows = await CategorySpec.findAll({
         include: [{
@@ -27,7 +24,6 @@ async function getSpecsConfig() {
             include: [{ model: SpecLabel, as: 'label' }],
         }],
     });
-
     return rows.reduce((acc, row) => {
         const r = row.toJSON();
         if (!acc[r.category_id]) acc[r.category_id] = [];
@@ -40,21 +36,23 @@ async function getSpecsConfig() {
         return acc;
     }, {});
 }
-
-// Carga todos los datos del formulario en un solo lugar.
 async function getFormData() {
-    const [categories, brands, tags, specsLabels, specsConfig] = await Promise.all([
-        categoriesModel.getAll(),
-        brandsModel.getAll(),
-        tagsModel.getAll(),
-        getSpecsLabels(),
-        getSpecsConfig(),
-    ]);
-    return { categories, brands, tags, specsLabels, specsConfig };
-}
+    const [brands, categories, tags, specs] = await Promise.all([
+        Brand.findAll({ order: [['name', 'ASC']] }),
+        Category.findAll({
+            where: { parent_id: null },
+            include: [{ model: Category, as: 'subcategories' }],
+            order: [
+                ['name', 'ASC'],
+                [{ model: Category, as: 'subcategories' }, 'name', 'ASC'],
+            ],
+        }),
 
-// Los tags llegan como array de nombres (strings) desde el hidden input.
-// Necesitamos convertirlos a IDs buscándolos en la DB.
+        Tag.findAll({ order: [['name', 'ASC']] }),
+        Spec.findAll({ include: [{ model: SpecLabel, as: 'label' }] }),
+    ]);
+    return { brands, categories, tags, specs };
+};
 async function resolveTagIds(tagNames) {
     if (!tagNames || tagNames.length === 0) return [];
     const tags = await Tag.findAll({
@@ -62,64 +60,85 @@ async function resolveTagIds(tagNames) {
         raw: true,
     });
     return tags.map(t => t.id);
-}
-
-// Las specs llegan como objeto { specId: value } desde Express bodyParser.
-// Filtramos los vacíos para no insertar specs sin valor.
-function parseSpecs(specsObj) {
-    if (!specsObj || typeof specsObj !== 'object') return {};
+};
+function parseSpecs(body) {
     return Object.fromEntries(
-        Object.entries(specsObj).filter(([, v]) => String(v).trim() !== '')
+        Object.entries(body)
+            .filter(([k, v]) => /^spec_id_\d+$/.test(k) && String(v).trim() !== '')
+            .map(([k, v]) => [k.replace('spec_id_', ''), v])
     );
-}
-
-// ── Controlador ────────────────────────────────────────────────────────────
-
+};
 const adminController = {
-
     index: async (req, res) => {
-        const products = await productsModel.getAll();
-        const allCategories = await categoriesModel.getAll();
-        const categories = allCategories.filter(cat => cat.parent_id === null);
-        res.render("admin/admin-products", { products, categories });
+        try {
+            const products = await productsModel.getAll();
+            const allCategories = await categoriesModel.getAll();
+            const categories = allCategories.filter(cat => cat.parent_id === null);
+            res.render("admin/admin-products", { products, categories });
+        } catch (e) {
+            console.error("Error cargando productos:", e);
+            res.status(500).render("error", { message: "No se pudieron cargar los productos. Intentá de nuevo más tarde." });
+        }
     },
-
     create: async (req, res) => {
-        const formData = await getFormData();
-        res.render("admin/create-product", { ...formData, oldData: {} });
+        try {
+            const [formData, specsLabels, specsConfig] = await Promise.all([
+                getFormData(),
+                getSpecsLabels(),
+                getSpecsConfig(),
+            ]);
+            res.render("admin/create-product", { ...formData, specsLabels, specsConfig, oldData: {} });
+        } catch (e) {
+            console.error("Error cargando formulario de creación:", e);
+            res.status(500).render("error", { message: "No se pudo cargar el formulario. Intentá de nuevo más tarde." });
+        }
     },
-
     detail: async (req, res) => {
-        const [product, specsLabels] = await Promise.all([
-            productsModel.getById(req.params.id),
-            getSpecsLabels(),
-        ]);
-        res.render("admin/admin-detail", { product, specsLabels });
+        try {
+            const [product, specsLabels] = await Promise.all([
+                productsModel.getById(req.params.id),
+                getSpecsLabels(),
+            ]);
+            if (!product) return res.redirect("/admin/products");
+            res.render("admin/admin-detail", { product, specsLabels });
+        } catch (e) {
+            console.error("Error cargando detalle del producto:", e);
+            res.status(500).render("error", { message: "No se pudo cargar el producto. Intentá de nuevo más tarde." });
+        }
     },
-
     edit: async (req, res) => {
-        const [product, formData] = await Promise.all([
-            productsModel.getById(req.params.id),
-            getFormData(),
-        ]);
-        res.render("admin/edit-product", { product, ...formData, oldData: {} });
+        try {
+            const [product, formData, specsLabels, specsConfig] = await Promise.all([
+                productsModel.getById(req.params.id),
+                getFormData(),
+                getSpecsLabels(),
+                getSpecsConfig(),
+            ]);
+            if (!product) return res.redirect("/admin/products");
+            res.render("admin/edit-product", { product, ...formData, specsLabels, specsConfig, oldData: {} });
+        } catch (e) {
+            console.error("Error cargando formulario de edición:", e);
+            res.status(500).render("error", { message: "No se pudo cargar el formulario. Intentá de nuevo más tarde." });
+        }
     },
-
     store: async (req, res) => {
         const data = req.body;
-        const formData = await getFormData();
-
-        // 1. Validaciones de Express Validator
+        const [formData, specsLabels, specsConfig] = await Promise.all([
+            getFormData(),
+            getSpecsLabels(),
+            getSpecsConfig(),
+        ]);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.render("admin/create-product", {
                 ...formData,
-                warning: errors.array()[0].msg,
+                specsLabels,
+                specsConfig,
+                warning: errors.array(),
                 oldData: data,
             });
         }
-
-        // 2. Lógica de negocio
+        const t = await sequelize.transaction();
         try {
             const newProduct = {
                 name: data.name,
@@ -134,63 +153,56 @@ const adminController = {
                 featured: data.featured === 'true',
                 on_sale: data.onSale === 'true',
             };
-
-            const productId = await adminModel.create(newProduct);
-
-            // Categorías
-            await adminModel.addCategory(productId, Number(data.category_id));
-            await adminModel.addCategory(productId, Number(data.subcategory_id));
-
-            // Tags — el hidden input guarda un JSON array de nombres
+            const productId = await adminModel.create(newProduct, t);
+            await adminModel.addCategory(productId, Number(data.category_id), t);
+            await adminModel.addCategory(productId, Number(data.subcategory_id), t);
             if (data.tags) {
                 const tagNames = JSON.parse(data.tags);
                 const tagIds = await resolveTagIds(tagNames);
                 for (const tagId of tagIds) {
-                    await adminModel.addTag(productId, tagId);
+                    await adminModel.addTag(productId, tagId, t);
                 }
             }
-
-            // Specs — llegan como specs[specId] = value (objeto, no JSON)
-            const specs = parseSpecs(data.specs);
+            const specs = parseSpecs(data);
             for (const [specId, value] of Object.entries(specs)) {
-                await adminModel.addSpec(productId, Number(specId), value);
+                await adminModel.addSpec(productId, Number(specId), value, t);
             }
-
+            await t.commit();
             res.redirect("/admin/products");
-
         } catch (e) {
+            await t.rollback();
             console.error("Error creando producto:", e);
             return res.render("admin/create-product", {
                 ...formData,
+                specsLabels,
+                specsConfig,
                 warning: "Ocurrió un error al crear el producto. Intentá de nuevo.",
                 oldData: data,
             });
         }
     },
-
     update: async (req, res) => {
         const id = req.params.id;
         const data = req.body;
-
-        const [product, formData] = await Promise.all([
+        const [product, formData, specsLabels, specsConfig] = await Promise.all([
             productsModel.getById(id),
             getFormData(),
+            getSpecsLabels(),
+            getSpecsConfig(),
         ]);
-
         if (!product) return res.redirect("/admin/products");
-
-        // 1. Validaciones de Express Validator
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.render("admin/edit-product", {
                 product,
                 ...formData,
-                warning: errors.array()[0].msg,
+                specsLabels,
+                specsConfig,
+                warning: errors.array(),
                 oldData: data,
             });
         }
-
-        // 2. Lógica de negocio
+        const t = await sequelize.transaction();
         try {
             const updatedProduct = {
                 name: data.name,
@@ -205,50 +217,53 @@ const adminController = {
                 featured: data.featured === 'true',
                 on_sale: data.onSale === 'true',
             };
-
-            await adminModel.update(id, updatedProduct);
-
-            // Relaciones — borramos todo y volvemos a insertar
-            await adminModel.deleteCategories(id);
-            await adminModel.deleteTags(id);
-
-            await adminModel.addCategory(id, Number(data.category_id));
-            await adminModel.addCategory(id, Number(data.subcategory_id));
-
-            // Tags — misma lógica que en store
+            await adminModel.update(id, updatedProduct, t);
+            await adminModel.deleteCategories(id, t);
+            await adminModel.deleteTags(id, t);
+            await adminModel.addCategory(id, Number(data.category_id), t);
+            await adminModel.addCategory(id, Number(data.subcategory_id), t);
             if (data.tags) {
                 const tagNames = JSON.parse(data.tags);
                 const tagIds = await resolveTagIds(tagNames);
                 for (const tagId of tagIds) {
-                    await adminModel.addTag(id, tagId);
+                    await adminModel.addTag(id, tagId, t);
                 }
-            }
-
-            // Specs
-            await adminModel.deleteSpecs(id);
-            const specs = parseSpecs(data.specs);
-            for (const [specId, value] of Object.entries(specs)) {
-                await adminModel.addSpec(id, Number(specId), value);
-            }
-
+            };
+            if (data.specs_editable === '1') {
+                await adminModel.deleteSpecs(id, t);
+                const specs = parseSpecs(data);
+                for (const [specId, value] of Object.entries(specs)) {
+                    await adminModel.addSpec(id, Number(specId), value, t);
+                }
+            };
+            await t.commit();
             res.redirect("/admin/products");
-
         } catch (e) {
+            await t.rollback();
             console.error("Error actualizando producto:", e);
             res.render("admin/edit-product", {
                 product,
                 ...formData,
+                specsLabels,
+                specsConfig,
                 warning: "Ocurrió un error al actualizar el producto. Intentá de nuevo.",
                 oldData: data,
             });
         }
     },
-
+    dashboard: (req, res) => {
+        res.render("admin/dashboard");
+    },
     destroy: async (req, res) => {
-        const product = await productsModel.getById(req.params.id);
-        if (!product) return res.redirect("/admin/products");
-        await adminModel.delete(req.params.id);
-        res.redirect("/admin/products");
+        try {
+            const product = await productsModel.getById(req.params.id);
+            if (!product) return res.redirect("/admin/products");
+            await adminModel.delete(req.params.id);
+            res.redirect("/admin/products");
+        } catch (e) {
+            console.error("Error eliminando producto:", e);
+            res.status(500).render("error", { message: "No se pudo eliminar el producto. Intentá de nuevo más tarde." });
+        }
     },
 };
 

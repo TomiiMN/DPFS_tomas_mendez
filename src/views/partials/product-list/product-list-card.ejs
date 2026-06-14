@@ -1,5 +1,7 @@
 <li class="product-card-wrapper" data-name="<%= product.name.toLowerCase() %>"
-    data-category="<%= product.categories && product.categories[0] ? product.categories[0].name.toLowerCase() : '' %>" data-price="<%= product.price %>">
+    data-category="<%= product.categories && product.categories[0] ? product.categories[0].name.toLowerCase() : '' %>"
+    data-cat-ids="<%= (product.categories || []).map(c => c.id).join(',') %>"
+    data-price="<%= product.price %>">
     <a href="/products/<%= product.id %>" class="product-card">
         <div class="product-card__img-container">
             <img src="<%= product.img %>" alt="<%= product.name %>" class="product-card__img" loading="lazy">

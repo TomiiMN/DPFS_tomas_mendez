@@ -1,21 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const upload = require('../middlewares/multer');
-const authMiddleware = require("../middlewares/auth-middleware");
+const { authMiddleware, authOwnerMiddleware } = require("../middlewares/auth-middleware");
 const userController = require("../controllers/user-controller");
 const {
     registerValidations,
     loginValidations,
     updateInfoValidations,
     updatePasswordValidations,
+    updateAvatarValidations
 } = require('../utils/user-validator');
- 
-// ── Vistas ─────────────────────────────────────────────────────────────────
 router.get("/login",   userController.login);
 router.get("/register", userController.register);
 router.get("/profile", authMiddleware, userController.profile);
- 
-// ── CRUD ───────────────────────────────────────────────────────────────────
 router.post("/login",
     loginValidations,
     userController.loginProcess
@@ -28,24 +25,25 @@ router.post("/register",
 );
  
 router.post("/update-info/:id",
-    authMiddleware,
+    authOwnerMiddleware,
     updateInfoValidations,
     userController.updateInfo
 );
- 
+
 router.post("/update-password/:id",
-    authMiddleware,
+    authOwnerMiddleware,
     updatePasswordValidations,
     userController.updatePassword
 );
- 
+
 router.post("/update-avatar/:id",
+    authOwnerMiddleware,
     upload.single("avatar"),
-    authMiddleware,
+    updateAvatarValidations,
     userController.updateAvatar
 );
- 
+
 router.post("/logout", userController.logout);
-router.post("/delete/:id", authMiddleware, userController.delete);
+router.post("/delete/:id", authOwnerMiddleware, userController.delete);
  
 module.exports = router;

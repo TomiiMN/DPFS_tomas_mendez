@@ -1,10 +1,18 @@
 function authMiddleware(req, res, next) {
     if (!req.session.user) {
-        return res.render("users/login", {
-            error: "Tienes que iniciar sesión para acceder a esta página",
-            oldData: {}
-        });
+        return res.redirect('/users/login')
     }
     next();
 }
-module.exports = authMiddleware;
+
+function authOwnerMiddleware(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect('/users/login');
+    }
+    if (Number(req.params.id) !== req.session.user.id) {
+        return res.status(403).render('error', { message: 'No tenés permiso para realizar esta acción' });
+    }
+    next();
+}
+
+module.exports = { authMiddleware, authOwnerMiddleware };

@@ -1,316 +1,222 @@
-// Acceso a los elementos del DOM
-// Category
+const dataEl = document.getElementById("data");
+let data = {};
+try { data = JSON.parse(dataEl.textContent); } catch (e) { console.error("Error parseando data:", e); }
+const categoriesData = data.categories || [];
+const brandsData = data.brands || [];
+const tagsData = data.tags || [];
+const availableTags = tagsData.map(t => t.name);
+const specsConfig = data.specsConfig || {};
 const categorySelect = document.getElementById("categorySelect");
 const subcategorySelect = document.getElementById("subcategorySelect");
-// Brand
 const brandSelect = document.getElementById("brandSelect");
-// Img
 const imgInput = document.getElementById("imgInput");
 const imgPreview = document.getElementById("imgPreview");
 const uploadPlaceholder = document.getElementById("uploadPlaceholder");
 const uploadZone = document.getElementById("uploadZone");
 const cardBody = document.getElementById("img-card-body");
-const field = document.getElementById("img-field");
-// Specs
+const imgField = document.getElementById("img-field");
+const inputName = document.getElementById("inputName");
 const specsContainer = document.getElementById("specsContainer");
-// Data
-const dataEl = document.getElementById("data");
-if (!dataEl) {
-    console.error("No se encontró el script con datos");
+const productForm = document.querySelector('form[action="/admin/products"]');
+function showAlertErrors(messages) {
+    const container = document.getElementById('alertContainer');
+    messages.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'alert alert-danger show alert-frontend';
+        div.innerHTML = `${m}<button class="btn-close" onclick="closeAlert(this)">×</button>`;
+        container.appendChild(div);
+    });
+    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
-let data = {};
-try {
-    data = JSON.parse(dataEl.textContent);
-} catch (error) {
-    console.error("Error parseando data:", error);
+function closeFrontendAlert() {
+    document.querySelectorAll('.alert-frontend').forEach(el => el.remove());
 }
-const categoriesData = data.categories || [];
-const brandsData = data.brands || [];
-const tagsData = data.tags || [];
-const availableTags = tagsData.map((t) => t.name);
-const specsLabels = data.specsLabels || {};
-const specsConfig = data.specsConfig || {};
-// Categorias y subcategorías
+function getErrors() {
+    const errors = [];
+    const name = inputName.value.trim();
+    if (validator.isEmpty(name))
+        errors.push('El nombre del producto es obligatorio.');
+    else if (!validator.isLength(name, { min: 5 }))
+        errors.push('El nombre debe tener al menos 5 caracteres.');
+    const img = imgInput.value.trim();
+    if (validator.isEmpty(img))
+        errors.push('La imagen es obligatoria.');
+    else if (!validator.matches(img, /\.(jpg|jpeg|png|gif)$/i))
+        errors.push('La imagen debe ser JPG, JPEG, PNG o GIF.');
+
+    return errors;
+}
 let categories = [];
 subcategorySelect.disabled = true;
-function initCategories(categories) {
-    const mainCategories = categories.filter(c => c.parent_id === null);
-
-    mainCategories.forEach(cat => {
+function initCategories(cats) {
+    cats.filter(c => c.parent_id === null).forEach(cat => {
         const opt = document.createElement("option");
-        opt.value = cat.id;
-        opt.textContent = cat.name;
+        opt.value = cat.id; opt.textContent = cat.name;
         categorySelect.appendChild(opt);
     });
 }
 function loadSubcategories(parentId, selectedSubId = null) {
+    subcategorySelect.innerHTML = '<option value="" disabled selected>Seleccionar...</option>';
     const subs = categories.filter(c => c.parent_id == parentId);
-    if (subs.length === 0) {
-        subcategorySelect.disabled = true;
-        return;
-    }
+    if (!subs.length) { subcategorySelect.disabled = true; return; }
     subcategorySelect.disabled = false;
-    subs.forEach((sub, index) => {
+    subs.forEach((sub, i) => {
         const opt = document.createElement("option");
-        opt.value = sub.id;
-        opt.textContent = sub.name;
-        if (index === 0) opt.selected = true;
+        opt.value = sub.id; opt.textContent = sub.name;
+        if (i === 0) opt.selected = true;
         if (selectedSubId && sub.id == selectedSubId) opt.selected = true;
         subcategorySelect.appendChild(opt);
     });
     const firstSubId = subcategorySelect.value;
-    if (firstSubId) {
-        renderSpecs(Number(firstSubId));
-    }
+    if (firstSubId) renderSpecs(Number(firstSubId));
 }
-categorySelect.addEventListener("change", () => {
-    loadSubcategories(categorySelect.value);
-});
-// Marcas
+categorySelect.addEventListener("change", () => loadSubcategories(categorySelect.value));
 function initBrands(brands) {
     brands.forEach(brand => {
         const opt = document.createElement("option");
-        opt.value = brand.id;
-        opt.textContent = brand.name;
+        opt.value = brand.id; opt.textContent = brand.name;
         brandSelect.appendChild(opt);
     });
 }
-// Imagen
 function updateImagePreview() {
-    const value = imgInput.value.trim();
-    if (!value) {
-        resetImage();
-        return;
-    }
-    if (!value.match(/\.(jpeg|jpg|png|webp|gif)$/i)) {
-        resetImage();
-        return;
-    }
+    const v = imgInput.value.trim();
+    if (!v || !v.match(/\.(jpeg|jpg|png|webp|gif)$/i)) { resetImage(); return; }
     const testImg = new Image();
-    testImg.src = value;
+    testImg.src = v;
     testImg.onload = () => {
-        imgPreview.src = value;
+        imgPreview.src = v;
         imgPreview.classList.add("has-image");
         uploadZone.classList.add("has-image");
         cardBody.classList.add("has-image");
-        field.classList.add("has-image");
-
+        imgField.classList.add("has-image");
         uploadPlaceholder.classList.add("hidden");
     };
-    testImg.onerror = () => {
-        resetImage();
-    };
+    testImg.onerror = resetImage;
 }
 function resetImage() {
     imgPreview.src = "";
-    imgPreview.classList.remove("has-image");
-    uploadZone.classList.remove("has-image");
-    cardBody.classList.remove("has-image");
-    field.classList.remove("has-image");
+    [imgPreview, uploadZone, cardBody, imgField].forEach(el => el.classList.remove("has-image"));
     uploadPlaceholder.classList.remove("hidden");
 }
 imgInput.addEventListener("input", updateImagePreview);
 imgInput.addEventListener("blur", updateImagePreview);
-uploadZone.addEventListener("click", () => {
-    imgInput.focus();
-});
-//Tags
+uploadZone.addEventListener("click", () => imgInput.focus());
 let selectedTags = [];
 const container = document.getElementById("tagsContainer");
 const hiddenInput = document.getElementById("tagsInput");
-function updateHiddenInput() {
-    hiddenInput.value = JSON.stringify(selectedTags);
-}
+function updateHiddenInput() { hiddenInput.value = JSON.stringify(selectedTags); }
 function renderTags() {
     container.innerHTML = "";
-
-    selectedTags.forEach((tag) => {
+    selectedTags.forEach(tag => {
         const el = document.createElement("span");
         el.className = "tag";
-        el.innerHTML = `
-      ${tag} <span class="tag-remove" data-tag="${tag}">x</span>
-    `;
+        el.innerHTML = `${tag} <span class="tag-remove" data-tag="${tag}">x</span>`;
         container.appendChild(el);
     });
-
-    const input = document.createElement("input");
-    input.className = "tag-input";
-    input.placeholder = "Agregar...";
-    container.appendChild(input);
-
-    const dropdown = document.createElement("div");
-    dropdown.className = "tags-dropdown";
-    dropdown.style.display = "none";
-    container.appendChild(dropdown);
-
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const value = input.value.trim().toLowerCase();
-            if (!value) return;
-            if (!availableTags.includes(value)) {
-                console.warn("Tag nueva:", value);
-            }
-            if (!selectedTags.includes(value)) {
-                selectedTags.push(value);
-            }
-            input.value = "";
-            renderTags();
-            updateHiddenInput();
-        }
+    const inp = document.createElement("input");
+    inp.className = "tag-input"; inp.placeholder = "Agregar...";
+    container.appendChild(inp);
+    const dd = document.createElement("div");
+    dd.className = "tags-dropdown"; dd.style.display = "none";
+    container.appendChild(dd);
+    inp.addEventListener("keydown", e => {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        const v = inp.value.trim().toLowerCase();
+        if (!v || selectedTags.includes(v)) return;
+        selectedTags.push(v); inp.value = "";
+        renderTags(); updateHiddenInput();
     });
-    input.addEventListener("input", () => {
-        const value = input.value.toLowerCase();
-        if (!value) {
-            dropdown.style.display = "none";
-            return;
-        }
-        const suggestions = availableTags.filter(
-            (tag) => tag.includes(value) && !selectedTags.includes(tag),
-        );
-        renderDropdown(suggestions, dropdown, input);
+    inp.addEventListener("input", () => {
+        const v = inp.value.toLowerCase();
+        if (!v) { dd.style.display = "none"; return; }
+        renderDropdown(availableTags.filter(t => t.includes(v) && !selectedTags.includes(t)), dd, inp);
     });
 }
-function renderDropdown(suggestions, dropdown, input) {
-    dropdown.innerHTML = "";
-
-    if (suggestions.length === 0) {
-        dropdown.style.display = "none";
-        return;
-    }
-
-    suggestions.forEach((tag) => {
-        const option = document.createElement("div");
-        option.className = "tag-option";
-        option.textContent = tag;
-
-        option.addEventListener("click", () => {
-            if (!selectedTags.includes(tag)) {
-                selectedTags.push(tag);
-            }
-
-            input.value = "";
-            dropdown.style.display = "none";
-            renderTags();
-            updateHiddenInput(); // 🔥 clave
+function renderDropdown(suggestions, dd, inp) {
+    dd.innerHTML = "";
+    if (!suggestions.length) { dd.style.display = "none"; return; }
+    suggestions.forEach(tag => {
+        const opt = document.createElement("div");
+        opt.className = "tag-option"; opt.textContent = tag;
+        opt.addEventListener("click", () => {
+            if (!selectedTags.includes(tag)) selectedTags.push(tag);
+            inp.value = ""; dd.style.display = "none";
+            renderTags(); updateHiddenInput();
         });
-
-        dropdown.appendChild(option);
+        dd.appendChild(opt);
     });
-
-    dropdown.style.display = "block";
+    dd.style.display = "block";
 }
-document.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("tag-remove")) return;
-
-    const tag = e.target.dataset.tag;
-    selectedTags = selectedTags.filter((t) => t !== tag);
-
-    renderTags();
-    updateHiddenInput(); // 🔥 clave
-});
-document.addEventListener("click", (e) => {
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("tag-remove")) {
+        selectedTags = selectedTags.filter(t => t !== e.target.dataset.tag);
+        renderTags(); updateHiddenInput();
+    }
     if (!container.contains(e.target)) {
-        const dropdown = document.querySelector(".tags-dropdown");
-        if (dropdown) dropdown.style.display = "none";
+        const d = document.querySelector(".tags-dropdown");
+        if (d) d.style.display = "none";
     }
 });
-// Specs
 function renderSpecs(subcategoryId, values = {}) {
     if (!specsContainer) return;
-    if (!subcategoryId) {
-        showSpecsMessage("Seleccioná una subcategoría para ver las especificaciones");
-        return;
-    }
+    if (!subcategoryId) { showSpecsMsg("Seleccioná una subcategoría para ver las especificaciones"); return; }
     const config = specsConfig[subcategoryId];
-    if (!config || !config.length) {
-        showSpecsMessage("Esta subcategoría no tiene especificaciones configuradas");
-        return;
-    }
+    if (!config || !config.length) { showSpecsMsg("Esta subcategoría no tiene especificaciones configuradas"); return; }
     specsContainer.innerHTML = "";
     let row = null;
-    config.forEach(specObj => {
-        const { id, name, data_type, label: specLabel } = specObj;
-        const displayLabel = specLabel || name;
-        const inputName = `specs[${id}]`;
-        if (data_type === "boolean") {
-            if (!row || row.children.length === 2) {
-                if (row) {
-                    const spacer = document.createElement("div");
-                    spacer.style.height = "14px";
-                    specsContainer.appendChild(spacer);
-                }
-                row = document.createElement("div");
-                row.className = "input-row";
-                specsContainer.appendChild(row);
-            }
-            const field = document.createElement("div");
-            field.className = "field no-margin";
-            const label = document.createElement("label");
-            label.textContent = displayLabel;
-            const select = document.createElement("select");
-            select.name = inputName;
-            const optionYes = document.createElement("option");
-            optionYes.value = "true";
-            optionYes.textContent = "Sí";
-            const optionNo = document.createElement("option");
-            optionNo.value = "false";
-            optionNo.textContent = "No";
-            const currentValue = values[name];
-            if (currentValue === true || currentValue === "true") {
-                optionYes.selected = true;
-            } else {
-                optionNo.selected = true;
-            }
-            select.appendChild(optionYes);
-            select.appendChild(optionNo);
-            field.appendChild(label);
-            field.appendChild(select);
-            row.appendChild(field);
-            return;
-        }
+    config.forEach(({ id, name, data_type, label }) => {
+        const displayLabel = label || name;
+        const inputName = `spec_id_${id}`;
         if (!row || row.children.length === 2) {
-            if (row) {
-                const spacer = document.createElement("div");
-                spacer.style.height = "14px";
-                specsContainer.appendChild(spacer);
-            }
-            row = document.createElement("div");
-            row.className = "input-row";
-            specsContainer.appendChild(row);
+            if (row) { const s = document.createElement("div"); s.style.height = "14px"; specsContainer.appendChild(s); }
+            row = document.createElement("div"); row.className = "input-row"; specsContainer.appendChild(row);
         }
-        const field = document.createElement("div");
-        field.className = "field no-margin";
-        const label = document.createElement("label");
-        label.textContent = displayLabel;
-        const input = document.createElement("input");
-        input.type = data_type === "number" ? "number" : "text";
-        input.value = values[name] || "";
-        input.name = inputName;
-        field.appendChild(label);
-        field.appendChild(input);
-        row.appendChild(field);
+        const fd = document.createElement("div"); fd.className = "field no-margin";
+        const lb = document.createElement("label"); lb.textContent = displayLabel;
+        if (data_type === "boolean") {
+            const sel = document.createElement("select"); sel.name = inputName;
+            const oY = document.createElement("option"); oY.value = "true"; oY.textContent = "Sí";
+            const oN = document.createElement("option"); oN.value = "false"; oN.textContent = "No";
+            const curr = values[id];
+            if (curr === true || curr === "true") oY.selected = true; else oN.selected = true;
+            sel.append(oY, oN); fd.append(lb, sel);
+        } else {
+            const inp = document.createElement("input");
+            inp.type = data_type === "number" ? "number" : "text";
+            inp.value = values[id] ?? ""; inp.name = inputName;
+            fd.append(lb, inp);
+        }
+        row.appendChild(fd);
     });
 }
-function showSpecsMessage(message) {
+function showSpecsMsg(msg) {
     specsContainer.innerHTML = "";
-
-    const msg = document.createElement("p");
-    msg.className = "specs-message";
-    msg.textContent = message;
-
-    specsContainer.appendChild(msg);
+    const p = document.createElement("p"); p.className = "specs-message"; p.textContent = msg;
+    specsContainer.appendChild(p);
 }
 subcategorySelect.addEventListener("change", () => {
-    const value = subcategorySelect.value;
-    if (!value) return;
-    renderSpecs(Number(value));
+    const v = subcategorySelect.value;
+    if (v) renderSpecs(Number(v));
+});
+productForm.addEventListener('submit', function (e) {
+    closeFrontendAlert();
+    const errors = getErrors();
+    if (errors.length > 0) {
+        e.preventDefault();
+        showAlertErrors(errors);
+        return;
+    }
+    const btn = productForm.querySelector('button[type="submit"]');
+    if (btn) btn.disabled = true;
 });
 document.addEventListener("DOMContentLoaded", () => {
-    categories = categoriesData || [];
-    const brands = brandsData || [];
+    categories = [
+        ...(categoriesData || []),
+        ...(categoriesData || []).flatMap(c => c.subcategories || []),
+    ];
     initCategories(categories);
-    initBrands(brands);
+    initBrands(brandsData || []);
     renderTags();
     renderSpecs();
     updateHiddenInput();

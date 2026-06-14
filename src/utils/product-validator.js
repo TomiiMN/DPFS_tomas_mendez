@@ -1,21 +1,26 @@
 const { body } = require('express-validator');
+const brandsModel = require('../../database/models/brands-model');
+const categoriesModel = require('../../database/models/categories-model');
+const { Tag } = require('../../database/models/index');
 
 const productValidations = [
-
-    // ── Información básica ────────────────────────────────────────────────
-
     body('name')
         .trim()
         .notEmpty()
         .withMessage('El nombre del producto es obligatorio')
-        .isLength({ min: 3, max: 150 })
-        .withMessage('El nombre debe tener entre 3 y 150 caracteres'),
+        .isLength({ min: 5, max: 150 })
+        .withMessage('El nombre debe tener entre 5 y 150 caracteres'),
 
     body('brand_id')
         .notEmpty()
         .withMessage('La marca es obligatoria')
         .isInt({ min: 1 })
-        .withMessage('Seleccioná una marca válida'),
+        .withMessage('Seleccioná una marca válida')
+        .custom(async (value) => {
+            const brand = await brandsModel.getById(value);
+            if (!brand) throw new Error('La marca seleccionada no existe');
+            return true;
+        }),
 
     body('model')
         .trim()
@@ -28,15 +33,27 @@ const productValidations = [
         .notEmpty()
         .withMessage('La categoría es obligatoria')
         .isInt({ min: 1 })
-        .withMessage('Seleccioná una categoría válida'),
+        .withMessage('Seleccioná una categoría válida')
+        .custom(async (value) => {
+            const category = await categoriesModel.getById(value);
+            if (!category) throw new Error('La categoría seleccionada no existe');
+            if (category.parent_id !== null) throw new Error('La categoría seleccionada no es una categoría principal');
+            return true;
+        }),
 
     body('subcategory_id')
         .notEmpty()
         .withMessage('La subcategoría es obligatoria')
         .isInt({ min: 1 })
-        .withMessage('Seleccioná una subcategoría válida'),
-
-    // ── Imagen ────────────────────────────────────────────────────────────
+        .withMessage('Seleccioná una subcategoría válida')
+        .custom(async (value, { req }) => {
+            const subcategory = await categoriesModel.getById(value);
+            if (!subcategory) throw new Error('La subcategoría seleccionada no existe');
+            if (subcategory.parent_id !== Number(req.body.category_id)) {
+                throw new Error('La subcategoría no pertenece a la categoría seleccionada');
+            }
+            return true;
+        }),
 
     body('img')
         .trim()
@@ -47,8 +64,6 @@ const productValidations = [
         .matches(/\.(jpeg|jpg|png|webp|gif)$/i)
         .withMessage('La imagen debe tener una extensión válida (.jpg, .png, .webp, .gif)'),
 
-    // ── Precio ────────────────────────────────────────────────────────────
-
     body('price')
         .notEmpty()
         .withMessage('El precio es obligatorio')
@@ -58,15 +73,7 @@ const productValidations = [
     body('oldPrice')
         .optional({ checkFalsy: true })
         .isInt({ min: 1 })
-        .withMessage('El precio original debe ser un número entero mayor a 0')
-        .custom((value, { req }) => {
-            if (value && req.body.price && Number(value) <= Number(req.body.price)) {
-                throw new Error('El precio original debe ser mayor al precio actual');
-            }
-            return true;
-        }),
-
-    // ── Filtros ───────────────────────────────────────────────────────────
+        .withMessage('El precio original debe ser un número entero mayor a 0'),
 
     body('tier')
         .notEmpty()
@@ -80,13 +87,9 @@ const productValidations = [
         .isDate()
         .withMessage('La fecha de lanzamiento no tiene un formato válido'),
 
-    // ── Tags (campo hidden con JSON array de nombres) ─────────────────────
-    // El campo es opcional — un producto puede no tener tags.
-    // Cuando está presente, debe ser un JSON array de strings no vacíos.
-
     body('tags')
         .optional({ checkFalsy: true })
-        .custom((value) => {
+        .custom(async (value) => {
             let parsed;
             try {
                 parsed = JSON.parse(value);
@@ -99,37 +102,14 @@ const productValidations = [
             if (parsed.some(t => typeof t !== 'string' || t.trim() === '')) {
                 throw new Error('Cada tag debe ser un texto no vacío');
             }
-            return true;
-        }),
-
-    // ── Specs (objeto dinámico: specs[specId] = value) ────────────────────
-    // Cada campo llega como specs[22], specs[23], etc.
-    // No son obligatorios individualmente — dependen de la subcategoría —
-    // pero si están presentes no pueden estar vacíos y los numéricos
-    // deben ser números.
-
-    body('specs')
-        .optional()
-        .custom((value) => {
-            if (!value || typeof value !== 'object') return true;
-
-            for (const [specId, specValue] of Object.entries(value)) {
-                // El specId debe ser un número entero positivo
-                if (!/^\d+$/.test(specId)) {
-                    throw new Error(`ID de especificación inválido: ${specId}`);
-                }
-                // El valor no puede ser solo espacios
-                if (typeof specValue === 'string' && specValue.trim() === '') {
-                    continue; // vacío se ignora en el controller, no es error
-                }
+            const found = await Tag.findAll({ where: { name: parsed }, raw: true });
+            if (found.length !== parsed.length) {
+                const validNames = found.map(t => t.name);
+                const invalid = parsed.filter(t => !validNames.includes(t));
+                throw new Error(`Los siguientes tags no existen: ${invalid.join(', ')}`);
             }
             return true;
         }),
-
-    // ── Flags / toggles (checkboxes opcionales) ───────────────────────────
-    // Los checkboxes NO llegan en el body cuando están desmarcados.
-    // Cuando están marcados llegan como el string "true".
-    // Solo validamos el formato si están presentes.
 
     body('featured')
         .optional()

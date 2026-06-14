@@ -1,6 +1,5 @@
 .profile-main {
     min-height: calc(100vh - 100px);
-    padding: 2em 1em 3em;
     font-family: var(--description-btn);
 }
 
@@ -149,10 +148,7 @@
     background-color: transparent;
     margin-top: 0.5em;
     color: var(--red2);
-    border: 1px solid transparent;
-    border-top: 1px solid var(--border);
-    padding-top: 1em;
-    margin-top: 0.5em;
+    border: none;
 }
 
 .profile-nav-logout:hover {

@@ -14,7 +14,7 @@
     <header class="page-header">
         <div>
             <div class="breadcrumb">
-                <a href="/">Home</a> / <a href="#">Admin</a> / <a href="/admin/products">Products</a> / <span id="breadcrumbName">
+                <a href="/">Home</a> / <a href="/admin/products">Products</a> / <span id="breadcrumbName">
                     <%= product.name %>
                 </span>
             </div>
@@ -30,6 +30,7 @@
     </header>
     <form action="/admin/products/<%= product.id %>?_method=PUT" method="POST" id="editProductForm">
         <input type="hidden" name="tags" id="tagsInput">
+        <input type="hidden" name="specs_editable" id="specsEditable" value="0">
         <main class="layout">
             <section style="display:flex;flex-direction:column;gap:14px;">
                 <div class="card">
@@ -196,7 +197,7 @@
                         <div class="meta-row">
                             <span class="meta-label">Estado</span>
                             <span class="meta-value ok" id="metaStatus">
-                                <%= product.state %>
+                                <%= product.state ? "Publicado" : "No publicado" %>
                             </span>
                         </div>
                     </div>
@@ -213,7 +214,7 @@
                                 <div class="toggle-desc">Aparece en la página de inicio</div>
                             </div>
                             <label class="toggle">
-                                <input name="featured" type="checkbox" id="togFeatured">
+                                <input name="featured" type="checkbox" id="togFeatured" value="true">
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
@@ -223,7 +224,7 @@
                                 <div class="toggle-desc">Muestra badge de descuento</div>
                             </div>
                             <label class="toggle">
-                                <input name="onSale" type="checkbox" id="togSale">
+                                <input name="onSale" type="checkbox" id="togSale" value="true">
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
@@ -233,7 +234,7 @@
                                 <div class="toggle-desc">Disponible para clientes</div>
                             </div>
                             <label class="toggle">
-                                <input name="onPublic" type="checkbox" id="togPublic" value="true">
+                                <input name="onPublic" type="checkbox" id="togPublic" value="true" <%= product.state ? "checked" : "" %>>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>

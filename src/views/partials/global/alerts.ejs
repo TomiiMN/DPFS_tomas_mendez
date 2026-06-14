@@ -1,21 +1,41 @@
-<div class="alert-container">
-    <% if (typeof error !=="undefined" ) { %>
-        <div class="alert alert-danger show">
-            <%= error %>
-                <button class="btn-close" onclick="closeAlert(this)">×</button>
-        </div>
-        <% } %>
-            <% if (typeof success !=="undefined" ) { %>
-                <div class="alert alert-success show">
-                    <%= success %>
-                        <button class="btn-close" onclick="closeAlert(this)">×</button>
+<div class="alert-container" id="alertContainer">
+    <%# ── Alertas del servidor (back-end) ──────────────────────────────── %>
+    <% if (typeof error !== "undefined") { %>
+        <% if (Array.isArray(error)) { %>
+            <% error.forEach(function(e) { %>
+                <div class="alert alert-danger show">
+                    <%= e.msg %>
+                    <button class="btn-close" onclick="closeAlert(this)">×</button>
                 </div>
-                <% } %>
-                    <% if (typeof warning !=="undefined" ) { %>
-                        <div class="alert alert-warning show">
-                            <%= warning %>
-                                <button class="btn-close" onclick="closeAlert(this)">×</button>
-                        </div>
-                        <% } %>
+            <% }) %>
+        <% } else { %>
+            <div class="alert alert-danger show">
+                <%= error %>
+                <button class="btn-close" onclick="closeAlert(this)">×</button>
+            </div>
+        <% } %>
+    <% } %>
+    <% if (typeof success !== "undefined") { %>
+        <div class="alert alert-success show">
+            <%= success %>
+            <button class="btn-close" onclick="closeAlert(this)">×</button>
+        </div>
+    <% } %>
+    <% if (typeof warning !== "undefined") { %>
+        <% if (Array.isArray(warning)) { %>
+            <% warning.forEach(function(w) { %>
+                <div class="alert alert-warning show">
+                    <%= w.msg %>
+                    <button class="btn-close" onclick="closeAlert(this)">×</button>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="alert alert-warning show">
+                <%= warning %>
+                <button class="btn-close" onclick="closeAlert(this)">×</button>
+            </div>
+        <% } %>
+    <% } %>
 </div>
+
 <%- include("scripts", { js: "alerts" }) %>

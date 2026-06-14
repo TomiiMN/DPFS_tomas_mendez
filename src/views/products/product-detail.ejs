@@ -71,19 +71,19 @@
             </article>
 
             <section class="details">
-                <div class="details__navigation">
-                    <button type="button" class="tab">ESPECIFICACIONES</button>
-                    <button type="button" class="tab tab-active">PREGUNTAS</button>
+                <div class="details-bar">
+                    <span class="tab tab-active">ESPECIFICACIONES</span>
                 </div>
-                <h4>¿Tenes preguntas sobre el producto?</h4>
-                <p class="p-info">Inicia sesión en tu cuenta para poder hacer una pregunta</p>
-                <a href="/users/login">
-                    <button type="button" class="info-button">
-                        <svg class="icon icon-user-circle">
-                            <use href="/images/sprite.svg#icon-user-circle"></use>
-                        </svg> Iniciar sesión
-                    </button>
-                </a>
+                <% if (product.specs && product.specs.length > 0) { %>
+                <ul class="specs-list">
+                    <% product.specs.forEach(spec => { %>
+                    <li class="specs-list__item">
+                        <span class="specs-list__name"><%= spec.name %></span>
+                        <span class="specs-list__value"><%= spec.value %></span>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
             </section>
 
         </main>

@@ -1,4 +1,4 @@
-<li>
+<li data-cat-ids="<%= (product.categories || []).map(c => c.id).join(',') %>" style="display:none">
     <a href="/products/<%= product.id %>" class="PD_product">
         <div class="PD_img-container">
             <img 
